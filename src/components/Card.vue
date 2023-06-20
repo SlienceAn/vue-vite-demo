@@ -9,7 +9,10 @@
         <slot></slot>
       </el-icon>
     </div>
-    <div class="card-footer p-2 text-right">footer</div>
+    <div class="card-footer p-2 flex justify-center items-center hover:cursor-pointer">
+      <span class="text-sm">More Info</span>
+      <el-icon><CaretRight /></el-icon>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -21,7 +24,9 @@ defineProps<{
 </script>
 <style scoped lang="scss">
 .card {
-  @apply w-full border border-gray-400 rounded-lg;
+  background: #fff;
+  box-shadow: 0 1px 20px 0 rgba(10, 166, 239, 0.08);
+  @apply w-full border border-gray-400;
 
   &-footer {
     border-top: 1px solid;

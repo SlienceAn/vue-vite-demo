@@ -1,21 +1,18 @@
 <template>
-  <h4 class="font-bold text-lg mb-2">{{ route.name }}</h4>
-  <div class="flex gap-4">
-    <Card
-      v-for="i in arr"
-      :key="i"
-      :title="i.title"
-      :message="i.message"
-      :color="i.color"
-    >
+  <div class="card-group">
+    <Card v-for="i in arr" :key="i" :title="i.title" :message="i.message" :color="i.color">
       <component :is="i.icon" />
     </Card>
+  </div>
+  <div class="panel-group">
+    <Panel header="連線異常"/>
+    <Panel header="已斷線"/>
   </div>
 </template>
 <script setup lang="ts">
 import { useRouter, useRoute } from "vue-router";
 import Card from "@components/Card.vue";
-import Edit from "element-plus";
+import Panel from "@components/Panel.vue";
 import { ref } from "vue";
 const router = useRouter();
 const route = useRoute();
@@ -48,4 +45,12 @@ const arr = [
 ];
 </script>
 <style scoped lang="scss">
+.card-group {
+  @apply flex gap-4 mb-4 flex-col md:flex-row;
+}
+.panel-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 </style>
