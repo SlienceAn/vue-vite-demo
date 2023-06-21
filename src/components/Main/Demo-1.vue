@@ -1,20 +1,28 @@
 <template>
   <div class="card-group">
     <Card v-for="i in arr" :key="i" :title="i.title" :message="i.message" :color="i.color">
-      <component :is="i.icon" />
+      <template v-slot:one>
+        <component :is="i.icon" />
+      </template>
+      <template v-slot:two>
+        <div>SSSS</div>
+      </template>
     </Card>
   </div>
   <div class="panel-group">
-    <Panel header="連線異常"/>
-    <Panel header="已斷線"/>
+    <Panel header="連線異常">
+      <Table />
+    </Panel>
+    <Panel header="已斷線">
+      <Table />
+    </Panel>
   </div>
 </template>
 <script setup lang="ts">
-import { useRouter, useRoute } from "vue-router";
+import { useRoute } from "vue-router";
 import Card from "@components/Card.vue";
 import Panel from "@components/Panel.vue";
-import { ref } from "vue";
-const router = useRouter();
+import Table from "@components/Table.vue";
 const route = useRoute();
 console.log("route name => ", route.name);
 const arr = [
@@ -46,8 +54,9 @@ const arr = [
 </script>
 <style scoped lang="scss">
 .card-group {
-  @apply flex gap-4 mb-4 flex-col md:flex-row;
+  @apply flex gap-4 mb-4 flex-col md: flex-row;
 }
+
 .panel-group {
   display: flex;
   flex-direction: column;

@@ -6,21 +6,29 @@
         <div class="font-bold text-4xl">{{ message }}</div>
       </div>
       <el-icon :size="40" :color="color">
-        <slot></slot>
+        <slot name="one"></slot>
       </el-icon>
     </div>
-    <div class="card-footer p-2 flex justify-center items-center hover:cursor-pointer">
+    <div class="card-footer p-2 flex justify-center items-center hover:cursor-pointer" @click="dialogToggle = true">
       <span class="text-sm">More Info</span>
-      <el-icon><CaretRight /></el-icon>
+      <el-icon>
+        <CaretRight />
+      </el-icon>
     </div>
   </div>
+  <el-dialog v-model="dialogToggle" :title="title">
+    <slot name="two"></slot>
+  </el-dialog>
 </template>
 <script setup lang="ts">
+import { ref } from "vue";
+
 defineProps<{
   title: string;
   message: string;
   color: string;
 }>();
+const dialogToggle = ref(false)
 </script>
 <style scoped lang="scss">
 .card {

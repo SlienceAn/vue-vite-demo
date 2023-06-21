@@ -6,7 +6,7 @@
           <HelpFilled />
         </el-icon>
       </div>
-      <ul class="flex">
+      <ul class="flex md:flex-col">
         <li class="link">
           <router-link to="/Main/Demo-1">
             <el-icon :size="20">
@@ -53,7 +53,7 @@ $side-color: #130e76;
 .side {
   background-color: $side-color;
   width: 100%;
-  // @apply w-1/6 min-h-full md:w-full;
+  @apply md:w-1/6 min-h-full;
 }
 
 .main-content {
