@@ -15,70 +15,80 @@
             <span>Search</span>
         </button>
     </form>
-    <form class="py-2 m-0">
-        <span class="inline-flex items-center gap-1 mr-1">
-            <input id="error" type="checkbox" class="w-4 h-4"/>
-            <label for="error">數值異常</label>
-        </span>
-        <span class="inline-flex items-center gap-1">
-            <input id="empty" type="checkbox" class="w-4 h-4"/>
-            <label for="empty">無數值</label>
-        </span>
-    </form>
-    <div class="flex flex-wrap">
-        <div class="list" v-for="i in 30" :key="i">
-            <div class="border-2 border-blue-500 rounded-lg">
-                <div class="px-2 py-1 text-lg text-center">2022-04-04 13:00 {{ i }}</div>
-                <table class="min-w-full text-sm border-t">
-                    <thead class="border-b  border-blue-500">
-                        <tr class="text-center">
-                            <th scope="col" class="px-3 py-2 border-r  border-blue-500">TMP</th>
-                            <th scope="col" class="px-3 py-2 border-r  border-blue-500">HUM</th>
-                            <th scope="col" class="px-3 py-2 border-r">PM<sub>2.5</sub></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="text-center text-lg">
-                            <td class="px-3 py-2 border-r  border-blue-500">34</td>
-                            <td class="px-3 py-2 border-r  border-blue-500">13</td>
-                            <td class="px-3 py-2">22</td>
-                        </tr>
-                    </tbody>
-                </table>
+    <div class="info">
+        <form class="py-2 m-0" v-if="!loading">
+            <span class="inline-flex items-center gap-1 mr-1">
+                <input id="error" type="checkbox" class="w-4 h-4 border-red-500" />
+                <label for="error" class="hover:cursor-pointer">數值異常</label>
+            </span>
+            <span class="inline-flex items-center gap-1">
+                <input id="empty" type="checkbox" class="w-4 h-4" />
+                <label for="empty" class="hover:cursor-pointer">無數值</label>
+            </span>
+        </form>
+        <div class="flex flex-wrap">
+            <div class="list" v-for="i in data" :key="i.date">
+                <div :class="`border-2 rounded-lg ${checkValue(i.value.PM25)}`">
+                    <div class="px-2 py-1 text-lg text-center">{{ i.date }}</div>
+                    <table class="min-w-full text-sm">
+                        <thead :class="`${checkValue(i.value.PM25)} border-t border-b`">
+                            <tr class="text-center">
+                                <th scope="col" class="px-3 py-2">TMP</th>
+                                <th scope="col" class="px-3 py-2">HUM</th>
+                                <th scope="col" class="px-3 py-2">PM<sub>2.5</sub></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center text-lg">
+                                <td class="px-3 py-2">{{ i.value.TMP }}</td>
+                                <td class="px-3 py-2">{{ i.value.HUM }}</td>
+                                <td class="px-3 py-2">{{ i.value.PM25 }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { onMounted, reactive } from "vue"
-
+import { onMounted, reactive, ref } from "vue"
+type Data = {
+    date: string,
+    value: any
+}
+const loading = ref(true)
 const item = reactive({
     area: "",
     id: ""
 })
-const data = reactive([{
-    id: 0,
-    date: "",
-    content: [{
-        type: "",
-        value: "",
-        count: ""
-    }]
-}])
+const data = reactive<Data[]>([])
+const checkValue = (value: number): string => {
+    switch (value) {
 
-onMounted(() => {
-    for (let i = 0; i < 5; i++) {
-        data.push({
-            id: i,
-            date: "",
-            content: [{
-                type: "",
-                value: "",
-                count: ""
-            }]
-        })
     }
-    console.log(data)
+    if (value > 50) {
+        return 'border-red-500'
+    } else {
+        return 'border-green-500'
+    }
+
+}
+onMounted(() => {
+    setTimeout(() => {
+        for (let i = 0; i < 30; i++) {
+            data.push({
+                date: "2022-12-12 13:32",
+                value: {
+                    TMP: 35,
+                    HUM: 23,
+                    PM25: Math.floor(Math.random() * 100)
+                }
+            })
+        }
+        console.log(data)
+        loading.value = false
+    }, 2000)
 })
 </script>
 <style scoped lang="scss">

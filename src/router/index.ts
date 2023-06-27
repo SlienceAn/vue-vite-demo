@@ -20,6 +20,11 @@ const routes = [
                 name: "Demo-2",
                 path: "/Main/Demo-2",
                 component: () => import('@components/Main/Demo-2.vue')
+            },
+            {
+                name: "Demo-3",
+                path: "/Main/Demo-3",
+                component: () => import('@components/Main/Demo-3.vue')
             }
         ]
     }

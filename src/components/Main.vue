@@ -7,20 +7,12 @@
         </el-icon>
       </div>
       <ul class="flex md:flex-col">
-        <li class="link">
-          <router-link to="/Main/Demo-1">
+        <li class="link" v-for="R in routeList" :key="R.name">
+          <router-link :to="R.path">
             <el-icon :size="20">
               <Paperclip />
             </el-icon>
-            <span>Demo-1</span>
-          </router-link>
-        </li>
-        <li class="link">
-          <router-link to="/Main/Demo-2">
-            <el-icon :size="20">
-              <Paperclip />
-            </el-icon>
-            <span>Demo-2</span>
+            <span>{{ R.name }}</span>
           </router-link>
         </li>
       </ul>
@@ -35,13 +27,28 @@
   </div>
 </template>
 <script setup lang="ts">
+import { reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
+
+const routeList = reactive([
+  {
+    path: "/Main/Demo-1",
+    name: "Demo-1"
+  },
+  {
+    path: "/Main/Demo-2",
+    name: "Demo-2"
+  },
+  {
+    path: "/Main/Demo-3",
+    name: "Demo-3"
+  }
+])
 </script>
 <style scoped lang="scss">
 $side-color: #130e76;
-
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -53,11 +60,11 @@ $side-color: #130e76;
 .side {
   background-color: $side-color;
   width: 100%;
-  @apply md:w-1/6 min-h-full;
+  @apply md: w-1/6 min-h-full;
 }
 
 .main-content {
-  @apply h-full w-5/6;
+  @apply h-full md: w-5/6;
 }
 
 .link a {

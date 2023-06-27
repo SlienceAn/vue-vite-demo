@@ -8,10 +8,11 @@ export default defineConfig({
     vue(),
     WindiCSS()
   ],
-  resolve:{
-    alias:{
-      '@':path.resolve(__dirname,'./src'),
-      '@components':path.resolve(__dirname,'./src/components')
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@api': path.resolve(__dirname, "./src/api")
     }
   }
 })
