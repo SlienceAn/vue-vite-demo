@@ -14,7 +14,10 @@ const app = createApp(App)
 app.use(router)
 app.use(createPinia())
 app.use(ElementPlus)
+
+//掛載全局
 app.config.globalProperties.$axios = useAxios
+
 
 //載入全部icons
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {

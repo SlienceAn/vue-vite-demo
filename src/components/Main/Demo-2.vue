@@ -52,11 +52,13 @@
     </div>
 </template>
 <script setup lang="ts">
-import { onMounted, reactive, ref } from "vue"
+import { onMounted, reactive, ref, getCurrentInstance } from "vue"
 type Data = {
     date: string,
     value: any
 }
+const gData = getCurrentInstance()?.appContext.config.globalProperties;
+gData?.$axios("get")
 const loading = ref(true)
 const item = reactive({
     area: "",
@@ -64,15 +66,11 @@ const item = reactive({
 })
 const data = reactive<Data[]>([])
 const checkValue = (value: number): string => {
-    switch (value) {
-
-    }
     if (value > 50) {
         return 'border-red-500'
     } else {
         return 'border-green-500'
     }
-
 }
 onMounted(() => {
     setTimeout(() => {
@@ -86,7 +84,6 @@ onMounted(() => {
                 }
             })
         }
-        console.log(data)
         loading.value = false
     }, 2000)
 })

@@ -1,7 +1,12 @@
 import axios from 'axios'
 
-const url = "https://localhost:4200";
+const baseURL = "https://localhost:4200";
 
-export const useAxios = () => {
-    console.log(url.toUpperCase())
+export const useAxios = (method: string, url: string, headers?: any): void => {
+    axios({
+        method,
+        baseURL,
+        url,
+        headers: {},
+    }).then(res => console.log(res))
 }

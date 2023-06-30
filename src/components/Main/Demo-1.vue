@@ -5,26 +5,38 @@
         <component :is="i.icon" />
       </template>
       <template v-slot:two>
-        <div>SSSS</div>
+        <div>Fate</div>
+        <div>Css</div>
+        <div>HTML</div>
       </template>
     </Card>
   </div>
   <div class="panel-group">
     <Panel header="連線異常">
-      <Table />
+      <Table :head="['Project ID', 'Project Area', 'Address', 'Date', 'Time']" :data="tableData" />
     </Panel>
-    <Panel header="已斷線">
-      <Table />
-    </Panel>
+    <!-- <Panel header="已斷線">
+      <Table :data="tableData"/>
+    </Panel> -->
   </div>
 </template>
 <script setup lang="ts">
-import { useRoute } from "vue-router";
 import Card from "@components/Card.vue";
 import Panel from "@components/Panel.vue";
 import Table from "@components/Table.vue";
-const route = useRoute();
-console.log("route name => ", route.name);
+import { faker } from "@faker-js/faker/locale/zh_TW";
+import { reactive } from "vue";
+
+const tableData = reactive<any>([])
+for (let i = 0; i < 50; i++) {
+  tableData.push({
+    fullName: faker.person.fullName(),
+    fish: faker.animal.fish(),
+    cat: faker.animal.cat(),
+    dog: faker.animal.dog(),
+    bird: faker.animal.bird()
+  })
+}
 const arr = [
   {
     title: "總機台數量",
