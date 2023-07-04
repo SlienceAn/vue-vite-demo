@@ -6,18 +6,18 @@
         <div class="font-bold text-4xl">{{ message }}</div>
       </div>
       <el-icon :size="40" :color="color">
-        <slot name="one"></slot>
+        <slot name="icon"></slot>
       </el-icon>
     </div>
-    <div class="card-footer p-2 flex justify-center items-center hover:cursor-pointer" @click="dialogToggle = true">
-      <span class="text-sm">More Info</span>
-      <el-icon>
-        <CaretRight />
+    <div class="card-footer p-2 gap-2 flex justify-center items-center hover:cursor-pointer" @click="dialogToggle = true">
+      <span class="text-sm">Google Map</span>
+      <el-icon color="red" size="20">
+        <LocationFilled />
       </el-icon>
     </div>
   </div>
-  <el-dialog v-model="dialogToggle" :title="title">
-    <slot name="two"></slot>
+  <el-dialog v-model="dialogToggle" :title="title" width="70%" top="2vh">
+    <slot name="map" />
   </el-dialog>
 </template>
 <script setup lang="ts">
