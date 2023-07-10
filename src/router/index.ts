@@ -12,19 +12,19 @@ const routes = [
         component: () => import('@components/Main.vue'),
         children: [
             {
-                name: "Demo-1",
-                path: "/Main/Demo-1",
-                component: () => import('@components/Main/Demo-1.vue')
+                name: "設備資訊",
+                path: "/Main/Information",
+                component: () => import('@components/Main/Information.vue')
             },
             {
-                name: "Demo-2",
-                path: "/Main/Demo-2",
-                component: () => import('@components/Main/Demo-2.vue')
+                name: "設備查詢",
+                path: "/Main/Query",
+                component: () => import('@components/Main/Query.vue')
             },
             {
-                name: "Demo-3",
-                path: "/Main/Demo-3",
-                component: () => import('@components/Main/Demo-3.vue')
+                name: "巡檢表單",
+                path: "/Main/InspectionForm",
+                component: () => import('@components/Main/InspectionForm.vue')
             }
         ]
     }

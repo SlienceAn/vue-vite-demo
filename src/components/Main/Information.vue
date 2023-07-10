@@ -1,5 +1,6 @@
 <template>
-  <div class="card-group">
+  <CircleLoading v-if="isLoading" />
+  <div v-else class="card-group">
     <Card v-for="i in arr" :key="i" :title="i.title" :message="i.message" :color="i.color">
       <template v-slot:icon>
         <component :is="i.icon" />
@@ -17,10 +18,10 @@
     </Card>
   </div>
   <div class="panel-group">
-    <Panel header="連線異常">
+    <Panel v-if="abnormalData.length !== 0" header="連線異常">
       <Table :head="tableHead" :data="abnormalData" />
     </Panel>
-    <Panel header="已斷線">
+    <Panel v-if="disconnectData.length !== 0" header="已斷線">
       <Table :head="tableHead" :data="disconnectData" />
     </Panel>
   </div>
@@ -30,29 +31,35 @@ import Card from "@components/Card.vue";
 import Panel from "@components/Panel.vue";
 import Table from "@components/Table.vue";
 import { faker } from "@faker-js/faker/locale/zh_TW";
-import { reactive } from "vue";
-
+import { onMounted, reactive, ref } from "vue";
+const isLoading = ref(true)
 const tableHead = reactive<string[]>(['Project ID', 'Project Area', 'Address', 'Date', 'Time'])
-const abnormalData = reactive<any>([])//連線異常
-const disconnectData = reactive<any>([])//斷線資訊
-for (let i = 0; i < 43; i++) {
-  abnormalData.push({
-    fullName: faker.person.fullName(),
-    fish: faker.animal.fish(),
-    cat: faker.animal.cat(),
-    dog: faker.animal.dog(),
-    bird: faker.animal.bird()
-  })
-}
-for (let i = 0; i < 26; i++) {
-  disconnectData.push({
-    fullName: faker.person.fullName(),
-    fish: faker.animal.fish(),
-    cat: faker.animal.cat(),
-    dog: faker.date.birthdate(),
-    bird: faker.animal.bird()
-  })
-}
+const abnormalData = reactive<any[]>([])//連線異常
+const disconnectData = reactive<any[]>([])//斷線資訊
+onMounted(() => {
+  setTimeout(() => {
+    for (let i = 0; i < 43; i++) {
+      abnormalData.push({
+        fullName: faker.person.fullName(),
+        fish: faker.animal.fish(),
+        cat: faker.animal.cat(),
+        dog: faker.animal.dog(),
+        bird: faker.animal.bird()
+      })
+    }
+    for (let i = 0; i < 26; i++) {
+      disconnectData.push({
+        fullName: faker.person.fullName(),
+        fish: faker.animal.fish(),
+        cat: faker.animal.cat(),
+        dog: faker.date.weekday(),
+        bird: faker.science.chemicalElement()
+      })
+    }
+    isLoading.value = false
+  }, 5000)
+})
+
 const arr = [
   {
     title: "總機台數量",

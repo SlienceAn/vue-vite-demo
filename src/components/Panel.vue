@@ -9,7 +9,7 @@
   </div>
 </template>
 <script setup lang="ts">
-defineProps<{ header: string }>()
+defineProps<{ header?: string }>()
 </script>
 <style scoped lang="scss">
 .panel {

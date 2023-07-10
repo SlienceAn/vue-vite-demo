@@ -24,19 +24,19 @@
             </tr>
         </tbody>
     </table>
-    <div class="page-group flex gap-1 px-5 py-2 hover:cursor-pointer">
-        <span v-if="page > 1" class="flex items-center" @click="page--">
+    <div class="page-group flex gap-1 px-3 py-2 hover:cursor-pointer">
+        <button class="page-btn" @click="page--" :disabled="page === 1">
             <el-icon :size="20">
                 <CaretLeft />
             </el-icon>
-        </span>
+        </button>
         <span :class="`page ${page === i ? 'page-active' : ''}`" v-for="i in pageCount" :key="i" @click="currentPage(i)">{{
             i }}</span>
-        <span v-if="page < pageCount" class="flex items-center" @click="page++">
+        <button class="page-btn" @click="page++" :disabled="page === pageCount">
             <el-icon :size="20">
                 <CaretRight />
             </el-icon>
-        </span>
+        </button>
     </div>
 </template>
 
@@ -90,12 +90,21 @@ table {
 .page {
     @apply border border-gray-400 rounded-md px-3 py-1;
 
-    &:hover {
+    &:hover,
+    &-btn:hover {
         @apply cursor-pointer bg-dark-300 text-white font-bold;
     }
 
     &-active {
         @apply bg-dark-300 text-white font-bold;
+    }
+
+    &-btn {
+        @apply flex items-center border border-gray-400 rounded-md px-2;
+
+        &:disabled {
+            @apply border-gray-300 text-gray-300;
+        }
     }
 }
 </style>

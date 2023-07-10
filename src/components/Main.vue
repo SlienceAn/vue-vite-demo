@@ -1,12 +1,12 @@
 <template>
   <div class="flex flex-col md:flex-row bg-[#f3f3f3] min-h-full">
     <div class="side">
-      <div class="text-center hidden p-4 md:block">
-        <el-icon :size="60" color="#fff">
-          <HelpFilled />
+      <div class="text-center hidden p-4 md:block border-b border-gray-500">
+        <el-icon size="60" color="#fff">
+          <Avatar />
         </el-icon>
       </div>
-      <ul class="flex md:flex-col">
+      <ul class="flex md:flex-col md:py-4">
         <li class="link" v-for="R in routeList" :key="R.name">
           <router-link :to="R.path">
             <el-icon :size="20">
@@ -19,8 +19,8 @@
     </div>
     <div class="main-content px-4 py-2">
       <nav class="navbar">
-        {{ route.name }}
-        <el-button type="danger" @click="() => router.push('/')">Sign Out</el-button>
+        <h4 class="font-bold text-xl">{{ route.name }}</h4>
+        <el-button type="danger" @click="() => router.push('/')">登出</el-button>
       </nav>
       <router-view />
     </div>
@@ -34,21 +34,22 @@ const router = useRouter()
 
 const routeList = reactive([
   {
-    path: "/Main/Demo-1",
-    name: "Demo-1"
+    path: "/Main/Information",
+    name: "設備資訊"
   },
   {
-    path: "/Main/Demo-2",
-    name: "Demo-2"
+    path: "/Main/Query",
+    name: "設備查詢"
   },
   {
-    path: "/Main/Demo-3",
-    name: "Demo-3"
+    path: "/Main/InspectionForm",
+    name: "巡檢表單"
   }
 ])
 </script>
 <style scoped lang="scss">
 $side-color: #130e76;
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -70,6 +71,6 @@ $side-color: #130e76;
 .link a {
   display: flex;
   align-items: center;
-  @apply w-full text-white p-3 gap-2 hover: bg-[#f3f3f3] hover:text-blue-900 hover:font-bold;
+  @apply w-full text-white p-3 gap-5 hover: bg-[#f3f3f3] hover:text-blue-900 hover:font-bold;
 }
 </style>
