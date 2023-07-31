@@ -33,7 +33,7 @@
             </span>
         </form>
         <div class="flex flex-wrap">
-            <div class="list" v-for=" i  in  data " :key="i.date">
+            <div class="list" v-for="i in data " :key="i.date">
                 <div :class="`border-2 rounded-lg ${checkValue(i.value.PM25)}`">
                     <div class="px-2 py-1 text-lg text-center">{{ i.date }}</div>
                     <table class="min-w-full text-sm">
