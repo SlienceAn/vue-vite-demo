@@ -46,7 +46,7 @@ onMounted(() => {
         dog: faker.animal.dog(),
         bird: faker.animal.bird()
       })
-    }
+    }1
     for (let i = 0; i < 26; i++) {
       disconnectData.push({
         fullName: faker.person.fullName(),

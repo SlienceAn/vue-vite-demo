@@ -11,24 +11,40 @@
             </li>
         </ul>
         <div class="wrapper">
-            <Form />
+            <Form ref="form" />
         </div>
-        <el-button icon="select" type="primary"><span class="font-bold">送出</span></el-button>
+        <el-button icon="select" type="primary" @click="submit"><span class="font-bold">送出</span></el-button>
         <el-button icon="CircleCloseFilled" type="danger"><span class="font-bold">清空</span></el-button>
     </template>
+    <ul>
+        <li v-for="item in list" :ref="el => itemRefs.push(el)" :key="item">
+            {{ item }}
+        </li>
+    </ul>
 </template>
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref, toRaw } from 'vue';
 import Form from '../Form.vue';
 
-const FormList = reactive<any[]>([
-    { id: "AA-01", name: "", date: "" },
-    { id: "AA-02", name: "", date: "" },
-    { id: "AA-03", name: "", date: "" }
-])
-const addForm = () => FormList.push({ id: "AA-01", name: "", date: "" })
-const removeForm = () => FormList.splice(0, 1)
+//表單組件
+const form = ref<any>(null)
 const currentPage = ref(0)
+//表單列表資料
+const FormList = reactive<any[]>([])
+const list = ref([1, 2, 3])
+const itemRefs = ref([])
+const skipUnwrap = { itemRefs }
+//測試用
+onMounted(() => console.log("", itemRefs.value.map(i => i)))
+const addForm = () => {
+    const id = prompt("請輸入設備ID")
+    FormList.push({ id, content: {} })
+}
+const removeForm = () => FormList.splice(0, 1)
+const submit = () => {
+    console.log("child =>", toRaw(form.value.data))
+    console.log("list =>", toRaw(FormList))
+}
 </script>
 <style scoped lang="scss">
 $border-color: #a7a5a5;
