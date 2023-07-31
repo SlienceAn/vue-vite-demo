@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "vue-tsc && vite build",
-    "dev": "vite",
+    "serve": "vite",
     "preview": "vite preview",
     "eslintInit": "eslint --init",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
@@ -15,7 +15,7 @@
     "axios": "^1.4.0",
     "element-plus": "^2.3.6",
     "pinia": "^2.1.4",
-    "vue": "^3.2.47",
+    "vue": "^3.3.4",
     "vue-router": "^4.2.2"
   },
   "devDependencies": {
