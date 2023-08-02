@@ -1,7 +1,7 @@
 <template>
   <CircleLoading v-if="isLoading" />
   <div v-else class="card-group">
-    <Card v-for="i in arr" :key="i" :title="i.title" :message="i.message" :color="i.color">
+    <Card v-for="i in cardInfomation" :key="i" :title="i.title" :message="i.message" :color="i.color">
       <template v-slot:icon>
         <component :is="i.icon" />
       </template>
@@ -30,62 +30,58 @@
 import Card from "@components/Card.vue";
 import Panel from "@components/Panel.vue";
 import Table from "@components/Table.vue";
-import { faker } from "@faker-js/faker/locale/zh_TW";
 import { onMounted, reactive, ref } from "vue";
-const isLoading = ref(true)
-const tableHead = reactive<string[]>(['Project ID', 'Project Area', 'Address', 'Date', 'Time'])
-const abnormalData = reactive<any[]>([])//連線異常
-const disconnectData = reactive<any[]>([])//斷線資訊
-onMounted(() => {
-  setTimeout(() => {
-    for (let i = 0; i < 43; i++) {
-      abnormalData.push({
-        fullName: faker.person.fullName(),
-        fish: faker.animal.fish(),
-        cat: faker.animal.cat(),
-        dog: faker.animal.dog(),
-        bird: faker.animal.bird()
-      })
-    }1
-    for (let i = 0; i < 26; i++) {
-      disconnectData.push({
-        fullName: faker.person.fullName(),
-        fish: faker.animal.fish(),
-        cat: faker.animal.cat(),
-        dog: faker.date.weekday(),
-        bird: faker.science.chemicalElement()
-      })
-    }
-    isLoading.value = false
-  }, 5000)
-})
+import axios from 'axios'
 
-const arr = [
-  {
-    title: "總機台數量",
-    message: "123",
-    icon: "InfoFilled",
-    color: "blue",
-  },
-  {
-    title: "已連線",
-    message: "92",
-    icon: "SuccessFilled",
-    color: "green",
-  },
-  {
-    title: "連線異常",
-    message: "20",
-    icon: "WarningFilled",
-    color: "orange",
-  },
-  {
-    title: "已斷線",
-    message: "11",
-    icon: "CircleCloseFilled",
-    color: "red",
-  },
-];
+let abnormalData = reactive<any[]>([])//連線異常
+let disconnectData = reactive<any[]>([])//斷線資訊
+let cardInfomation = reactive<any[]>([{
+  title: "總機台數量",
+  type: "Total",
+  message: "123",
+  icon: "InfoFilled",
+  color: "blue",
+},
+{
+  title: "已連線",
+  type: "online",
+  message: "92",
+  icon: "SuccessFilled",
+  color: "green",
+},
+{
+  title: "連線異常",
+  type: "abnormal",
+  message: "20",
+  icon: "WarningFilled",
+  color: "orange",
+},
+{
+  title: "已斷線",
+  type: "disconnect",
+  message: "11",
+  icon: "CircleCloseFilled",
+  color: "red",
+},])//卡面資訊
+const isLoading = ref(true)
+const tableHead = reactive<string[]>(['設備IP', '設備類型', '設備位置', '開始日期', '累積(分)'])
+
+onMounted(() => {
+  //延遲預覽
+  setTimeout(() => {
+    const disconnect = axios.get("/device/disconnect")
+    const abnormal = axios.get("/device/abnormal")
+    Promise.all([disconnect, abnormal]).then((res: any[]) => {
+      const { data: disData } = res[0]['data']
+      const { data: abData } = res[1]['data']
+      cardInfomation[2]['message'] = abData.length
+      cardInfomation[3]['message'] = disData.length
+      disconnectData = [...disData]
+      abnormalData = [...abData]
+      isLoading.value = false
+    })
+  }, 2000)
+})
 </script>
 <style scoped lang="scss">
 .card-group {
