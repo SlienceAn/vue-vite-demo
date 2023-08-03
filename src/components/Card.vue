@@ -25,7 +25,7 @@ import { ref } from "vue";
 
 defineProps<{
   title: string;
-  message: string;
+  message: string | number;
   color: string;
 }>();
 const dialogToggle = ref(false)

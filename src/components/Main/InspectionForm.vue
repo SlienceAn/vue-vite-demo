@@ -5,26 +5,33 @@
             <li v-for="(i, idx) in FormList" :key="i" :class="`${currentPage === idx ? 'active' : ''}`"
                 @click="currentPage = idx">
                 <span> {{ i }}</span>
-                <el-icon size="20" @click="removeForm">
-                    <Close />
+                <el-icon size="20" @click="removeForm" class="hover:bg-red-500">
+                    <Close class="hover:text-white" />
                 </el-icon>
             </li>
         </ul>
-        <div class="wrapper">
-            <Form v-for="i in FormList" :key="i" ref="itemRefs" />
+        <div class="wrapper" ref="wrapper">
+            <Form />
+            <Form />
+            <Form />
         </div>
         <el-button icon="select" type="primary" @click="submit"><span class="font-bold">送出</span></el-button>
         <el-button icon="CircleCloseFilled" type="danger"><span class="font-bold">清空</span></el-button>
     </template>
 </template>
 <script setup lang="ts">
-import { onMounted, reactive, ref, toRaw } from 'vue';
+import { reactive, ref, toRaw } from 'vue';
 import Form from '../Form.vue';
-
+import { useCounter } from '../../store'
 const currentPage = ref(0)
+const store = useCounter()
+console.log("store",toRaw(store))
+
 //表單列表資料
 const FormList = reactive<any[]>([])
 const itemRefs = ref<any>(null)
+const wrapper = ref<any>(null)
+
 //測試用
 const addForm = () => {
     const id = prompt("請輸入設備ID")
@@ -32,7 +39,10 @@ const addForm = () => {
 }
 const removeForm = () => FormList.splice(0, 1)
 const submit = () => {
-    console.log(toRaw(itemRefs.value.data))
+    // console.log(FormList)
+    // console.log(toRaw(itemRefs.value.data))
+    // console.log(wrapper.value)
+    store.increment()
 }
 </script>
 <style scoped lang="scss">
