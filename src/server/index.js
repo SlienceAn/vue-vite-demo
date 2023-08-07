@@ -6,9 +6,18 @@ const { location, date, internet, vehicle } = faker
 import { MongoClient } from 'mongodb'
 const app = express()
 
+//config
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+
+//API------------------------------------------
 //登入
+app.get("/test", (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: 'string'
+    })
+})
 app.post("/login", (req, res) => {
     console.log("body ->", req.body)
     const { account: acc, password: psw } = req.body
@@ -16,7 +25,23 @@ app.post("/login", (req, res) => {
     if (acc === 'pm' && psw === '123') {
         res.status(200).json({
             success: true,
+            userName: "pm",
             message: "PM Login Success !",
+            data: [{
+                path: "/Main/Information",
+                name: "設備資訊"
+            },
+            {
+                path: "/Main/Query",
+                name: "設備查詢"
+            }]
+        })
+        //RD...可以修改資料
+    } else if (acc === 'rd' && psw === '123') {
+        res.status(200).json({
+            success: true,
+            userName: "rd",
+            message: "RD Login Success !",
             data: [{
                 path: "/Main/Information",
                 name: "設備資訊"
@@ -30,20 +55,10 @@ app.post("/login", (req, res) => {
                 name: "巡檢表單"
             }]
         })
-        //RD...可以修改資料
-    } else if (acc === 'rd' && psw === '123') {
-        res.status(200).json({
-            success: true,
-            message: "RD Login Success !",
-            data: [{
-                path: "/Main/Information",
-                name: "設備資訊"
-            },
-            {
-                path: "/Main/Query",
-                name: "設備查詢"
-            },
-            ]
+    } else {
+        res.status(400).json({
+            success: false,
+            message: "Login failed !!"
         })
     }
 })
@@ -112,6 +127,7 @@ app.get("/query", (req, res) => {
         data: []
     })
 })
+
 //Connect to MongoDB....Test
 const url = `mongodb+srv://beast964089:neverland37@cluster0.mb1fb2n.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(url)
@@ -133,6 +149,7 @@ app.get("/connect/test", async (req, res) => {
             })
         }).finally(() => client.close())
 })
+
 ViteExpress.config({
     inlineViteConfig: {
         base: "/api"

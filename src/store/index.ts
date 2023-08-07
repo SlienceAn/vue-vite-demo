@@ -4,19 +4,19 @@ export const useCounter = defineStore('counter', {
     // 推薦使用 完整類型推斷的箭頭函數
     state: () => {
         return {
-            count: 0,
-            name: "Demo",
+            userName: "",
+            status: "",
             item: [],
             isChange: false
         }
     },
     getters: {
-        doubleCount: (state) => state.count * 2
+        // doubleCount: (state) => state.count * 2
     },
     actions: {
-        increment() {
-            this.count++
-        }
+        // increment() {
+        //     this.count++
+        // }
     }
 })
 

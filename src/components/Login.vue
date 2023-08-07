@@ -22,19 +22,35 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive } from "vue";
+//response type
+type response = {
+  success: boolean,
+  userName: string,
+  message: string,
+  data: any
+}
+import { reactive, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
+import { useCounter } from "../store"
 import axios from 'axios';
-const router = useRouter();
+
+const app = getCurrentInstance()?.appContext.config.globalProperties;
+const router = useRouter()
+const store = useCounter()
 const user = reactive({
   account: "pm",
   password: "123"
 })
 const login = () => {
-  axios.post("/login", user).then(res => {
-    console.log(res.data)
+  console.log("$axios =>", app?.$axios("GET", "/test"))
+  axios.post("/login", user).then((res: any) => {
+    store.$patch({
+      userName: res.userName,
+      item: res.data,
+      isChange: true
+    })
+    // router.push("/Main/Information")
   }).catch(err => console.log(err))
 }
-// const Submit = () => router.push("/Main");
 </script>
 <style scoped lang="scss"></style>

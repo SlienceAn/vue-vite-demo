@@ -2,12 +2,13 @@
   <div class="flex flex-col md:flex-row bg-[#f3f3f3] min-h-full">
     <div class="side">
       <div class="text-center hidden p-4 md:block border-b border-gray-500">
-        <el-icon size="60" color="#fff">
+        <el-icon size="40" color="#fff">
           <Avatar />
         </el-icon>
+        <div class="text-white">Hi，{{ userName }}</div>
       </div>
       <ul class="flex md:flex-col md:py-4">
-        <li class="link" v-for="R in routeList" :key="R.name">
+        <li class="link" v-for="R in routeList.data" :key="R.name">
           <router-link :to="R.path">
             <el-icon :size="20">
               <Paperclip />
@@ -27,25 +28,16 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useCounter } from '../store'
 const route = useRoute()
 const router = useRouter()
-//待刪除
-const routeList = reactive([
-  {
-    path: "/Main/Information",
-    name: "設備資訊"
-  },
-  {
-    path: "/Main/Query",
-    name: "設備查詢"
-  },
-  {
-    path: "/Main/InspectionForm",
-    name: "巡檢表單"
-  }
-])
+const store = useCounter()
+let routeList = reactive([])
+let userName = ref("")
+routeList = store.item
+userName.value = store.userName
 </script>
 <style scoped lang="scss">
 $side-color: #130e76;

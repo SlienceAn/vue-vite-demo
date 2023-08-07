@@ -14,7 +14,7 @@ import { LMap, LTileLayer, LMarker } from "@vue-leaflet/vue-leaflet"
 import Loading from './components/Loading.vue'
 import Panel from './components/Panel.vue'
 
-const pinia=createPinia()
+const pinia = createPinia()
 const app = createApp(App)
 app.use(router)
 app.use(pinia)
@@ -29,7 +29,6 @@ app.component('Panel', Panel)
 
 //掛載全局
 app.config.globalProperties.$axios = useAxios
-
 
 //載入全部icons
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
