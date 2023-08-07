@@ -12,6 +12,7 @@ app.use(express.json())
 app.post("/login", (req, res) => {
     console.log("body ->", req.body)
     const { account: acc, password: psw } = req.body
+    //PM...只能讀取
     if (acc === 'pm' && psw === '123') {
         res.status(200).json({
             success: true,
@@ -29,6 +30,7 @@ app.post("/login", (req, res) => {
                 name: "巡檢表單"
             }]
         })
+        //RD...可以修改資料
     } else if (acc === 'rd' && psw === '123') {
         res.status(200).json({
             success: true,

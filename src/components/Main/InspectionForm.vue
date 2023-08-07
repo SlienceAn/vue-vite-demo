@@ -25,7 +25,7 @@ import Form from '../Form.vue';
 import { useCounter } from '../../store'
 const currentPage = ref(0)
 const store = useCounter()
-console.log("store",toRaw(store))
+console.log("store", store)
 
 //表單列表資料
 const FormList = reactive<any[]>([])
@@ -39,10 +39,11 @@ const addForm = () => {
 }
 const removeForm = () => FormList.splice(0, 1)
 const submit = () => {
-    // console.log(FormList)
-    // console.log(toRaw(itemRefs.value.data))
-    // console.log(wrapper.value)
-    store.increment()
+    store.$patch({
+        count: 87,
+        name: "Change Demo",
+        item: ['1', '2']
+    })
 }
 </script>
 <style scoped lang="scss">

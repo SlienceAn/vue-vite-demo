@@ -31,7 +31,7 @@ import { reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
 const router = useRouter()
-
+//待刪除
 const routeList = reactive([
   {
     path: "/Main/Information",
