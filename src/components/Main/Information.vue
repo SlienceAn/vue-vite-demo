@@ -30,8 +30,9 @@
 import Card from "@components/Card.vue";
 import Panel from "@components/Panel.vue";
 import Table from "@components/Table.vue";
-import { onMounted, reactive, ref } from "vue";
-import axios from 'axios'
+import { onMounted, reactive, ref, getCurrentInstance } from "vue";
+import { useRound } from '@vueuse/math'
+const app = getCurrentInstance()?.appContext.config.globalProperties;
 let abnormalData = reactive<any[]>([])//連線異常
 let disconnectData = reactive<any[]>([])//斷線資訊
 let onlineData = reactive<any>([])//已連線
@@ -67,35 +68,36 @@ const isLoading = ref(true)
 const tableHead = reactive<string[]>(['設備IP', '設備類型', '設備位置', '開始日期', '累積(天)'])
 
 onMounted(() => {
-  //延遲預覽
-  setTimeout(() => {
-    const online = axios.get("/device")
-    const disconnect = axios.get("/device/disconnect")
-    const abnormal = axios.get("/device/abnormal")
-    Promise.all([disconnect, abnormal, online]).then((res: any[]) => {
-      const { data: disData } = res[0]['data']
-      const { data: abData } = res[1]['data']
-      const { data: onData } = res[2]['data']
-      //計算累績天數
-      disData.forEach((el: any, idx: number, arr: any[]) => {
-        const dayDiff: any = new Date() - new Date(el['dateTime'])
-        arr[idx]['total'] = Math.round(dayDiff / 1000 / 60 / 60 / 24)
-      })
-      abData.forEach((el: any, idx: number, arr: any[]) => {
-        const dayDiff: any = new Date() - new Date(el['dateTime'])
-        arr[idx]['total'] = Math.round(dayDiff / 1000 / 60 / 60 / 24)
-      })
-      cardInfomation[0]['message'] = onData.length + abData.length + disData.length
-      cardInfomation[1]['message'] = onData.length
-      cardInfomation[2]['message'] = abData.length
-      cardInfomation[3]['message'] = disData.length
-      onlineData = [...onData]
-      disconnectData = [...disData]
-      abnormalData = [...abData]
-      isLoading.value = false
-    })
-  }, 2000)
+  fetchData()
 })
+const fetchData = () => {
+  //延遲預覽
+  const online = app?.$axios('/device')
+  const disconnect = app?.$axios("/device/disconnect")
+  const abnormal = app?.$axios("/device/abnormal")
+  Promise.all([disconnect, abnormal, online]).then((res: any[]) => {
+    const { data: disData } = res[0]['data']
+    const { data: abData } = res[1]['data']
+    const { data: onData } = res[2]['data']
+    //計算累績天數
+    disData.forEach((el: any, idx: number, arr: any[]) => {
+      const dayDiff: any = new Date() - new Date(el['dateTime'])
+      arr[idx]['total'] = useRound(dayDiff / 1000 / 60 / 60 / 24)
+    })
+    abData.forEach((el: any, idx: number, arr: any[]) => {
+      const dayDiff: any = new Date() - new Date(el['dateTime'])
+      arr[idx]['total'] = useRound(dayDiff / 1000 / 60 / 60 / 24)
+    })
+    cardInfomation[0]['message'] = onData.length + abData.length + disData.length
+    cardInfomation[1]['message'] = onData.length
+    cardInfomation[2]['message'] = abData.length
+    cardInfomation[3]['message'] = disData.length
+    onlineData = [...onData]
+    disconnectData = [...disData]
+    abnormalData = [...abData]
+    isLoading.value = false
+  })
+}
 </script>
 <style scoped lang="scss">
 .card-group {

@@ -8,7 +8,7 @@
         <div class="text-white">Hi，{{ userName }}</div>
       </div>
       <ul class="flex md:flex-col md:py-4">
-        <li class="link" v-for="R in routeList.data" :key="R.name">
+        <li class="link" v-for="R in routeList" :key="R.name">
           <router-link :to="R.path">
             <el-icon :size="20">
               <Paperclip />

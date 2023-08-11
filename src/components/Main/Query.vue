@@ -3,17 +3,14 @@
         <span :class="`switch ${isSwtich ? 'switch-active' : ''}`" @click="isSwtich = true">設備查詢</span>
         <span :class="`switch ${!isSwtich ? 'switch-active' : ''}`" @click="isSwtich = false">事件查詢</span>
     </div>
-    <div class="py-4">
-        <keep-alive>
-            <component :is="searchCate" />
-        </keep-alive>
+    <div class="py-5">
+        <component :is="searchCate" />
     </div>
 </template>
 <script setup lang="ts">
 import { computed, defineAsyncComponent, ref } from 'vue'
-
 const isSwtich = ref(true)
-//動態載入Components...Keep Alive Not Working >> why??
+//動態載入Components
 const searchCate = computed(() => isSwtich.value ?
     defineAsyncComponent(() => import("../EquipmentSearch.vue")) :
     defineAsyncComponent(() => import("../EventSearch.vue")))
@@ -51,5 +48,4 @@ $triangle-width: 13px;
         }
     }
 }
-
 </style>

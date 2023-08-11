@@ -4,29 +4,31 @@
         <ul>
             <li v-for="(i, idx) in FormList" :key="i" :class="`${currentPage === idx ? 'active' : ''}`"
                 @click="currentPage = idx">
-                <span> {{ i }}</span>
+                <span> {{ i.id }}</span>
                 <el-icon size="20" @click="removeForm" class="hover:bg-red-500">
                     <Close class="hover:text-white" />
                 </el-icon>
             </li>
         </ul>
         <div class="wrapper" ref="wrapper">
-            <Form />
-            <Form />
-            <Form />
+            <template v-for="(i, idx) in FormList" :key="i.id">
+                <keep-alive>
+                    <Form v-if="currentPage === idx" :ref="FormList[idx]['id']" />
+                </keep-alive>
+            </template>
         </div>
         <el-button icon="select" type="primary" @click="submit"><span class="font-bold">送出</span></el-button>
         <el-button icon="CircleCloseFilled" type="danger"><span class="font-bold">清空</span></el-button>
     </template>
 </template>
 <script setup lang="ts">
-import { reactive, ref, toRaw } from 'vue';
-import Form from '../Form.vue';
+import { reactive, ref, getCurrentInstance } from 'vue';
 import { useCounter } from '../../store'
+import Form from '../Form.vue';
+
 const currentPage = ref(0)
 const store = useCounter()
-console.log("store", store)
-
+const app = getCurrentInstance()?.appContext.config.globalProperties
 //表單列表資料
 const FormList = reactive<any[]>([])
 const itemRefs = ref<any>(null)
@@ -35,15 +37,16 @@ const wrapper = ref<any>(null)
 //測試用
 const addForm = () => {
     const id = prompt("請輸入設備ID")
-    FormList.push(id)
+    FormList.push({
+        id,
+        location: "",
+        user: store.userName,
+        date: ""
+    })
 }
 const removeForm = () => FormList.splice(0, 1)
 const submit = () => {
-    store.$patch({
-        count: 87,
-        name: "Change Demo",
-        item: ['1', '2']
-    })
+    console.log(FormList)
 }
 </script>
 <style scoped lang="scss">

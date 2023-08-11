@@ -2,16 +2,11 @@
     <form class="flex gap-2 items-end">
         <div>
             <label for="Area" class="title-label">地區</label>
-            <select v-model="item.area" id="Area" type="text" class="select" placeholder="areaddddddd">
-                <option>高雄</option>
-                <option>台南</option>
-                <option>嘉義</option>
-                <option>雲林</option>
-            </select>
+            <input v-model="params.area" id="Area" type="text" class="input" placeholder="Area">
         </div>
         <div>
             <label for="ID" class="title-label">ID</label>
-            <input v-model="item.id" id="ID" type="text" class="input" placeholder="ID">
+            <input v-model="params.id" id="ID" type="text" class="input" placeholder="ID">
         </div>
         <button class="btn bg-blue-600 flex justify-center gap-2 items-center hover:bg-blue-900" @click="search">
             <el-icon :size="15">
@@ -59,23 +54,20 @@
 </template>
 <script setup lang="ts">
 import { reactive, ref, getCurrentInstance } from "vue"
-import { fakerZH_TW } from '@faker-js/faker'
 type Data = {
     date: any,
     status: "ok" | "abnormal" | "empty"
     value: any
 }
-// const gData = getCurrentInstance()?.appContext.config.globalProperties;
-// gData?.$axios("get") => 全域打API
+const app = getCurrentInstance()?.appContext.config.globalProperties
 const isLoading = ref(false)
 const isEmpty = ref(true)
 const isNormal = ref(true)
-const item = reactive({
+const params = reactive({
     area: "",
     id: ""
 })
-
-const data = reactive<Data[]>([])
+let data = reactive<Data[]>([])
 const checkValue = (value: number): string => {
     if (value > 50) {
         return 'border-red-500'
@@ -85,20 +77,11 @@ const checkValue = (value: number): string => {
 }
 const search = () => {
     isLoading.value = true
-    setTimeout(() => {
-        for (let i = 0; i < 30; i++) {
-            data.push({
-                date: fakerZH_TW.date.recent(),
-                status: "ok",
-                value: {
-                    TMP: "-",
-                    HUM: "-",
-                    PM25: Math.floor(Math.random() * 100)
-                }
-            })
-        }
-        isLoading.value = false
-    }, 2000)
+    app?.$axios("/query/equipment", { params })
+        .then(res => {
+            data = res.data.data
+            isLoading.value = false
+        })
 }
 </script>
 <style scoped lang="scss">

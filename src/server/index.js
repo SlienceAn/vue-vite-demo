@@ -12,12 +12,6 @@ app.use(express.json())
 
 //API------------------------------------------
 //登入
-app.get("/test", (req, res) => {
-    res.status(200).json({
-        success: true,
-        message: 'string'
-    })
-})
 app.post("/login", (req, res) => {
     console.log("body ->", req.body)
     const { account: acc, password: psw } = req.body
@@ -119,20 +113,53 @@ app.get("/device/:status", (req, res) => {
         })
     }
 })
-//設備近三十日
-app.get("/query", (req, res) => {
-    res.status(200).json({
-        success: true,
-        message: "Get online Success",
-        data: []
-    })
+//設備查詢
+app.get("/query/:type", (req, res) => {
+    console.log(req.params)
+    console.log(req.query)
+    const { type } = req.params
+    const data = []
+    if (type === 'equipment') {
+        for (let i = 0; i < 30; i++) {
+            data.push({
+                date: date.recent(),
+                status: "ok",
+                value: {
+                    TMP: "-",
+                    HUM: "-",
+                    PM25: Math.floor(Math.random() * 100)
+                }
+            })
+        }
+        res.status(200).json({
+            success: true,
+            message: "Get online Success",
+            data
+        })
+    }
+    if (type === 'event') {
+        for (let i = 0; i < 23; i++) {
+            data.push({
+                id: internet.ipv4(),
+                type: vehicle.fuel(),
+                address: location.city() + location.streetAddress(),
+                dateTime: dayjs(date.past()).format("MM-DD-YYYY"),
+            })
+        }
+        res.status(200).json({
+            success: true,
+            message: "Get online Success",
+            data
+        })
+    }
 })
 
-//Connect to MongoDB....Test
+//Connect to MongoDB....Test Failed
 const url = `mongodb+srv://beast964089:neverland37@cluster0.mb1fb2n.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(url)
 const dbName = "business_arch"
 const collection = "content"
+
 app.get("/connect/test", async (req, res) => {
     await client.connect()
     await client.db(dbName).collection(collection).find({}).toArray()

@@ -32,25 +32,27 @@ type response = {
 import { reactive, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import { useCounter } from "../store"
-import axios from 'axios';
 
 const app = getCurrentInstance()?.appContext.config.globalProperties;
 const router = useRouter()
 const store = useCounter()
 const user = reactive({
-  account: "pm",
+  account: "rd",
   password: "123"
 })
 const login = () => {
-  console.log("$axios =>", app?.$axios("GET", "/test"))
-  axios.post("/login", user).then((res: any) => {
-    store.$patch({
-      userName: res.userName,
-      item: res.data,
-      isChange: true
-    })
-    // router.push("/Main/Information")
-  }).catch(err => console.log(err))
+  app?.$axios('/login', { method: "POST", data: user }).then((res) => {
+    const data: response = res.data
+    if (data.success) {
+      store.$patch({
+        userName: data.userName,
+        item: data.data,
+      })
+      router.push("/Main/Information")
+    } else {
+      alert("帳號密碼錯誤")
+    }
+  })
 }
 </script>
 <style scoped lang="scss"></style>
