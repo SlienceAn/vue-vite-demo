@@ -65,14 +65,14 @@ let cardInfomation = reactive<any[]>([{
   color: "red",
 },])//卡面資訊
 const isLoading = ref(true)
-const tableHead = reactive<string[]>(['設備IP', '設備類型', '設備位置', '開始日期', '累積(天)'])
+const tableHead = reactive<string[]>(['設備ID', '設備縣市', '設備地址', '開始日期', '累積(天)'])
 
 onMounted(() => {
   fetchData()
 })
 const fetchData = () => {
   //延遲預覽
-  const online = app?.$axios('/device')
+  const online = app?.$axios('/device/online')
   const disconnect = app?.$axios("/device/disconnect")
   const abnormal = app?.$axios("/device/abnormal")
   Promise.all([disconnect, abnormal, online]).then((res: any[]) => {
@@ -81,11 +81,11 @@ const fetchData = () => {
     const { data: onData } = res[2]['data']
     //計算累績天數
     disData.forEach((el: any, idx: number, arr: any[]) => {
-      const dayDiff: any = new Date() - new Date(el['dateTime'])
+      const dayDiff: any = new Date() - new Date(el['latestUpdate'])
       arr[idx]['total'] = useRound(dayDiff / 1000 / 60 / 60 / 24)
     })
     abData.forEach((el: any, idx: number, arr: any[]) => {
-      const dayDiff: any = new Date() - new Date(el['dateTime'])
+      const dayDiff: any = new Date() - new Date(el['latestUpdate'])
       arr[idx]['total'] = useRound(dayDiff / 1000 / 60 / 60 / 24)
     })
     cardInfomation[0]['message'] = onData.length + abData.length + disData.length

@@ -10,10 +10,27 @@
                 </el-icon>
             </li>
         </ul>
-        <div class="wrapper" ref="wrapper">
+        <div class="wrapper">
             <template v-for="(i, idx) in FormList" :key="i.id">
                 <keep-alive>
-                    <Form v-if="currentPage === idx" :ref="FormList[idx]['id']" />
+                    <form v-if="currentPage === idx" class="flex px-[15px] py-[10px]">
+                        <div class="col">
+                            <label for="ID">設備ID</label>
+                            <input id="ID" type="text" v-model="FormList[idx]['id']" />
+                        </div>
+                        <div class="col">
+                            <label for="postition">設備位置</label>
+                            <input id="position" type="text" v-model="FormList[idx]['location']" />
+                        </div>
+                        <div class="col">
+                            <label for="user">巡檢人</label>
+                            <input id="user" type="text" v-model="FormList[idx]['user']" />
+                        </div>
+                        <div class="col">
+                            <label for="user">巡檢日期</label>
+                            <input id="user" type="text" v-model="FormList[idx]['date']" />
+                        </div>
+                    </form>
                 </keep-alive>
             </template>
         </div>
@@ -24,29 +41,31 @@
 <script setup lang="ts">
 import { reactive, ref, getCurrentInstance } from 'vue';
 import { useCounter } from '../../store'
-import Form from '../Form.vue';
 
+const app = getCurrentInstance()?.appContext.config.globalProperties
 const currentPage = ref(0)
 const store = useCounter()
-const app = getCurrentInstance()?.appContext.config.globalProperties
 //表單列表資料
 const FormList = reactive<any[]>([])
-const itemRefs = ref<any>(null)
-const wrapper = ref<any>(null)
 
-//測試用
 const addForm = () => {
     const id = prompt("請輸入設備ID")
-    FormList.push({
-        id,
-        location: "",
-        user: store.userName,
-        date: ""
-    })
+    if (id) {
+        FormList.push({
+            id,
+            location: "",
+            user: store.userName,
+            date: ""
+        })
+    }
 }
 const removeForm = () => FormList.splice(0, 1)
 const submit = () => {
     console.log(FormList)
+    app?.$axios('/modify', { method: "POST", data: FormList })
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+
 }
 </script>
 <style scoped lang="scss">
@@ -88,5 +107,29 @@ ul {
     border-bottom-left-radius: .5rem;
     border-bottom-right-radius: .5rem;
     margin-bottom: .5rem;
+}
+
+.col {
+    min-width: 25%;
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+
+    & label {
+        width: 30%;
+        white-space: nowrap;
+        font-weight: bolder;
+    }
+
+    & input {
+        width: 70%;
+        border: 1px solid #d3d3d3;
+        border-radius: .25rem;
+        padding: 5px;
+
+        &:focus {
+            outline: none;
+        }
+    }
 }
 </style>

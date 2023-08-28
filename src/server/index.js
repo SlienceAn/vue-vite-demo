@@ -2,14 +2,53 @@ import express from 'express'
 import ViteExpress from 'vite-express'
 import dayjs from 'dayjs';
 import { faker } from "@faker-js/faker/locale/zh_TW"
-const { location, date, internet, vehicle } = faker
 import { MongoClient } from 'mongodb'
+
+const { location, date, vehicle } = faker
 const app = express()
 
 //config
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-
+//生成ID
+const generateID = () => {
+    const id = Math.random().toString().substring(2, 6)
+    const upperChars = []
+    for (let i = 65; i < 91; i++) {
+        upperChars.push(String.fromCharCode(i))
+    }
+    let randomChar = upperChars[Math.floor(Math.random() * 26)]
+    return randomChar + id
+}
+const statusRandom = () => {
+    const code = Math.floor(Math.random() * (3 - 0))
+    switch (code) {
+        case 0:
+            return "online"
+        case 1:
+            return "disconnect"
+        case 2:
+            return "abnormal"
+    }
+}
+//All Fake Data
+let data = []
+for (let i = 0; i < 150; i++) {
+    data.push({
+        id: generateID(),
+        city: location.city(),
+        address: location.streetAddress(),
+        latitude: 22.11,
+        longitude: 120.22,
+        value: {
+            TMP: Math.floor(Math.random() * 100),
+            HUM: Math.floor(Math.random() * 100),
+            PM25: Math.floor(Math.random() * 100)
+        },
+        latestUpdate: dayjs(date.past()).format("YYYY-MM-DD HH:mm"),
+        status: statusRandom()
+    })
+}
 //API------------------------------------------
 //登入
 app.post("/login", (req, res) => {
@@ -58,15 +97,6 @@ app.post("/login", (req, res) => {
 })
 //設備資訊
 app.get("/device", (req, res) => {
-    const data = []
-    for (let i = 0; i < 87; i++) {
-        data.push({
-            id: internet.ipv4(),
-            type: vehicle.fuel(),
-            address: location.city() + location.streetAddress(),
-            dateTime: dayjs(date.past()).format("MM-DD-YYYY"),
-        })
-    }
     res.status(200).json({
         success: true,
         message: "Get online Success",
@@ -76,57 +106,43 @@ app.get("/device", (req, res) => {
 //異常設備資訊
 app.get("/device/:status", (req, res) => {
     const { status } = req.params
-    if (status === 'disconnect') {
-        const data = []
-        for (let i = 0; i < 52; i++) {
-            data.push({
-                id: internet.ipv4(),
-                type: vehicle.fuel(),
-                address: location.city() + location.streetAddress(),
-                dateTime: dayjs(date.past()).format("YYYY-MM-DD HH:mm"),
+    if (status) {
+        let response;
+        response = data.filter(el => el['status'] === status)
+            .map(el => {
+                return {
+                    id: el['id'],
+                    city: el['city'],
+                    address: el['address'],
+                    latestUpdate: el['latestUpdate']
+                }
             })
-        }
+        console.log(response)
         res.status(200).json({
             success: true,
             message: `Get ${status} data Success`,
-            data
-        })
-    } else if (status === 'abnormal') {
-        const data = []
-        for (let i = 0; i < 36; i++) {
-            data.push({
-                id: internet.ipv4(),
-                type: vehicle.fuel(),
-                address: location.city() + location.streetAddress(),
-                dateTime: dayjs(date.past()).format("YYYY-MM-DD HH:mm"),
-            })
-        }
-        res.status(200).json({
-            success: true,
-            message: `Get ${status} data Success`,
-            data
+            data: response
         })
     } else {
         res.status(400).json({
             success: false,
-            message: 'failed !'
+            message: 'Query device failed'
         })
     }
 })
 //設備查詢
 app.get("/query/:type", (req, res) => {
-    console.log(req.params)
-    console.log(req.query)
     const { type } = req.params
+    const { area, id } = req.query
     const data = []
     if (type === 'equipment') {
         for (let i = 0; i < 30; i++) {
             data.push({
-                date: date.recent(),
+                date: dayjs(date.recent()).format("YYYY-MM-DD HH:mm"),
                 status: "ok",
                 value: {
-                    TMP: "-",
-                    HUM: "-",
+                    TMP: 23,
+                    HUM: 23,
                     PM25: Math.floor(Math.random() * 100)
                 }
             })
@@ -140,7 +156,7 @@ app.get("/query/:type", (req, res) => {
     if (type === 'event') {
         for (let i = 0; i < 23; i++) {
             data.push({
-                id: internet.ipv4(),
+                id: generateID(),
                 type: vehicle.fuel(),
                 address: location.city() + location.streetAddress(),
                 dateTime: dayjs(date.past()).format("MM-DD-YYYY"),
@@ -152,6 +168,14 @@ app.get("/query/:type", (req, res) => {
             data
         })
     }
+})
+//表單巡檢
+app.post("/modify", (req, res) => {
+    console.log(req.body)
+    res.status(200).json({
+        success: true,
+        message: "Modify Success !",
+    })
 })
 
 //Connect to MongoDB....Test Failed
@@ -182,4 +206,4 @@ ViteExpress.config({
         base: "/api"
     }
 })
-ViteExpress.listen(app, 3000, () => console.log("Server is listening on 3000 port"))
+ViteExpress.listen(app, 4200, () => console.log("Server is listening on 4200 port"))

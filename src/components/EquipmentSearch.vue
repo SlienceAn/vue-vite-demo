@@ -1,5 +1,5 @@
 <template>
-    <form class="flex gap-2 items-end">
+    <form class="flex gap-2 items-end mb-4">
         <div>
             <label for="Area" class="title-label">地區</label>
             <input v-model="params.area" id="Area" type="text" class="input" placeholder="Area">
@@ -17,7 +17,7 @@
     </form>
     <CircleLoading v-if="isLoading" />
     <div v-if="data.length !== 0" class="info">
-        <form class="py-2 m-0">
+        <!-- <form class="py-2 m-0">
             <span class="inline-flex items-center gap-1 mr-1">
                 <input id="error" type="checkbox" class="w-4 h-4" v-model="isNormal">
                 <label for="error" class="hover:cursor-pointer">數值異常</label>
@@ -26,7 +26,7 @@
                 <input id="empty" type="checkbox" class="w-4 h-4" v-model="isEmpty" />
                 <label for="empty" class="hover:cursor-pointer">無數值</label>
             </span>
-        </form>
+        </form> -->
         <div class="flex flex-wrap">
             <div class="list" v-for="i in data " :key="i.date">
                 <div :class="`border-2 rounded-lg ${checkValue(i.value.PM25)}`">
@@ -78,7 +78,7 @@ const checkValue = (value: number): string => {
 const search = () => {
     isLoading.value = true
     app?.$axios("/query/equipment", { params })
-        .then(res => {
+        .then((res: any) => {
             data = res.data.data
             isLoading.value = false
         })

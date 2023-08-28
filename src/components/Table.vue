@@ -46,8 +46,8 @@ const props = defineProps<{ head: string[], data: any[] }>()
 
 //頁數
 const page = ref<number>(1)
-//每頁顯示的數量，預設10筆
-const showCount = ref<number>(10)
+//每頁顯示的數量，預設5筆
+const showCount = ref<number>(5)
 //顯示資料(少一筆...Bug)
 const showData = computed<any[]>(() => props.data.slice(showCount.value * (page.value - 1), showCount.value + showCount.value * (page.value - 1)))
 //頁碼總數
