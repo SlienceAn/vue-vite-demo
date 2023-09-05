@@ -40,6 +40,7 @@ const statusRandom = (): string => {
     }
     return status
 }
+//字串轉物件
 const toObject = (body: string): any => {
     const obj = {}
     body.split("&")
@@ -52,7 +53,7 @@ const toObject = (body: string): any => {
 }
 //All Fake Data
 const data: Data[] = []
-for (let i = 0; i < 150; i++) {
+for (let i = 0; i < 300; i++) {
     data.push({
         id: generateID(),
         city: location.city(),
@@ -89,7 +90,7 @@ export default [
                 res.setHeader('Content-Type', 'application/json')
                 data = {
                     success: true,
-                    userName: "pm",
+                    userName: "PM",
                     message: "PM Login Success !",
                     data: [{
                         path: "/Main/Information",
@@ -107,7 +108,7 @@ export default [
                 res.setHeader('Content-Type', 'application/json')
                 data = {
                     success: true,
-                    userName: "pm",
+                    userName: "RD",
                     message: "PM Login Success !",
                     data: [{
                         path: "/Main/Information",
@@ -152,13 +153,13 @@ export default [
                         }
                     })
                 return {
-                    success: false,
+                    success: true,
                     message: "Get online Success",
                     data: response
                 }
             } else {
                 return {
-                    success: false,
+                    success: true,
                     message: "Get online Success",
                     data
                 }
@@ -170,17 +171,43 @@ export default [
         url: '/query',
         method: "get",
         response: ({ query }) => {
-            console.log(query)
-            if (query.place) {
+            const { type } = query
+            if (type === 'equipment') {
+                let { city } = query
+                city = city.replace('台', '臺')
+                console.log(data)
                 return {
                     success: true,
                     message: "Get success!",
-                    data: data.filter(el => el['city'] === query.place),
+                    data: data.filter(el => el.city.includes(city))
                 }
-            } else {
+            } else if (type === 'event') {
+                const { startTime, endTime, status } = query
+                const result: any[] = []
+                for (const key of data) {
+                    if (new Date(key.latestUpdate) <= new Date(endTime) &&
+                        new Date(key.latestUpdate) >= new Date(startTime) &&
+                        key.status === status
+                    ) {
+                        result.push({
+                            id: key.id,
+                            city: key.city,
+                            address: key.address,
+                            latestUpdate: key.latestUpdate
+                        })
+                    }
+                }
+                result.sort((start, end) => {
+                    return new Date(start.latestUpdate) - new Date(end.latestUpdate) //??
+                })
                 return {
                     success: false,
                     message: "Get Failed!",
+                    data: result
+                }
+            } else {
+                return {
+
                 }
             }
         }
@@ -191,22 +218,29 @@ export default [
         method: 'post',
         rawResponse: async (req, res) => {
             let reqbody: any = ''
-            let datas: any[] = [];
+            let postData: any[] = [];
             await new Promise((resolve) => {
                 req.on('data', (chunk) => {
                     reqbody += chunk
                 })
                 req.on('end', () => resolve(undefined))
             })
-            datas = JSON.parse(reqbody)
+            postData = JSON.parse(reqbody)
+            console.log(postData)
             //表單資料
-            // console.log(datas)
-            console.log(datas.length)
-            // console.log(data)
-            console.log(data.filter(el => el.id.includes('F')))
+            postData.forEach(el => {
+                data.forEach(list => {
+                    if (list.id === el.id) {
+                        list.city = el.city
+                        list.address = el.address
+                        list.latestUpdate = el.latestUpdate
+                        list.status = el.status
+                    }
+                })
+            })
             res.statusCode = 200
             res.setHeader('Content-Type', 'application/json')
-            res.end(`ccc`, "utf-8")
+            res.end(`success`, "utf-8")
         }
     },
 ] as MockMethod[]

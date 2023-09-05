@@ -2,12 +2,12 @@
     <form class="flex gap-2 items-end mb-4">
         <div>
             <label for="Area" class="title-label">地區</label>
-            <input v-model="params.area" id="Area" type="text" class="input" placeholder="Area">
+            <input v-model="params.city" id="Area" type="text" class="input" placeholder="Area">
         </div>
-        <div>
-            <label for="ID" class="title-label">ID</label>
+        <!-- <div>
+            <label for="ID" class="title-label">專案類型</label>
             <input v-model="params.id" id="ID" type="text" class="input" placeholder="ID">
-        </div>
+        </div> -->
         <button class="btn bg-blue-600 flex justify-center gap-2 items-center hover:bg-blue-900" @click="search">
             <el-icon :size="15">
                 <Search />
@@ -15,22 +15,18 @@
             <span>搜尋</span>
         </button>
     </form>
-    <CircleLoading v-if="isLoading" />
-    <div v-if="data.length !== 0" class="info">
-        <!-- <form class="py-2 m-0">
-            <span class="inline-flex items-center gap-1 mr-1">
-                <input id="error" type="checkbox" class="w-4 h-4" v-model="isNormal">
-                <label for="error" class="hover:cursor-pointer">數值異常</label>
-            </span>
-            <span class="inline-flex items-center gap-1">
-                <input id="empty" type="checkbox" class="w-4 h-4" v-model="isEmpty" />
-                <label for="empty" class="hover:cursor-pointer">無數值</label>
-            </span>
-        </form> -->
+    <CircleLoading v-if="isLoading && data.length === 0" />
+    <div class="info">
         <div class="flex flex-wrap">
-            <div class="list" v-for="i in data " :key="i.date">
+            <div class="list" v-for="i in data " :key="i.id">
                 <div :class="`border-2 rounded-lg ${checkValue(i.value.PM25)}`">
-                    <div class="px-2 py-1 text-lg text-center">{{ i.date }}</div>
+                    <div :class="`border-b ${checkValue(i.value.PM25)} flex gap-2 items-center justify-center py-2 text-lg font-bold`">
+                        <span class="font-bold">{{ i.city }}</span>
+                        <el-icon>
+                            <CaretRight />
+                        </el-icon>{{ i.id }}
+                    </div>
+                    <div class="text-center">{{ i.latestUpdate }}</div>
                     <table class="min-w-full text-sm">
                         <thead :class="`${checkValue(i.value.PM25)} border-t border-b`">
                             <tr class="text-center">
@@ -51,23 +47,17 @@
             </div>
         </div>
     </div>
+    <span v-if="isSearch && !data.length" class="font-bold text-xl">查無結果 !!!</span>
 </template>
 <script setup lang="ts">
 import { reactive, ref, getCurrentInstance } from "vue"
-type Data = {
-    date: any,
-    status: "ok" | "abnormal" | "empty"
-    value: any
-}
 const app = getCurrentInstance()?.appContext.config.globalProperties
 const isLoading = ref(false)
-const isEmpty = ref(true)
-const isNormal = ref(true)
+const isSearch = ref(false)
 const params = reactive({
-    area: "",
-    id: ""
+    city: ""
 })
-let data = reactive<Data[]>([])
+let data = reactive<any[]>([])
 const checkValue = (value: number): string => {
     if (value > 50) {
         return 'border-red-500'
@@ -76,12 +66,18 @@ const checkValue = (value: number): string => {
     }
 }
 const search = () => {
-    isLoading.value = true
-    app?.$axios("/query/equipment", { params })
-        .then((res: any) => {
-            data = res.data.data
-            isLoading.value = false
-        })
+    const { city } = params
+    if (city) {
+        isLoading.value = true
+        app?.$axios("/query", { params: { ...params, type: 'equipment' } })
+            .then((res: any) => {
+                data = res.data.data
+                isLoading.value = false
+                isSearch.value = true
+            })
+    } else {
+        alert("地區或ID不能為空")
+    }
 }
 </script>
 <style scoped lang="scss">

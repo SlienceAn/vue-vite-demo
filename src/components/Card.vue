@@ -3,18 +3,18 @@
     <div class="card-body p-4 flex justify-between items-center">
       <div>
         <h4>{{ title }}</h4>
-        <div class="font-bold text-4xl">{{ message }}</div>
+        <div class="font-bold text-4xl">{{ message }}<sub class="text-xs"> / 台</sub> </div>
       </div>
       <el-icon :size="40" :color="color">
         <slot name="icon"></slot>
       </el-icon>
     </div>
-    <div class="card-footer p-2 gap-2 flex justify-center items-center hover:cursor-pointer" @click="dialogToggle = true">
+    <!-- <div class="card-footer p-2 gap-2 flex justify-center items-center hover:cursor-pointer">
       <span class="text-sm">Google Map</span>
       <el-icon color="red" size="20">
         <LocationFilled />
       </el-icon>
-    </div>
+    </div> -->
   </div>
   <el-dialog v-model="dialogToggle" :title="title" width="70%" top="2vh">
     <slot name="map" />

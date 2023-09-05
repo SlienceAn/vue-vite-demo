@@ -7,12 +7,10 @@
       </template>
       <template v-slot:map>
         <div class="w-full h-[900px] md:h-[400px] lg:h-[700px]">
-          <LMap ref="map" :zoom="15" :center="[22.63151, 120.30132]">
+          <!-- <LMap ref="map" :zoom="15" :center="[22.63151, 120.30132]">
             <LTileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" layer-type="base" name="OpenStreetMap" />
             <LMarker :lat-lng="[22.63151, 120.30132]"></LMarker>
-            <LMarker :lat-lng="[22.63151, 120.32344]"></LMarker>
-            <LMarker :lat-lng="[22.63151, 120.30788]"></LMarker>
-          </LMap>
+          </LMap> -->
         </div>
       </template>
     </Card>
@@ -66,7 +64,6 @@ let cardInfomation = reactive<any[]>([{
 },])//卡面資訊
 const isLoading = ref(true)
 const tableHead = reactive<string[]>(['設備ID', '設備縣市', '設備地址', '開始日期', '累積(天)'])
-
 onMounted(() => {
   fetchData()
 })

@@ -9,10 +9,10 @@
         </label>
         <label>
             <h4 class="title-label">事件類型</h4>
-            <select class="select shadow-0 border-gray-400" v-model="params.type">
-                <option value="">連線異常</option>
-                <option value="">斷線</option>
-                <option value="">已連線</option>
+            <select class="select shadow-0 border-gray-400" v-model="params.status">
+                <option value="abnormal">連線異常</option>
+                <option value="disconnect">斷線</option>
+                <option value="online">已連線</option>
             </select>
         </label>
         <button class="btn bg-blue-600 flex justify-center gap-2 items-center hover:bg-blue-900" @click="search">
@@ -22,30 +22,47 @@
             <span>搜尋</span>
         </button>
     </form>
-    <CircleLoading v-if="isLoading" />
-    <Panel v-if="data.length" :header="`${params.dateTime[0]} ~ ${params.dateTime[1]}`">
-        <Table :head="head" :data="data" />
+    <CircleLoading v-if="isLoading && data.length === 0" />
+    <Panel v-if="data.length" header="查詢結果">
+        <Table :head="head" :data="data">
+            <template #column="{ id, city, address }">
+                <el-button type="success" icon="Edit" @click="form.add(id, city, address)">加入表單</el-button>
+            </template>
+        </Table>
     </Panel>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref, getCurrentInstance } from "vue";
 import Table from "./Table.vue";
+import { useForm } from '../store'
 const app = getCurrentInstance()?.appContext.config.globalProperties
 const isLoading = ref(false)
-const head = reactive<string[]>(["日期", "事件類型", "ID", "設備位置", "地區"])
+const head = reactive<string[]>(["設備ID", "設備縣市", "設備地址", "開始日期"])
+const form = useForm()
 let data = reactive([])
 const params = reactive({
     dateTime: "",
-    type: ""
+    status: "online"
 })
 const search = () => {
-    isLoading.value = true
-    app?.$axios("/query/event", { params }).then(res => {
-        console.log(res.data.data)
-        data = res.data.data
-        isLoading.value = false
-    })
+    const { dateTime, status } = params
+    if (Array.isArray(dateTime)) {
+        isLoading.value = true
+        app?.$axios("/query", {
+            params: {
+                type: 'event',
+                startTime: dateTime[0],
+                endTime: dateTime[1],
+                status
+            }
+        }).then((res: any) => {
+            data = res.data.data
+            isLoading.value = false
+        })
+    } else {
+        alert("請輸入日期")
+    }
 }
 </script>
 

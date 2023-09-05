@@ -13,8 +13,8 @@
             <input id="user" type="text" v-model="data.user">
         </div>
         <div class="col">
-            <label for="user">巡檢日期</label>
-            <input id="user" type="text" v-model="data.date">
+            <label for="inspect">巡檢日期ddd</label>
+            <el-date-picker id="inspect" value-format="YYYY-MM-DD" />
         </div>
     </form>
 </template>

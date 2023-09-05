@@ -1,6 +1,6 @@
 <template>
   <div class="panel">
-    <div class="panel-header p-4 text-center">
+    <div class="panel-header p-1 text-center">
       <span class="font-bold text-2xl">{{ header }}</span>
     </div>
     <div class="panel-body">

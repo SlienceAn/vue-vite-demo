@@ -5,7 +5,7 @@
             <li v-for="(i, idx) in FormList" :key="i" :class="`${currentPage === idx ? 'active' : ''}`"
                 @click="currentPage = idx">
                 <span> {{ i.id }}</span>
-                <el-icon size="20" @click="removeForm" class="hover:bg-red-500">
+                <el-icon size="20" @click="form.remove(idx)" class="hover:bg-red-500">
                     <Close class="hover:text-white" />
                 </el-icon>
             </li>
@@ -13,59 +13,88 @@
         <div class="wrapper">
             <template v-for="(i, idx) in FormList" :key="i.id">
                 <keep-alive>
-                    <form v-if="currentPage === idx" class="flex px-[15px] py-[10px]">
+                    <form v-if="currentPage === idx" class="flex flex-wrap px-[15px] py-[10px]">
                         <div class="col">
                             <label for="ID">設備ID</label>
                             <input id="ID" type="text" v-model="FormList[idx]['id']" />
                         </div>
                         <div class="col">
-                            <label for="postition">設備位置</label>
-                            <input id="position" type="text" v-model="FormList[idx]['location']" />
-                        </div>
-                        <div class="col">
                             <label for="user">巡檢人</label>
-                            <input id="user" type="text" v-model="FormList[idx]['user']" />
+                            <input id="user" type="text" v-model="FormList[idx]['user']" disabled
+                                class="disabled:bg-gray-200" />
                         </div>
                         <div class="col">
-                            <label for="user">巡檢日期</label>
-                            <input id="user" type="text" v-model="FormList[idx]['date']" />
+                            <label for="city">設備縣市</label>
+                            <input id="city" type="text" v-model="FormList[idx]['city']" />
+                        </div>
+                        <div class="col">
+                            <label for="address">設備地址</label>
+                            <input id="address" type="text" v-model="FormList[idx]['address']" />
+                        </div>
+                        <div class="col">
+                            <label for="status">連線狀況</label>
+                            <select class="select" id="status" v-model="FormList[idx]['status']">
+                                <option value="online">已連線</option>
+                                <option value="disconnect">已斷線</option>
+                                <option value="abnormal">連線異常</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="date">更新日期</label>
+                            <el-date-picker id="inspect" value-format="YYYY-MM-DD" v-model="FormList[idx]['latestUpdate']"
+                                placeholder="選擇日期" />
                         </div>
                     </form>
                 </keep-alive>
             </template>
         </div>
         <el-button icon="select" type="primary" @click="submit"><span class="font-bold">送出</span></el-button>
-        <el-button icon="CircleCloseFilled" type="danger"><span class="font-bold">清空</span></el-button>
     </template>
 </template>
 <script setup lang="ts">
-import { reactive, ref, getCurrentInstance } from 'vue';
-import { useCounter } from '../../store'
+import { reactive, ref, getCurrentInstance, onMounted } from 'vue';
+import { useCounter, useForm } from '../../store'
 
 const app = getCurrentInstance()?.appContext.config.globalProperties
 const currentPage = ref(0)
 const store = useCounter()
-//表單列表資料
-const FormList = reactive<any[]>([])
+const form = useForm()
+let FormList = reactive<any[]>([])
 
+onMounted(() => {
+    for (const key in form.form) {
+        FormList.push({
+            id: form.form[key]['id'],
+            city: form.form[key]['city'],
+            address: form.form[key]['address'],
+            user: store.userName,
+            status: "online",
+            date: ""
+        })
+    }
+})
 const addForm = () => {
     const id = prompt("請輸入設備ID")
     if (id) {
         FormList.push({
             id,
-            location: "",
+            city: "",
+            address: "",
             user: store.userName,
-            date: ""
+            status: "online",
+            latestUpdate: ""
         })
     }
 }
-const removeForm = () => FormList.splice(0, 1)
 const submit = () => {
-    console.log(FormList)
     app?.$axios('/modify', { method: "POST", data: FormList })
-        .then(res => console.log(res))
+        .then(res => {
+            console.log("res=>", res)
+            if (res.data === 'success') {
+                FormList.length = 0
+            }
+        })
         .catch(err => console.log(err))
-
 }
 </script>
 <style scoped lang="scss">
@@ -110,19 +139,19 @@ ul {
 }
 
 .col {
-    min-width: 25%;
+    width: 25%;
     display: flex;
+    gap: 10px;
     align-items: center;
-    padding-right: 10px;
+    padding: 5px;
 
     & label {
-        width: 30%;
         white-space: nowrap;
         font-weight: bolder;
     }
 
     & input {
-        width: 70%;
+        min-width: 70%;
         border: 1px solid #d3d3d3;
         border-radius: .25rem;
         padding: 5px;

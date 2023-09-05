@@ -21,6 +21,7 @@
             <tr v-for="(i, idx) in showData" :key="i">
                 <td class="font-bold">{{ (idx + 1) + ((page - 1) * showCount) }}</td>
                 <td v-for="g in i" :key="g">{{ g }}</td>
+               <slot name="column" :id="i.id" :city="i.city" :address="i.address"/>
             </tr>
         </tbody>
     </table>
@@ -47,7 +48,7 @@ const props = defineProps<{ head: string[], data: any[] }>()
 //頁數
 const page = ref<number>(1)
 //每頁顯示的數量，預設5筆
-const showCount = ref<number>(5)
+const showCount = ref<number>(10)
 //顯示資料(少一筆...Bug)
 const showData = computed<any[]>(() => props.data.slice(showCount.value * (page.value - 1), showCount.value + showCount.value * (page.value - 1)))
 //頁碼總數
