@@ -19,8 +19,9 @@
     <div class="info">
         <div class="flex flex-wrap">
             <div class="list" v-for="i in data " :key="i.id">
-                <div :class="`border-2 rounded-lg ${checkValue(i.value.PM25)}`">
-                    <div :class="`border-b ${checkValue(i.value.PM25)} flex gap-2 items-center justify-center py-2 text-lg font-bold`">
+                <div :class="`border-2 rounded-lg ${checkValue(i.status)}`">
+                    <div
+                        :class="`border-b ${checkValue(i.status)} flex gap-2 items-center justify-center py-1 text-lg font-bold`">
                         <span class="font-bold">{{ i.city }}</span>
                         <el-icon>
                             <CaretRight />
@@ -28,7 +29,7 @@
                     </div>
                     <div class="text-center">{{ i.latestUpdate }}</div>
                     <table class="min-w-full text-sm">
-                        <thead :class="`${checkValue(i.value.PM25)} border-t border-b`">
+                        <thead :class="`${checkValue(i.status)} border-t border-b`">
                             <tr class="text-center">
                                 <th scope="col" class="px-3 py-2">TMP</th>
                                 <th scope="col" class="px-3 py-2">HUM</th>
@@ -37,9 +38,7 @@
                         </thead>
                         <tbody>
                             <tr class="text-center text-lg">
-                                <td class="px-3 py-2">{{ i.value.TMP }}</td>
-                                <td class="px-3 py-2">{{ i.value.HUM }}</td>
-                                <td class="px-3 py-2">{{ i.value.PM25 }}</td>
+                                <td class="px-3 py-2" v-for="v in i.value" :key="v">{{ v }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -47,7 +46,7 @@
             </div>
         </div>
     </div>
-    <span v-if="isSearch && !data.length" class="font-bold text-xl">查無結果 !!!</span>
+    <span v-if="isSearch && !data.length" class="font-bold text-xl">查無結果 !</span>
 </template>
 <script setup lang="ts">
 import { reactive, ref, getCurrentInstance } from "vue"
@@ -58,11 +57,14 @@ const params = reactive({
     city: ""
 })
 let data = reactive<any[]>([])
-const checkValue = (value: number): string => {
-    if (value > 50) {
-        return 'border-red-500'
-    } else {
-        return 'border-green-500'
+const checkValue = (value: string) => {
+    switch (value) {
+        case 'disconnect':
+            return 'border-red-500'
+        case 'online':
+            return 'border-green-500'
+        case 'abnormal':
+            return 'border-[orange]'
     }
 }
 const search = () => {

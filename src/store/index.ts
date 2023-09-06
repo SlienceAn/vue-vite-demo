@@ -21,9 +21,11 @@ export const useCounter = defineStore('counter', {
         // }
     }
 })
-
+type formConfig = {
+    form: any[]
+}
 export const useForm = defineStore('inspectForm', {
-    state: (): any => ({
+    state: (): formConfig => ({
         form: []
     }),
     actions: {

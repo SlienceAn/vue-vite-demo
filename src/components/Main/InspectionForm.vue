@@ -41,8 +41,8 @@
                         </div>
                         <div class="col">
                             <label for="date">更新日期</label>
-                            <el-date-picker id="inspect" value-format="YYYY-MM-DD" v-model="FormList[idx]['latestUpdate']"
-                                placeholder="選擇日期" />
+                            <el-date-picker id="inspect" type="datetime" value-format="YYYY-MM-DD"
+                                v-model="FormList[idx]['latestUpdate']" placeholder="選擇日期" />
                         </div>
                     </form>
                 </keep-alive>
@@ -92,6 +92,9 @@ const submit = () => {
             console.log("res=>", res)
             if (res.data === 'success') {
                 FormList.length = 0
+                form.$patch({
+                    form: []
+                })
             }
         })
         .catch(err => console.log(err))

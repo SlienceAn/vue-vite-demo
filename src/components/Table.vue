@@ -21,7 +21,8 @@
             <tr v-for="(i, idx) in showData" :key="i">
                 <td class="font-bold">{{ (idx + 1) + ((page - 1) * showCount) }}</td>
                 <td v-for="g in i" :key="g">{{ g }}</td>
-               <slot name="column" :id="i.id" :city="i.city" :address="i.address"/>
+                <slot name="column" :id="i.id" :city="i.city" :address="i.address"
+                    :idx="idx + ((page - 1) * showCount)" />
             </tr>
         </tbody>
     </table>

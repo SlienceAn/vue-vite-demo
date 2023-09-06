@@ -201,13 +201,14 @@ export default [
                     return new Date(start.latestUpdate) - new Date(end.latestUpdate) //??
                 })
                 return {
-                    success: false,
-                    message: "Get Failed!",
+                    success: true,
+                    message: "Get success!",
                     data: result
                 }
             } else {
                 return {
-
+                      success:false,
+                      message:"Get failed..."
                 }
             }
         }

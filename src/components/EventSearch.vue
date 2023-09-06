@@ -23,10 +23,14 @@
         </button>
     </form>
     <CircleLoading v-if="isLoading && data.length === 0" />
-    <Panel v-if="data.length" header="查詢結果">
+    <Panel v-if="data.length && !isLoading">
         <Table :head="head" :data="data">
             <template #column="{ id, city, address }">
-                <el-button type="success" icon="Edit" @click="form.add(id, city, address)">加入表單</el-button>
+                <td>
+                    <el-button type="info" icon="Edit" @click="form.add(id, city, address)" :disabled="false">
+                        加入表單
+                    </el-button>
+                </td>
             </template>
         </Table>
     </Panel>
@@ -59,11 +63,16 @@ const search = () => {
         }).then((res: any) => {
             data = res.data.data
             isLoading.value = false
+            console.log(data.length)
         })
     } else {
         alert("請輸入日期")
     }
 }
+// const isDisable = (idx: number): boolean => {
+//     console.log(idx)
+//     return false
+// }
 </script>
 
 <style scoped lang="scss"></style>
