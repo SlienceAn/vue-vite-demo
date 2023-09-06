@@ -11,29 +11,29 @@
             </li>
         </ul>
         <div class="wrapper">
-            <template v-for="(i, idx) in FormList" :key="i.id">
+            <template v-for="idx in FormList.length" :key="idx">
                 <keep-alive>
-                    <form v-if="currentPage === idx" class="flex flex-wrap px-[15px] py-[10px]">
+                    <form v-if="currentPage === (idx - 1)" class="flex flex-wrap px-[15px] py-[10px]">
                         <div class="col">
                             <label for="ID">設備ID</label>
-                            <input id="ID" type="text" v-model="FormList[idx]['id']" />
+                            <input id="ID" type="text" v-model="FormList[idx - 1]['id']" />
                         </div>
                         <div class="col">
                             <label for="user">巡檢人</label>
-                            <input id="user" type="text" v-model="FormList[idx]['user']" disabled
+                            <input id="user" type="text" v-model="FormList[idx - 1]['user']" disabled
                                 class="disabled:bg-gray-200" />
                         </div>
                         <div class="col">
                             <label for="city">設備縣市</label>
-                            <input id="city" type="text" v-model="FormList[idx]['city']" />
+                            <input id="city" type="text" v-model="FormList[idx - 1]['city']" />
                         </div>
                         <div class="col">
                             <label for="address">設備地址</label>
-                            <input id="address" type="text" v-model="FormList[idx]['address']" />
+                            <input id="address" type="text" v-model="FormList[idx - 1]['address']" />
                         </div>
                         <div class="col">
                             <label for="status">連線狀況</label>
-                            <select class="select" id="status" v-model="FormList[idx]['status']">
+                            <select class="select" id="status" v-model="FormList[idx - 1]['status']">
                                 <option value="online">已連線</option>
                                 <option value="disconnect">已斷線</option>
                                 <option value="abnormal">連線異常</option>
@@ -42,25 +42,25 @@
                         <div class="col">
                             <label for="date">更新日期</label>
                             <el-date-picker id="inspect" type="datetime" value-format="YYYY-MM-DD"
-                                v-model="FormList[idx]['latestUpdate']" placeholder="選擇日期" />
+                                v-model="FormList[idx - 1]['latestUpdate']" placeholder="選擇日期" />
                         </div>
                     </form>
                 </keep-alive>
             </template>
         </div>
-        <el-button icon="select" type="primary" @click="submit"><span class="font-bold">送出</span></el-button>
+        <el-button icon="select" type="primary" @click="submit">
+            <span class="font-bold">送出</span>
+        </el-button>
     </template>
 </template>
 <script setup lang="ts">
 import { reactive, ref, getCurrentInstance, onMounted } from 'vue';
 import { useCounter, useForm } from '../../store'
-
 const app = getCurrentInstance()?.appContext.config.globalProperties
 const currentPage = ref(0)
 const store = useCounter()
 const form = useForm()
 let FormList = reactive<any[]>([])
-
 onMounted(() => {
     for (const key in form.form) {
         FormList.push({
@@ -88,8 +88,7 @@ const addForm = () => {
 }
 const submit = () => {
     app?.$axios('/modify', { method: "POST", data: FormList })
-        .then(res => {
-            console.log("res=>", res)
+        .then((res: any) => {
             if (res.data === 'success') {
                 FormList.length = 0
                 form.$patch({
@@ -97,7 +96,7 @@ const submit = () => {
                 })
             }
         })
-        .catch(err => console.log(err))
+        .catch((err: any) => console.log(err))
 }
 </script>
 <style scoped lang="scss">

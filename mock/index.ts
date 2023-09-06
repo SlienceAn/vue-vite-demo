@@ -175,7 +175,6 @@ export default [
             if (type === 'equipment') {
                 let { city } = query
                 city = city.replace('台', '臺')
-                console.log(data)
                 return {
                     success: true,
                     message: "Get success!",
@@ -198,7 +197,8 @@ export default [
                     }
                 }
                 result.sort((start, end) => {
-                    return new Date(start.latestUpdate) - new Date(end.latestUpdate) //??
+                    // TypeScript 中，當您使用運算符（算術運算符、比較運算符等）並且運算符左側屬於意外類型時，就會發生這種情況
+                    return new Date(start.latestUpdate).getTime() - new Date(end.latestUpdate).getTime()
                 })
                 return {
                     success: true,
@@ -227,7 +227,6 @@ export default [
                 req.on('end', () => resolve(undefined))
             })
             postData = JSON.parse(reqbody)
-            console.log(postData)
             //表單資料
             postData.forEach(el => {
                 data.forEach(list => {

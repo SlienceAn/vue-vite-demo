@@ -41,7 +41,7 @@ const user = reactive({
   password: "123"
 })
 const login = () => {
-  app?.$axios('/login', { method: "POST", data: user }).then((res) => {
+  app?.$axios('/login', { method: "POST", data: user }).then((res:any) => {
     const data: response = res.data
     if (data.success) {
       store.$patch({

@@ -34,7 +34,7 @@ import { useCounter } from '../store'
 const route = useRoute()
 const router = useRouter()
 const store = useCounter()
-let routeList = reactive([])
+let routeList = reactive<any>([])
 let userName = ref("")
 routeList = store.item
 userName.value = store.userName

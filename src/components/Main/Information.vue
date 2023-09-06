@@ -25,15 +25,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import Card from "@components/Card.vue";
-import Panel from "@components/Panel.vue";
-import Table from "@components/Table.vue";
+import Card from "../Card.vue";
+import Panel from "../Panel.vue";
+import Table from "../Table.vue";
 import { onMounted, reactive, ref, getCurrentInstance } from "vue";
 import { useRound } from '@vueuse/math'
 const app = getCurrentInstance()?.appContext.config.globalProperties;
 let abnormalData = reactive<any[]>([])//連線異常
 let disconnectData = reactive<any[]>([])//斷線資訊
-let onlineData = reactive<any>([])//已連線
 let cardInfomation = reactive<any[]>([{
   title: "總機台數量",
   type: "Total",
@@ -78,18 +77,17 @@ const fetchData = () => {
     const { data: onData } = res[2]['data']
     //計算累績天數
     disData.forEach((el: any, idx: number, arr: any[]) => {
-      const dayDiff: any = new Date() - new Date(el['latestUpdate'])
+      const dayDiff = new Date().getTime() - new Date(el['latestUpdate']).getTime()
       arr[idx]['total'] = useRound(dayDiff / 1000 / 60 / 60 / 24)
     })
     abData.forEach((el: any, idx: number, arr: any[]) => {
-      const dayDiff: any = new Date() - new Date(el['latestUpdate'])
+      const dayDiff = new Date().getTime() - new Date(el['latestUpdate']).getTime()
       arr[idx]['total'] = useRound(dayDiff / 1000 / 60 / 60 / 24)
     })
     cardInfomation[0]['message'] = onData.length + abData.length + disData.length
     cardInfomation[1]['message'] = onData.length
     cardInfomation[2]['message'] = abData.length
     cardInfomation[3]['message'] = disData.length
-    onlineData = [...onData]
     disconnectData = [...disData]
     abnormalData = [...abData]
     isLoading.value = false
