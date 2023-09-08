@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "vue-tsc && vite build",
-    "serve": "vite",
+    "serve": "vite --host",
     "start": "node src/server",
     "preview": "vite preview",
     "eslintInit": "eslint --init",

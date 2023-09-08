@@ -41,6 +41,7 @@ const user = reactive({
   password: "123"
 })
 const login = () => {
+  console.log("WWW")
   app?.$axios('/login', { method: "POST", data: user }).then((res:any) => {
     const data: response = res.data
     if (data.success) {
@@ -48,6 +49,7 @@ const login = () => {
         userName: data.userName,
         item: data.data,
       })
+      console.log("test")
       router.push("/Main/Information")
     } else {
       alert("帳號密碼錯誤")

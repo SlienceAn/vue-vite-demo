@@ -2,7 +2,7 @@ import { MockMethod } from 'vite-plugin-mock'
 import { faker } from "@faker-js/faker/locale/zh_TW"
 import dayjs from 'dayjs';
 
-const { location, date, vehicle } = faker
+const { location, date } = faker
 type Data = {
     id: string
     city: string,
@@ -26,7 +26,7 @@ const generateID = () => {
 }
 const statusRandom = (): string => {
     const code = Math.floor(Math.random() * (3 - 0))
-    let status;
+    let status = '';
     switch (code) {
         case 0:
             status = "online"
@@ -41,16 +41,16 @@ const statusRandom = (): string => {
     return status
 }
 //字串轉物件
-const toObject = (body: string): any => {
-    const obj = {}
-    body.split("&")
-        .map(el => el.split("="))
-        .map(el => {
-            obj[el[0]] = el[1]
-        })
+// const toObject = (body: string): any => {
+//     const obj = {}
+//     body.split("&")
+//         .map(el => el.split("="))
+//         .map(el => {
+//             obj[el[0]] = el[1]
+//         })
 
-    return obj
-}
+//     return obj
+// }
 //All Fake Data
 const data: Data[] = []
 for (let i = 0; i < 300; i++) {
@@ -139,7 +139,7 @@ export default [
         //設備資訊
         url: '/device/:status',
         method: "get",
-        response: ({ query }) => {
+        response: ({ query }: any) => {
             if (Object.keys(query).length !== 0) {
                 const { status } = query
                 let response: any[] = [];
@@ -170,7 +170,7 @@ export default [
         //查詢分類
         url: '/query',
         method: "get",
-        response: ({ query }) => {
+        response: ({ query }: any) => {
             const { type } = query
             if (type === 'equipment') {
                 let { city } = query
@@ -207,8 +207,8 @@ export default [
                 }
             } else {
                 return {
-                      success:false,
-                      message:"Get failed..."
+                    success: false,
+                    message: "Get failed..."
                 }
             }
         }

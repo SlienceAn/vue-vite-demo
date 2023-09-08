@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios'
 import { useAxios as x } from '@vueuse/integrations/useAxios'
 
-const baseURL = "http://localhost:5173";
+// const baseURL = "http://localhost:5173";
 
 export const useAxios = async (url: string, config: AxiosRequestConfig = {}) => {
     //攔截請求
@@ -25,7 +25,7 @@ export const useAxios = async (url: string, config: AxiosRequestConfig = {}) => 
     //     error: false,
     //     data: []
     // })
-    const { data, isFinished, isLoading } = await x(baseURL + url, config)
+    const { data, isFinished, isLoading } = await x(url, config)
 
     return {
         data: data.value,

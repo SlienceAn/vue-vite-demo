@@ -9,10 +9,15 @@ import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/display.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import { useAxios } from './api/api'
-import "leaflet/dist/leaflet.css"
 import { LMap, LTileLayer, LMarker } from "@vue-leaflet/vue-leaflet"
 import Loading from './components/Loading.vue'
 import Panel from './components/Panel.vue'
+import { createProdMockServer } from 'vite-plugin-mock/es/createProdMockServer'
+import mock from '../mock'
+
+if (process.env.NODE_ENV === 'production') {
+    createProdMockServer(mock)
+}
 
 const pinia = createPinia()
 const app = createApp(App)
