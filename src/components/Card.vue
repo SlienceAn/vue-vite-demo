@@ -16,19 +16,18 @@
       </el-icon>
     </div> -->
   </div>
-  <el-dialog v-model="dialogToggle" :title="title" width="70%" top="2vh">
+  <!-- <el-dialog v-model="dialogToggle" :title="title" width="70%" top="2vh">
     <slot name="map" />
-  </el-dialog>
+  </el-dialog> -->
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
 
 defineProps<{
   title: string;
   message: string | number;
   color: string;
 }>();
-const dialogToggle = ref(false)
+// const dialogToggle = ref(false)
 </script>
 <style scoped lang="scss">
 .card {

@@ -151,10 +151,12 @@ export default [
                             address: el['address'],
                             latestUpdate: el['latestUpdate'],
                         }
+                    }).sort((start, end) => {
+                        return new Date(start.latestUpdate).getTime() - new Date(end.latestUpdate).getTime()
                     })
                 return {
                     success: true,
-                    message: "Get online Success",
+                    message: `Get ${status} Success`,
                     data: response
                 }
             } else {
@@ -210,6 +212,26 @@ export default [
                     success: false,
                     message: "Get failed..."
                 }
+            }
+        }
+    },
+    {
+        //修改測值(初版)
+        url: '/modify/value',
+        method: 'get',
+        response: ({ query }: any) => {
+            console.log(query)
+            const { id, TMP, HUM, PM25 } = query
+            data.forEach(el => {
+                if (el.id === id) {
+                    el.value['TMP'] = TMP
+                    el.value['HUM'] = HUM
+                    el.value['PM25'] = PM25
+                }
+            })
+            return {
+                success: true,
+                message: 'value modify success'
             }
         }
     },

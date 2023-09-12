@@ -1,7 +1,5 @@
+#基底映像檔，必需是「第一個」指令行，指定這個映像檔要以哪一個Image為基底來建構
 FROM node:18.12.1
-
-# install simple http server for serving static content
-# RUN npm install -g http-server
 
 # make the 'app' folder the current working directory
 WORKDIR /app
@@ -20,6 +18,7 @@ COPY . .
 
 EXPOSE 5173
 
+#設定映像檔啟動為Container時預設要執行的指令
 CMD ["npm", "run","serve" ]
 
 

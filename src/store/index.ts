@@ -19,7 +19,8 @@ export const useCounter = defineStore('counter', {
         // increment() {
         //     this.count++
         // }
-    }
+    },
+    persist: true
 })
 type formConfig = {
     form: any[]
@@ -36,8 +37,6 @@ export const useForm = defineStore('inspectForm', {
                 address
             })
         },
-        remove(index: number) {
-            this.form.slice(0, index)
-        }
-    }
+    },
+    persist: false
 })

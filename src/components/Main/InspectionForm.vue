@@ -5,9 +5,6 @@
             <li v-for="(i, idx) in FormList" :key="i" :class="`${currentPage === idx ? 'active' : ''}`"
                 @click="currentPage = idx">
                 <span> {{ i.id }}</span>
-                <el-icon size="20" @click="form.remove(idx)" class="hover:bg-red-500">
-                    <Close class="hover:text-white" />
-                </el-icon>
             </li>
         </ul>
         <div class="wrapper">
@@ -51,6 +48,9 @@
         <el-button icon="select" type="primary" @click="submit">
             <span class="font-bold">送出</span>
         </el-button>
+        <el-button icon="close" type="danger" @click="removeForm">
+            <span class="font-bold">全部清除</span>
+        </el-button>
     </template>
 </template>
 <script setup lang="ts">
@@ -69,7 +69,7 @@ onMounted(() => {
             address: form.form[key]['address'],
             user: store.userName,
             status: "online",
-            date: ""
+            latestUpdate: ""
         })
     }
 })
@@ -86,6 +86,12 @@ const addForm = () => {
         })
     }
 }
+const removeForm = () => {
+    FormList.length = 0
+    form.$patch({
+        form: []
+    })
+}
 const submit = () => {
     app?.$axios('/modify', { method: "POST", data: FormList })
         .then((res: any) => {
@@ -98,6 +104,7 @@ const submit = () => {
         })
         .catch((err: any) => console.log(err))
 }
+
 </script>
 <style scoped lang="scss">
 $border-color: #a7a5a5;
