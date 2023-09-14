@@ -73,6 +73,7 @@
 </template>
 <script setup lang="ts">
 import { reactive, ref, getCurrentInstance } from "vue"
+import { ElMessage } from 'element-plus'
 const app = getCurrentInstance()?.appContext.config.globalProperties
 const isLoading = ref(false)
 const isSearch = ref(false)
@@ -103,7 +104,7 @@ const search = () => {
                 isSearch.value = true
             })
     } else {
-        alert("地區不能為空")
+        ElMessage.error("請輸入查詢地區")
     }
 }
 const modify = (type: number, id: "") => {

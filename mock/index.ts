@@ -104,6 +104,7 @@ export default [
                 res.end(`${JSON.stringify(data)}`, "utf-8")
                 //RD...可以修改資料
             } else if (acc === 'rd' && psw === '123') {
+                
                 res.statusCode = 200
                 res.setHeader('Content-Type', 'application/json')
                 data = {
@@ -125,11 +126,11 @@ export default [
                 }
                 res.end(`${JSON.stringify(data)}`, "utf-8")
             } else {
-                res.statusCode = 404
+                res.statusCode = 200
                 res.setHeader('Content-Type', 'application/json')
                 data = {
                     success: false,
-                    message: "Login failed !!"
+                    message: "Login failed"
                 }
                 res.end(`${JSON.stringify(data)}`, "utf-8")
             }

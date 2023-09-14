@@ -5,14 +5,6 @@
       <template v-slot:icon>
         <component :is="i.icon" />
       </template>
-      <template v-slot:map>
-        <div class="w-full h-[900px] md:h-[400px] lg:h-[700px]">
-          <!-- <LMap ref="map" :zoom="15" :center="[22.63151, 120.30132]">
-            <LTileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" layer-type="base" name="OpenStreetMap" />
-            <LMarker :lat-lng="[22.63151, 120.30132]"></LMarker>
-          </LMap> -->
-        </div>
-      </template>
     </Card>
   </div>
   <div class="panel-group">
@@ -67,7 +59,6 @@ onMounted(() => {
   fetchData()
 })
 const fetchData = () => {
-  //延遲預覽
   const online = app?.$axios('/device/online')
   const disconnect = app?.$axios("/device/disconnect")
   const abnormal = app?.$axios("/device/abnormal")

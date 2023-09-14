@@ -5,10 +5,10 @@
         <el-icon size="40" color="#fff">
           <Avatar />
         </el-icon>
-        <div class="text-white">Hi，{{ userName }}</div>
+        <div class="text-white">Hi，{{ loginStore.userName }}</div>
       </div>
       <ul class="flex md:flex-col md:py-4">
-        <li class="link" v-for="R in routeList" :key="R.name">
+        <li class="link" v-for="R in loginStore.data" :key="R.name">
           <router-link :to="R.path">
             <el-icon :size="20">
               <Paperclip />
@@ -28,16 +28,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useCounter } from '../store'
+import { useLoginStore } from '../store'
 const route = useRoute()
 const router = useRouter()
-const store = useCounter()
-let routeList = reactive<any>([])
-let userName = ref("")
-routeList = store.item
-userName.value = store.userName
+const loginStore = useLoginStore()
 </script>
 <style scoped lang="scss">
 $side-color: #130e76;

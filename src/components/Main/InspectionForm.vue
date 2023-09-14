@@ -55,10 +55,10 @@
 </template>
 <script setup lang="ts">
 import { reactive, ref, getCurrentInstance, onMounted } from 'vue';
-import { useCounter, useForm } from '../../store'
+import { useLoginStore, useForm } from '../../store'
 const app = getCurrentInstance()?.appContext.config.globalProperties
 const currentPage = ref(0)
-const store = useCounter()
+const loginStore = useLoginStore()
 const form = useForm()
 let FormList = reactive<any[]>([])
 onMounted(() => {
@@ -67,7 +67,7 @@ onMounted(() => {
             id: form.form[key]['id'],
             city: form.form[key]['city'],
             address: form.form[key]['address'],
-            user: store.userName,
+            user: loginStore.userName,
             status: "online",
             latestUpdate: ""
         })
@@ -80,7 +80,7 @@ const addForm = () => {
             id,
             city: "",
             address: "",
-            user: store.userName,
+            user: loginStore.userName,
             status: "online",
             latestUpdate: ""
         })

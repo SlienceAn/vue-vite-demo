@@ -40,6 +40,7 @@
 import { reactive, ref, getCurrentInstance } from "vue";
 import Table from "./Table.vue";
 import { useForm } from '../store'
+import { ElMessage } from 'element-plus'
 const app = getCurrentInstance()?.appContext.config.globalProperties
 const isLoading = ref(false)
 const head = reactive<string[]>(["設備ID", "設備縣市", "設備地址", "開始日期"])
@@ -66,7 +67,7 @@ const search = () => {
             console.log(data.length)
         })
     } else {
-        alert("請輸入日期")
+        ElMessage.error("請輸入日期")
     }
 }
 // const isDisable = (idx: number): boolean => {

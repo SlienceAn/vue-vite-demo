@@ -22,39 +22,17 @@
   </div>
 </template>
 <script setup lang="ts">
-//response type
-type response = {
-  success: boolean,
-  userName: string,
-  message: string,
-  data: any
-}
-import { reactive, getCurrentInstance } from "vue";
+import { reactive } from "vue";
+import { useLoginStore } from "../store"
 import { useRouter } from "vue-router";
-import { useCounter } from "../store"
-
-const app = getCurrentInstance()?.appContext.config.globalProperties;
+const loginStore = useLoginStore()
 const router = useRouter()
-const store = useCounter()
 const user = reactive({
   account: "rd",
   password: "123"
 })
 const login = () => {
-  console.log("WWW")
-  app?.$axios('/login', { method: "POST", data: user }).then((res: any) => {
-    const data: response = res.data
-    if (data.success) {
-      store.$patch({
-        userName: data.userName,
-        item: data.data,
-      })
-      console.log("test")
-      router.push("/Main/Information")
-    } else {
-      alert("帳號密碼錯誤")
-    }
-  })
+  loginStore.postLogin('/login', { method: "POST", data: user })
+  if (loginStore.success) router.push('Main/Information')
 }
 </script>
-<style scoped lang="scss"></style>
