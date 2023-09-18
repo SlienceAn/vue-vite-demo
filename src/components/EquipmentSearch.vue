@@ -43,7 +43,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="py-1 text-center">
+                    <div v-if="loginStore.isPremission" class="py-1 text-center">
                         <el-button type="info" plain @click="modify(0, i.id)">修改測值</el-button>
                     </div>
                 </div>
@@ -74,10 +74,12 @@
 <script setup lang="ts">
 import { reactive, ref, getCurrentInstance } from "vue"
 import { ElMessage } from 'element-plus'
+import { useLoginStore } from '../store'
 const app = getCurrentInstance()?.appContext.config.globalProperties
 const isLoading = ref(false)
 const isSearch = ref(false)
 const isDialog = ref(false)
+const loginStore = useLoginStore()
 const params = reactive({
     city: "台北"
 })

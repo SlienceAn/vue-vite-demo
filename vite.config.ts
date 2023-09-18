@@ -33,21 +33,6 @@ export default defineConfig((config) => {
       },
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
     },
-    server: {
-      open: true,
-      host: '0.0.0.0',
-      port: 3000,
-      // proxy: {
-      //   '/api': {
-      //     target: 'WWW.WWW',
-      //     ws: true,
-      //     changeOrigin: true
-      //   }
-      // }
-    },
-    build: {
-      outDir: 'dist'
-    },
     esbuild: {
       drop: mode === 'production' ? ['console', 'debugger'] : []
     }

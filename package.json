@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "eslintInit": "eslint --init",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "analysis": "windicss-analysis"
+    "analysis": "windicss-analysis",
+    "push":"git push https://github.com/SlienceAn/vue-vite-demo.git"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",

@@ -91,6 +91,7 @@ export default [
                 data = {
                     success: true,
                     userName: "PM",
+                    isPremission:false,
                     message: "PM Login Success !",
                     data: [{
                         path: "/Main/Information",
@@ -110,6 +111,7 @@ export default [
                 data = {
                     success: true,
                     userName: "RD",
+                    isPremission:true,
                     message: "PM Login Success !",
                     data: [{
                         path: "/Main/Information",

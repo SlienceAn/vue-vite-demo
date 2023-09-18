@@ -25,7 +25,7 @@
     <CircleLoading v-if="isLoading && data.length === 0" />
     <Panel v-if="data.length && !isLoading">
         <Table :head="head" :data="data">
-            <template #column="{ id, city, address }">
+            <template v-if="loginStore.isPremission" #column="{ id, city, address }">
                 <td>
                     <el-button type="info" icon="Edit" @click="form.add(id, city, address)" :disabled="false">
                         加入表單
@@ -39,12 +39,13 @@
 <script setup lang="ts">
 import { reactive, ref, getCurrentInstance } from "vue";
 import Table from "./Table.vue";
-import { useForm } from '../store'
+import { useForm, useLoginStore } from '../store'
 import { ElMessage } from 'element-plus'
 const app = getCurrentInstance()?.appContext.config.globalProperties
 const isLoading = ref(false)
 const head = reactive<string[]>(["設備ID", "設備縣市", "設備地址", "開始日期"])
 const form = useForm()
+const loginStore = useLoginStore()
 let data = reactive([])
 const params = reactive({
     dateTime: "",
@@ -70,10 +71,6 @@ const search = () => {
         ElMessage.error("請輸入日期")
     }
 }
-// const isDisable = (idx: number): boolean => {
-//     console.log(idx)
-//     return false
-// }
 </script>
 
 <style scoped lang="scss"></style>

@@ -25,6 +25,7 @@
 import { reactive } from "vue";
 import { useLoginStore } from "../store"
 import { useRouter } from "vue-router";
+
 const loginStore = useLoginStore()
 const router = useRouter()
 const user = reactive({
@@ -33,6 +34,9 @@ const user = reactive({
 })
 const login = () => {
   loginStore.postLogin('/login', { method: "POST", data: user })
-  if (loginStore.success) router.push('Main/Information')
+  loginStore.$subscribe((m, s) => {
+    console.log(m)
+    if (s.success) router.push('Main/Information')
+  })
 }
 </script>

@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { AxiosRequestConfig } from 'axios'
 import { useAxios } from '@vueuse/integrations/useAxios'
 import { ElMessage } from 'element-plus'
-import { useRound } from '@vueuse/math'
 
 //調用 $patch 方法。它允許您使用部分 “state” 物件同時應用多個更改：
 //調用 $reset 方法，將狀態重置到其初始值
@@ -12,6 +11,7 @@ type loginResponse = {
     success: boolean,
     userName: string,
     message: string,
+    isPremission: boolean,
     data: any
 }
 
@@ -21,22 +21,24 @@ export const useLoginStore = defineStore('loginStore', {
         userName: "",
         success: false,
         data: [],
-        message: ''
+        message: '',
+        isPremission: false
     }),
     actions: {
         async postLogin(url: string, config: AxiosRequestConfig = {}) {
             const { data: response } = await useAxios(url, config)
-            const { success, userName, data } = response.value
+            const { success, userName, data, isPremission } = response.value
+            this.success = success
             if (success) {
                 this.userName = userName
                 this.data = data
-                this.success = success
+                this.isPremission = isPremission
             } else {
-                this.success = false
                 ElMessage.error('登入失敗，帳號密碼錯誤')
             }
         }
-    }
+    },
+    persist: true
 })
 //設備資訊
 export const useInformation = defineStore('information', {
@@ -54,20 +56,19 @@ export const useInformation = defineStore('information', {
             this.onlineData = onlineData.value['data']
             this.disconnectData = disconnectData.value['data']
             this.abnormalData = abnormalData.value['data']
-            
             this.isLoading = false
         }
     },
     getters: {
-    //     disconnect: (state) => {
-    //         const arr = state.disconnectData.map((el: any, idx: number, arr: any[]) => {
-    //             const dayDiff = new Date().getTime() - new Date(el['latestUpdate']).getTime()
-    //             arr[idx]['total'] = useRound(dayDiff / 1000 / 60 / 60 / 24)
-    //             return arr
-    //         })
-    //         console.log(arr)
-    //         return arr
-    //     },
+        //     disconnect: (state) => {
+        //         const arr = state.disconnectData.map((el: any, idx: number, arr: any[]) => {
+        //             const dayDiff = new Date().getTime() - new Date(el['latestUpdate']).getTime()
+        //             arr[idx]['total'] = useRound(dayDiff / 1000 / 60 / 60 / 24)
+        //             return arr
+        //         })
+        //         console.log(arr)
+        //         return arr
+        //     },
     }
 })
 export const useCounter = defineStore('counter', {
