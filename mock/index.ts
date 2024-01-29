@@ -95,11 +95,13 @@ export default [
                     message: "PM Login Success !",
                     data: [{
                         path: "/Main/Information",
-                        name: "設備資訊"
+                        name: "設備資訊",
+                        icon:"mti-Info"
                     },
                     {
                         path: "/Main/Query",
-                        name: "設備查詢"
+                        name: "設備查詢",
+                        icon:"mti-QueryStats"
                     }]
                 }
                 res.end(`${JSON.stringify(data)}`, "utf-8")
@@ -115,15 +117,18 @@ export default [
                     message: "PM Login Success !",
                     data: [{
                         path: "/Main/Information",
-                        name: "設備資訊"
+                        name: "設備資訊",
+                        icon:"mti-Info"
                     },
                     {
                         path: "/Main/Query",
-                        name: "設備查詢"
+                        name: "設備查詢",
+                        icon:"mti-QueryStats"
                     },
                     {
                         path: "/Main/InspectionForm",
-                        name: "巡檢表單"
+                        name: "巡檢表單",
+                        icon:"mti-Description"
                     }]
                 }
                 res.end(`${JSON.stringify(data)}`, "utf-8")

@@ -9,16 +9,7 @@
         <slot name="icon"></slot>
       </el-icon>
     </div>
-    <!-- <div class="card-footer p-2 gap-2 flex justify-center items-center hover:cursor-pointer">
-      <span class="text-sm">Google Map</span>
-      <el-icon color="red" size="20">
-        <LocationFilled />
-      </el-icon>
-    </div> -->
   </div>
-  <!-- <el-dialog v-model="dialogToggle" :title="title" width="70%" top="2vh">
-    <slot name="map" />
-  </el-dialog> -->
 </template>
 <script setup lang="ts">
 
@@ -27,7 +18,6 @@ defineProps<{
   message: string | number;
   color: string;
 }>();
-// const dialogToggle = ref(false)
 </script>
 <style scoped lang="scss">
 .card {

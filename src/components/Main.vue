@@ -1,38 +1,34 @@
 <template>
   <div class="flex flex-col md:flex-row bg-[#f3f3f3] min-h-full">
     <div class="side">
-      <div class="text-center hidden p-4 md:block border-b border-gray-500">
-        <el-icon size="40" color="#fff">
-          <Avatar />
-        </el-icon>
-        <div class="text-white">Hi，{{ loginStore.userName }}</div>
+      <div class="h-64px border-b border-gray-500">
       </div>
-      <ul class="flex md:flex-col md:py-4">
-        <li class="link" v-for="R in loginStore.data" :key="R.name">
-          <router-link :to="R.path">
-            <el-icon :size="20">
-              <Paperclip />
-            </el-icon>
-            <span>{{ R.name }}</span>
-          </router-link>
-        </li>
-      </ul>
+      <el-scrollbar class="h-[calc(100%-64px)]">
+        <ul class="flex md:flex-col md:py-4 h-[calc(100%-64px)]">
+          <li class="link" v-for="R in loginStore.data" :key="R.name">
+            <router-link :to="R.path">
+              <component :is='R.icon'/>
+              <span>{{ R.name }}</span>
+            </router-link>
+          </li>
+        </ul>
+      </el-scrollbar>
     </div>
-    <div class="main-content px-4 py-2">
-      <nav class="navbar">
-        <h4 class="font-bold text-xl">{{ route.name }}</h4>
-        <el-button type="danger" @click="() => router.push('/')">登出</el-button>
-      </nav>
-      <router-view />
+    <div class="main-content px-4">
+      <el-header class="navbar !pl-0">
+        <span class="font-bold text-lg border">{{ }}</span>
+      </el-header>
+      <el-main class="!px-0">
+        <router-view />
+      </el-main>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router'
-import { useLoginStore } from '../store'
-const route = useRoute()
-const router = useRouter()
 const loginStore = useLoginStore()
+const { data } = storeToRefs(loginStore)
+console.log(loginStore)
+console.log(data.value)
 </script>
 <style scoped lang="scss">
 $side-color: #130e76;
@@ -41,8 +37,8 @@ $side-color: #130e76;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 64px;
   border-bottom: 1px solid #000;
-  @apply w-full mb-4 py-2
 }
 
 .side {

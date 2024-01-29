@@ -59,9 +59,10 @@ onMounted(() => {
   fetchData()
 })
 const fetchData = () => {
+  //js try catch 捕捉API錯誤----fix
   const online = app?.$axios('/device/online')
   const disconnect = app?.$axios("/device/disconnect")
-  const abnormal = app?.$axios("/device/abnormal")
+  const abnormal = app?.$axios("/device/abnormalssss")
   Promise.all([disconnect, abnormal, online]).then((res: any[]) => {
     const { data: disData } = res[0]['data']
     const { data: abData } = res[1]['data']

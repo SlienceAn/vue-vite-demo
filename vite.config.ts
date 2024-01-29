@@ -3,14 +3,67 @@ import vue from '@vitejs/plugin-vue'
 import WindiCSS from 'vite-plugin-windicss'
 import path from 'path'
 import { viteMockServe } from 'vite-plugin-mock'
+import AutoImport from 'unplugin-auto-import/vite'
+import AutoImportComponents from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import IconsResolver from 'unplugin-icons/resolver'
+import Icons from 'unplugin-icons/vite'
+import {FileSystemIconLoader } from 'unplugin-icons/loaders'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 
+// import iconsPlugin from 'unplugin-icons/vite'
 // https://vitejs.dev/config/
 export default defineConfig((config) => {
   const { mode } = config
   return {
     plugins: [
       vue(),
+      vueJsx(),
       WindiCSS(),
+      AutoImport({
+        include: [
+          /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+          /\.vue$/, /\.vue\?vue/, // .vue
+        ],
+        imports: [
+          'vue',
+          'vue-router',
+          '@vueuse/core',
+          'pinia'
+        ],
+        dirs: [
+          './src/store'
+        ],
+        dts: './auto-imports.d.ts',
+        vueTemplate: false,
+        eslintrc: {
+          enabled: true,
+          filepath: './.eslintrc-auto-import.json',
+          globalsPropValue: true,
+        }
+      }),
+      AutoImportComponents({
+        dirs: [path.resolve(__dirname, '/src/components')],
+        deep: true,
+        extensions: ['vue'],
+        resolvers: [
+          ElementPlusResolver(),
+          IconsResolver({
+            customCollections: [
+              'custom',
+            ]
+          })
+        ],
+        allowOverrides:false,
+        // filters for transforming targets
+        include: [/\.vue$/, /\.vue\?vue/, /\.[tj]sx?$/],
+        exclude: [/[\\/]node_modules[\\/]/, /[\\/]\.git[\\/]/, /[\\/]\.nuxt[\\/]/],
+      }),
+      //導入icon集
+      Icons({
+        customCollections:{
+          custom:FileSystemIconLoader(path.resolve(__dirname, '/src/components'))
+        }}),
       //mock api config
       viteMockServe({
         mockPath: './mock',

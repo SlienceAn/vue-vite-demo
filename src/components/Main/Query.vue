@@ -11,6 +11,7 @@
 import { computed, defineAsyncComponent, ref } from 'vue'
 const isSwtich = ref(true)
 //動態載入Components
+//模組或組件多才考慮使用defineAsyncComponent
 const searchCate = computed(() => isSwtich.value ?
     defineAsyncComponent(() => import("../EquipmentSearch.vue")) :
     defineAsyncComponent(() => import("../EventSearch.vue")))

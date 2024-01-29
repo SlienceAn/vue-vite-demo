@@ -75,6 +75,7 @@
 import { reactive, ref, getCurrentInstance } from "vue"
 import { ElMessage } from 'element-plus'
 import { useLoginStore } from '../store'
+//note
 const app = getCurrentInstance()?.appContext.config.globalProperties
 const isLoading = ref(false)
 const isSearch = ref(false)
