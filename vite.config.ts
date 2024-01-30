@@ -11,7 +11,6 @@ import Icons from 'unplugin-icons/vite'
 import {FileSystemIconLoader } from 'unplugin-icons/loaders'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 
-// import iconsPlugin from 'unplugin-icons/vite'
 // https://vitejs.dev/config/
 export default defineConfig((config) => {
   const { mode } = config

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { AxiosRequestConfig } from 'axios'
 import { useAxios } from '@vueuse/integrations/useAxios'
+import { httpRequest } from '../api/api'
 import { ElMessage } from 'element-plus'
 
 //調用 $patch 方法。它允許您使用部分 “state” 物件同時應用多個更改：
@@ -40,35 +41,74 @@ export const useLoginStore = defineStore('loginStore', {
     },
     persist: true
 })
+
+interface informationConfig {
+    isLoading: boolean
+    onlineData: Array<{
+        [Key: string]: string | number
+    }>
+    disconnectData: Array<{
+        [Key: string]: string | number
+    }>
+    abnormalData: Array<{
+        [Key: string]: string | number
+    }>
+}
 //設備資訊
 export const useInformation = defineStore('information', {
-    state: (): any => ({
+    state: (): informationConfig => ({
         isLoading: true,
         onlineData: [],
-        disconnectData: null,
+        disconnectData: [],
         abnormalData: [],
     }),
     actions: {
-        async getInformation() {
-            const { data: onlineData } = await useAxios('/device/online')
-            const { data: disconnectData } = await useAxios('/device/disconnect')
-            const { data: abnormalData } = await useAxios('/device/abnormal')
-            this.onlineData = onlineData.value['data']
-            this.disconnectData = disconnectData.value['data']
-            this.abnormalData = abnormalData.value['data']
-            this.isLoading = false
+        async getAbnormal() {
+            const data = await httpRequest('/device/abnormal')
+            this.abnormalData = data
+        },
+        async getDisconnect() {
+            const data = await httpRequest('/device/disconnect')
+            this.disconnectData = data
+        },
+        async getOnline() {
+            const data = await httpRequest('/device/online')
+            this.onlineData = data
         }
     },
     getters: {
-        //     disconnect: (state) => {
-        //         const arr = state.disconnectData.map((el: any, idx: number, arr: any[]) => {
-        //             const dayDiff = new Date().getTime() - new Date(el['latestUpdate']).getTime()
-        //             arr[idx]['total'] = useRound(dayDiff / 1000 / 60 / 60 / 24)
-        //             return arr
-        //         })
-        //         console.log(arr)
-        //         return arr
-        //     },
+        countList: (state) => {
+            return [
+                {
+                    title: "總機台數量",
+                    type: "Total",
+                    message: state.onlineData.length + state.disconnectData.length + state.abnormalData.length,
+                    icon: "InfoFilled",
+                    color: "blue",
+                },
+                {
+                    title: "已連線",
+                    type: "online",
+                    message: state.onlineData.length,
+                    icon: "SuccessFilled",
+                    color: "green",
+                },
+                {
+                    title: "連線異常",
+                    type: "abnormal",
+                    message: state.abnormalData.length,
+                    icon: "WarningFilled",
+                    color: "orange",
+                },
+                {
+                    title: "已斷線",
+                    type: "disconnect",
+                    message: state.disconnectData.length,
+                    icon: "CircleCloseFilled",
+                    color: "red",
+                }
+            ]
+        }
     }
 })
 export const useCounter = defineStore('counter', {

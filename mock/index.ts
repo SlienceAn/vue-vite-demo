@@ -1,7 +1,6 @@
 import { MockMethod } from 'vite-plugin-mock'
 import { faker } from "@faker-js/faker/locale/zh_TW"
 import dayjs from 'dayjs';
-
 const { location, date } = faker
 type Data = {
     id: string
@@ -107,7 +106,6 @@ export default [
                 res.end(`${JSON.stringify(data)}`, "utf-8")
                 //RD...可以修改資料
             } else if (acc === 'rd' && psw === '123') {
-                
                 res.statusCode = 200
                 res.setHeader('Content-Type', 'application/json')
                 data = {
@@ -170,7 +168,7 @@ export default [
             } else {
                 return {
                     success: true,
-                    message: "Get online Success",
+                    message: "Get all data success",
                     data
                 }
             }

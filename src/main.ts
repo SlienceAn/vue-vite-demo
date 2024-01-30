@@ -10,7 +10,7 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/display.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import { useAxios } from './api/api'
+import { httpRequest } from './api/api'
 import { LMap, LTileLayer, LMarker } from "@vue-leaflet/vue-leaflet"
 import { createProdMockServer } from 'vite-plugin-mock/es/createProdMockServer'
 import mock from '../mock'
@@ -41,7 +41,7 @@ for (const icon in materialIcons) {
 }
 
 //掛載全局
-app.config.globalProperties.$axios = useAxios
+app.config.globalProperties.$axios = httpRequest
 app.config.globalProperties.$day = dayjs
 
 //載入全部icons

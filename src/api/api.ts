@@ -1,35 +1,40 @@
+import axios from 'axios'
 import { AxiosRequestConfig } from 'axios'
-import { useAxios as x } from '@vueuse/integrations/useAxios'
+import { ElMessage } from 'element-plus'
 
-// const baseURL = "http://localhost:5173";
-
-export const useAxios = async (url: string, config: AxiosRequestConfig = {}) => {
-    //攔截請求
-    // axios.interceptors.request.use(config => {
-    //     console.log("request =>", config)
-    //     return config
-    // }, error => {
-    //     return Promise.reject(error)
-    // })
-    //攔截回應
-    // axios.interceptors.response.use(response => {
-    //     console.log("response =>", response.data)
-    //     return response.data
-    // }, error => {
-    //     return Promise.reject(error);
-    // })
-
-    //初始化值
-    // const state = reactive({
-    //     loading: false,
-    //     error: false,
-    //     data: []
-    // })
-    const { data, isFinished, isLoading } = await x(url, config)
-
-    return {
-        data: data.value,
-        isFinished: isFinished.value,
-        isLoading: isLoading.value
-    }
+export const httpRequest = (url: string, config: AxiosRequestConfig = {}) => {
+    // 攔截請求
+    axios.interceptors.request.use(config => {
+        Object.assign(config.headers, { headers: 'headers-test-fgo' })
+        // console.log("config header =>", config.headers)
+        return config
+    }, error => {
+        return Promise.reject(error)
+    })
+    // 攔截回應
+    axios.interceptors.response.use(response => {
+        return response.data
+    }, error => {
+        return Promise.reject(error);
+    })
+    return new Promise<any>((resolve, reject) => {
+        axios({
+            url,
+            ...config
+        }).then(response => {
+            resolve(response.data)
+            ElMessage({
+                showClose: true,
+                message: 'request success',
+                type: 'success'
+            })
+        }).catch(error => {
+            reject(error)
+            ElMessage({
+                showClose: true,
+                message: 'Error, please check !!',
+                type: 'error'
+            })
+        })
+    })
 }

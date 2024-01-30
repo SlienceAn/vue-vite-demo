@@ -5,9 +5,9 @@
       </div>
       <el-scrollbar class="h-[calc(100%-64px)]">
         <ul class="flex md:flex-col md:py-4 h-[calc(100%-64px)]">
-          <li class="link" v-for="R in loginStore.data" :key="R.name">
+          <li class="link" v-for="R in data" :key="R.name">
             <router-link :to="R.path">
-              <component :is='R.icon'/>
+                <component :is='R.icon' class="text-2xl"/>
               <span>{{ R.name }}</span>
             </router-link>
           </li>
@@ -27,11 +27,9 @@
 <script setup lang="ts">
 const loginStore = useLoginStore()
 const { data } = storeToRefs(loginStore)
-console.log(loginStore)
-console.log(data.value)
 </script>
 <style scoped lang="scss">
-$side-color: #130e76;
+$side-color: #464647;
 
 .navbar {
   display: flex;
