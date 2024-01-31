@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 import { AxiosRequestConfig } from 'axios'
-import { useAxios } from '@vueuse/integrations/useAxios'
 import { httpRequest } from '../api/api'
-import { ElMessage } from 'element-plus'
+import router from '../router'
+
 
 //調用 $patch 方法。它允許您使用部分 “state” 物件同時應用多個更改：
 //調用 $reset 方法，將狀態重置到其初始值
@@ -26,22 +26,16 @@ export const useLoginStore = defineStore('loginStore', {
         isPremission: false
     }),
     actions: {
-        async postLogin(url: string, config: AxiosRequestConfig = {}) {
-            const { data: response } = await useAxios(url, config)
-            const { success, userName, data, isPremission } = response.value
-            this.success = success
-            if (success) {
-                this.userName = userName
-                this.data = data
-                this.isPremission = isPremission
-            } else {
-                ElMessage.error('登入失敗，帳號密碼錯誤')
-            }
+        async postLogin(config: AxiosRequestConfig = {}) {
+            const data = await httpRequest('/login', config)
+            this.data = data
+            if (this.data.success) router.replace('/Main/information')
         }
     },
     persist: true
 })
 
+//設備資訊
 interface informationConfig {
     isLoading: boolean
     onlineData: Array<{
@@ -54,7 +48,6 @@ interface informationConfig {
         [Key: string]: string | number
     }>
 }
-//設備資訊
 export const useInformation = defineStore('information', {
     state: (): informationConfig => ({
         isLoading: true,
@@ -65,15 +58,15 @@ export const useInformation = defineStore('information', {
     actions: {
         async getAbnormal() {
             const data = await httpRequest('/device/abnormal')
-            this.abnormalData = data
+            this.abnormalData = data.data
         },
         async getDisconnect() {
             const data = await httpRequest('/device/disconnect')
-            this.disconnectData = data
+            this.disconnectData = data.data
         },
         async getOnline() {
             const data = await httpRequest('/device/online')
-            this.onlineData = data
+            this.onlineData = data.data
         }
     },
     getters: {
@@ -110,25 +103,6 @@ export const useInformation = defineStore('information', {
             ]
         }
     }
-})
-export const useCounter = defineStore('counter', {
-    state: () => {
-        return {
-            userName: "",
-            status: "",
-            item: [],
-            isChange: false
-        }
-    },
-    getters: {
-        // doubleCount: (state) => state.count * 2
-    },
-    actions: {
-        // increment() {
-        //     this.count++
-        // }
-    },
-    persist: true
 })
 type formConfig = {
     form: any[]

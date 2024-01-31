@@ -1,6 +1,6 @@
 <template>
   <div class="card-group">
-    <Card v-for="i in countList" :key="i" :title="i.title" :message="i.message" :color="i.color">
+    <Card v-for="i in countList" :key="i.title" :title="i.title" :message="i.message" :color="i.color">
       <template v-slot:icon>
         <component :is="i.icon" />
       </template>
@@ -14,15 +14,13 @@
       <Table :head="tableHead" :data="disconnectData" />
     </Panel>
   </div>
-  {{ disconnectData }}
-  {{ onlineData }}
 </template>
 <script setup lang="ts">
 import Card from "../Card.vue";
 import Panel from "../Panel.vue";
 import Table from "../Table.vue";
 const informationStore = useInformation()
-const { abnormalData, disconnectData, countList,onlineData } = storeToRefs(informationStore)
+const { abnormalData, disconnectData, countList } = storeToRefs(informationStore)
 const tableHead = reactive<string[]>(['設備ID', '設備縣市', '設備地址', '開始日期', '累積(天)'])
 onMounted(() => {
   informationStore.getAbnormal()

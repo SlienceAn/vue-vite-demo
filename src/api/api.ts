@@ -13,7 +13,7 @@ export const httpRequest = (url: string, config: AxiosRequestConfig = {}) => {
     })
     // 攔截回應
     axios.interceptors.response.use(response => {
-        return response.data
+        return response
     }, error => {
         return Promise.reject(error);
     })
@@ -21,13 +21,15 @@ export const httpRequest = (url: string, config: AxiosRequestConfig = {}) => {
         axios({
             url,
             ...config
-        }).then(response => {
+        }).then(response => { 
             resolve(response.data)
-            ElMessage({
-                showClose: true,
-                message: 'request success',
-                type: 'success'
-            })
+            if (config.method) {
+                ElMessage({
+                    showClose: true,
+                    message: 'request success',
+                    type: 'success'
+                })
+            }
         }).catch(error => {
             reject(error)
             ElMessage({

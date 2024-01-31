@@ -1,57 +1,51 @@
 <template>
-  <div class="flex flex-col md:flex-row bg-[#f3f3f3] min-h-full">
-    <div class="side">
-      <div class="h-64px border-b border-gray-500">
+  <el-container class="h-full">
+    <el-aside class="side">
+      <div class="h-64px items-center flex gap-2 px-4 border-solid border-b-1px">
+        <i-material-symbols-onsen class="text-4xl text-green-700"/>
+        <span>Vue3-Demo</span>
       </div>
-      <el-scrollbar class="h-[calc(100%-64px)]">
-        <ul class="flex md:flex-col md:py-4 h-[calc(100%-64px)]">
-          <li class="link" v-for="R in data" :key="R.name">
-            <router-link :to="R.path">
-                <component :is='R.icon' class="text-2xl"/>
-              <span>{{ R.name }}</span>
-            </router-link>
-          </li>
-        </ul>
-      </el-scrollbar>
-    </div>
-    <div class="main-content px-4">
-      <el-header class="navbar !pl-0">
-        <span class="font-bold text-lg border">{{ }}</span>
+      <el-menu router>
+        <el-menu-item v-for="R in data.data" :key="R.name" :index="R.path">
+          <component :is='R.icon' class="text-xl" />
+          <span>{{ R.name }}</span>
+        </el-menu-item>
+      </el-menu>
+    </el-aside>
+    <el-container>
+      <el-header class="navbar">
+        <span class="font-bold text-lg">{{ $route.name }}</span>
+        <el-button circle :icon="Right" type="primary" @click="SignUp" />
       </el-header>
-      <el-main class="!px-0">
+      <el-main class="bg-[#E4E7ED]">
         <router-view />
       </el-main>
-    </div>
-  </div>
+    </el-container>
+  </el-container>
 </template>
 <script setup lang="ts">
+import { Right } from '@element-plus/icons-vue'
+import router from '../router';
 const loginStore = useLoginStore()
 const { data } = storeToRefs(loginStore)
+const SignUp = () => router.replace('/')
 </script>
 <style scoped lang="scss">
-$side-color: #464647;
-
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 64px;
-  border-bottom: 1px solid #000;
+  @apply flex justify-between items-center h-64px;
+  border-bottom: 1px solid #bdbcbc;
 }
-
 .side {
-  background-color: $side-color;
-  width: 100%;
-  @apply md: w-1/6 min-h-full;
+  @apply w-full md: w-1/6 font-bold bg-white  min-h-full border-solid border-r-1px border-r-[#E4E7ED];
 }
 
 .main-content {
   @apply h-full md: w-5/6;
 }
-
-.link a {
-  display: flex;
-  align-items: center;
-  @apply w-full text-white p-3 gap-5 hover: bg-[#f3f3f3] hover:text-blue-900 hover:font-bold;
+:deep(.el-menu-item){
+  @apply gap-3;
+}
+.is-active{
+  @apply bg-[#ECF5FF] text-[#409EFF] border-solid border-r-4px border-r-[#409EFF];
 }
 </style>

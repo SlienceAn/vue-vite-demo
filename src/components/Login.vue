@@ -14,7 +14,7 @@
       </div>
       <div class="flex gap-3 justify-center">
         <button class="px-10 btn bg-blue-700 hover:bg-blue-900" @click="login">
-         <i-material-symbols-add/>登入
+          <i-material-symbols-add />登入
         </button>
         <!-- <button class="btn bg-red-700 hover:bg-red-900">Sign up</button> -->
       </div>
@@ -23,15 +23,9 @@
 </template>
 <script setup lang="tsx">
 const loginStore = useLoginStore()
-const { success } = storeToRefs(loginStore)
-const router = useRouter()
 const user = reactive({
   account: "rd",
   password: "123"
 })
-const login = () => {
-  loginStore.postLogin('/login', { method: "POST", data: user })
-  console.log('success', success.value)
-  if (success.value) router.push('Main/Information')
-}
+const login = () => loginStore.postLogin({ method: "POST", data: user })
 </script>
