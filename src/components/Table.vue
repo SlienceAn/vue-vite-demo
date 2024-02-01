@@ -1,63 +1,32 @@
 <template>
-    <div class="flex items-center justify-end gap-2 px-2 py-1">
-        <span>每頁顯示</span>
-        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500"
-            v-model="showCount">
-            <option :value="5">5</option>
-            <option :value="10">10</option>
-            <option :value="20">20</option>
-            <option :value="30">30</option>
-        </select>
-        <span>筆</span>
-    </div>
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th v-for="i in head" :key="i" scope="col">{{ i }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="(i, idx) in showData" :key="i">
-                <td class="font-bold">{{ (idx + 1) + ((page - 1) * showCount) }}</td>
-                <td v-for="g in i" :key="g">{{ g }}</td>
-                <slot name="column" :id="i.id" :city="i.city" :address="i.address"
-                    :idx="idx + ((page - 1) * showCount)" />
-            </tr>
-        </tbody>
-    </table>
-    <div class="page-group flex gap-1 px-3 py-2 hover:cursor-pointer">
-        <button class="page-btn" @click="page--" :disabled="page === 1">
-            <el-icon :size="20">
-                <CaretLeft />
-            </el-icon>
-        </button>
-        <span :class="`page ${page === i ? 'page-active' : ''}`" v-for="i in pageCount" :key="i" @click="currentPage(i)">{{
-            i }}</span>
-        <button class="page-btn" @click="page++" :disabled="page === pageCount">
-            <el-icon :size="20">
-                <CaretRight />
-            </el-icon>
-        </button>
-    </div>
+    <el-table :data="attrs.data" height="300" class="border border-gray-400 rounded-md" stripe border>
+        <el-table-column type="index" :index="1" label="#" width="50" align="center" />
+        <el-table-column prop="id" label="設備ID" width="100" />
+        <el-table-column prop="city" label="縣市" width="100" />
+        <el-table-column prop="address" label="詳細地址" />
+        <el-table-column prop="latestUpdate" label="最後更新時間" width="150" />
+    </el-table>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue"
-const props = defineProps<{ head: string[], data: any[] }>()
-
-//頁數
-const page = ref<number>(1)
-//每頁顯示的數量，預設5筆
-const showCount = ref<number>(10)
-//顯示資料
-const showData = computed<any[]>(() => props.data.slice(showCount.value * (page.value - 1), showCount.value + showCount.value * (page.value - 1)))
-//頁碼總數
-const pageCount = computed<number>(() => Math.ceil(props.data.length / showCount.value))
-//選擇頁數
-const currentPage = (p: number) => {
-    page.value = p;
-}
+const props = defineProps<{
+    tableColumn: Array<any>
+}>()
+const attrs = useAttrs()
+console.log('attrs', attrs)
+console.log('props', props)
+// //頁數
+// const page = ref<number>(1)
+// //每頁顯示的數量，預設5筆
+// const showCount = ref<number>(10)
+// //顯示資料
+// const showData = computed<any[]>(() => props.data.slice(showCount.value * (page.value - 1), showCount.value + showCount.value * (page.value - 1)))
+// //頁碼總數
+// const pageCount = computed<number>(() => Math.ceil(props.data.length / showCount.value))
+// //選擇頁數
+// const currentPage = (p: number) => {
+//     page.value = p;
+// }
 
 </script>
 

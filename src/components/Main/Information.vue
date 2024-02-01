@@ -6,22 +6,22 @@
       </template>
     </Card>
   </div>
-  <div class="panel-group">
-    <Panel v-if="abnormalData.length !== 0" header="連線異常">
-      <Table :head="tableHead" :data="abnormalData" />
-    </Panel>
-    <Panel v-if="disconnectData.length !== 0" header="已斷線">
-      <Table :head="tableHead" :data="disconnectData" />
-    </Panel>
+  <div class="flex flex-col gap-2">
+    <Table :data="abnormalData" :table-column="tableColumn" />
+    <Table :data="disconnectData" :table-column="tableColumn" />
   </div>
 </template>
 <script setup lang="ts">
 import Card from "../Card.vue";
-import Panel from "../Panel.vue";
 import Table from "../Table.vue";
 const informationStore = useInformation()
 const { abnormalData, disconnectData, countList } = storeToRefs(informationStore)
-const tableHead = reactive<string[]>(['設備ID', '設備縣市', '設備地址', '開始日期', '累積(天)'])
+const tableColumn = [
+  { label: '設備ID', prop: 'id', width: '100' },
+  { label: '縣市', prop: 'city', width: '100' },
+  { label: '詳細地址', prop: 'address' },
+  { label: '最後更新時間', prop: 'latestUpdate', width: '150' },
+]
 onMounted(() => {
   informationStore.getAbnormal()
   informationStore.getDisconnect()
@@ -30,12 +30,6 @@ onMounted(() => {
 </script>
 <style scoped lang="scss">
 .card-group {
-  @apply flex gap-4 mb-4 flex-col md: flex-row;
-}
-
-.panel-group {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  @apply flex gap-2 mb-2 flex-col md: flex-row;
 }
 </style>

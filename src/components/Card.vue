@@ -1,9 +1,9 @@
 <template>
-  <div class="card">
-    <div class="card-body p-4 flex justify-between items-center">
+  <div class="card rounded-md">
+    <div class="card-body py-2 px-4 flex justify-between items-center">
       <div>
-        <h4>{{ title }}</h4>
-        <div class="font-bold text-4xl">{{ message }}<sub class="text-xs"> / 台</sub> </div>
+        <span>{{ title }}</span>
+        <div class="font-bold text-4xl mt-4">{{ message }}<sub class="text-xs"> / 台</sub> </div>
       </div>
       <el-icon :size="40" :color="color">
         <slot name="icon"></slot>

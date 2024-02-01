@@ -12,7 +12,6 @@ type Data = {
     latestUpdate: string
     status: string
 }
-
 //生成ID
 const generateID = () => {
     const id = Math.random().toString().substring(2, 6)
@@ -52,7 +51,7 @@ const statusRandom = (): string => {
 // }
 //All Fake Data
 const data: Data[] = []
-for (let i = 0; i < 300; i++) {
+for (let i = 0; i < 700; i++) {
     data.push({
         id: generateID(),
         city: location.city(),
@@ -90,17 +89,17 @@ export default [
                 data = {
                     success: true,
                     userName: "PM",
-                    isPremission:false,
+                    isPremission: false,
                     message: "PM Login Success !",
                     data: [{
                         path: "/Main/Information",
                         name: "設備資訊",
-                        icon:"mti-Info"
+                        icon: "mti-Info"
                     },
                     {
                         path: "/Main/Query",
                         name: "設備查詢",
-                        icon:"mti-QueryStats"
+                        icon: "mti-QueryStats"
                     }]
                 }
                 res.end(`${JSON.stringify(data)}`, "utf-8")
@@ -111,22 +110,22 @@ export default [
                 data = {
                     success: true,
                     userName: "RD",
-                    isPremission:true,
+                    isPremission: true,
                     message: "PM Login Success !",
                     data: [{
                         path: "/Main/Information",
                         name: "設備資訊",
-                        icon:"mti-Info"
+                        icon: "mti-Info"
                     },
                     {
                         path: "/Main/Query",
                         name: "設備查詢",
-                        icon:"mti-QueryStats"
+                        icon: "mti-QueryStats"
                     },
                     {
                         path: "/Main/InspectionForm",
                         name: "巡檢表單",
-                        icon:"mti-Description"
+                        icon: "mti-Description"
                     }]
                 }
                 res.end(`${JSON.stringify(data)}`, "utf-8")
@@ -138,6 +137,19 @@ export default [
                     message: "Login failed"
                 }
                 res.end(`${JSON.stringify(data)}`, "utf-8")
+            }
+        }
+    },
+    {
+        url: '/city',
+        method: 'get',
+        response: () => {
+            const city = new Set(data.map(el => el.city))
+            console.log('city,',city)
+            return {
+                success: true,
+                message: "get city data",
+                data:city
             }
         }
     },

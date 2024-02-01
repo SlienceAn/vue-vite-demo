@@ -32,6 +32,7 @@ declare module 'vue' {
     Form: typeof import('./src/components/Form.vue')['default']
     IMaterialSymbolsAdd: typeof import('~icons/material-symbols/add')['default']
     IMaterialSymbolsHome: typeof import('~icons/material-symbols/home')['default']
+    IMaterialSymbolsMenu: typeof import('~icons/material-symbols/menu')['default']
     IMaterialSymbolsOnsen: typeof import('~icons/material-symbols/onsen')['default']
     IMaterialSymbolsPackage: typeof import('~icons/material-symbols/package')['default']
     IMaterialSymbolsStar: typeof import('~icons/material-symbols/star')['default']

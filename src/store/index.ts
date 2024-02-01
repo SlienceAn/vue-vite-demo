@@ -1,24 +1,36 @@
 import { defineStore } from 'pinia'
-import { AxiosRequestConfig } from 'axios'
 import { httpRequest } from '../api/api'
 import router from '../router'
-
-
-//調用 $patch 方法。它允許您使用部分 “state” 物件同時應用多個更改：
+//調用 $patch 方法。它允許您使用部分 “state” 物件同時應用多個更改
 //調用 $reset 方法，將狀態重置到其初始值
 //state推薦使用 完整類型推斷的箭頭函數
 
+
+export const useGlobalStore = defineStore('globalStore', {
+    state: () => ({
+        citylist: [],
+    }),
+    actions: {
+        async getCity() {
+            const data = await httpRequest('/city')
+            this.citylist = data.data
+        }
+    }
+})
+//登入
 type loginResponse = {
+    account: string,
+    password: string,
     success: boolean,
     userName: string,
     message: string,
     isPremission: boolean,
     data: any
 }
-
-//登入
 export const useLoginStore = defineStore('loginStore', {
     state: (): loginResponse => ({
+        account: 'rd',
+        password: '123',
         userName: "",
         success: false,
         data: [],
@@ -26,8 +38,8 @@ export const useLoginStore = defineStore('loginStore', {
         isPremission: false
     }),
     actions: {
-        async postLogin(config: AxiosRequestConfig = {}) {
-            const data = await httpRequest('/login', config)
+        async postLogin() {
+            const data = await httpRequest('/login', { method: 'POST', data: { account: this.account, password: this.password } })
             this.data = data
             if (this.data.success) router.replace('/Main/information')
         }
@@ -38,6 +50,9 @@ export const useLoginStore = defineStore('loginStore', {
 //設備資訊
 interface informationConfig {
     isLoading: boolean
+    allData: Array<{
+        [Key: string]: string | number
+    }>
     onlineData: Array<{
         [Key: string]: string | number
     }>
@@ -51,11 +66,16 @@ interface informationConfig {
 export const useInformation = defineStore('information', {
     state: (): informationConfig => ({
         isLoading: true,
+        allData: [],
         onlineData: [],
         disconnectData: [],
         abnormalData: [],
     }),
     actions: {
+        async getAll() {
+            const data = await httpRequest('/device')
+            this.allData = data.data
+        },
         async getAbnormal() {
             const data = await httpRequest('/device/abnormal')
             this.abnormalData = data.data
@@ -77,7 +97,7 @@ export const useInformation = defineStore('information', {
                     type: "Total",
                     message: state.onlineData.length + state.disconnectData.length + state.abnormalData.length,
                     icon: "InfoFilled",
-                    color: "blue",
+                    color: "info",
                 },
                 {
                     title: "已連線",

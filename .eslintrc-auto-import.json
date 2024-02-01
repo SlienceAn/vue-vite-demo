@@ -309,6 +309,7 @@
     "ExtractPublicPropTypes": true,
     "WritableComputedRef": true,
     "useForm": true,
-    "useInformation": true
+    "useInformation": true,
+    "usedDD": true
   }
 }
