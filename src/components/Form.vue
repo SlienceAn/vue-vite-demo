@@ -19,13 +19,13 @@
     </form>
 </template>
 <script setup lang="ts">
-import { reactive } from "vue"
+import { reactive } from 'vue'
 
 const data = reactive({
-    id: "",
-    location: "",
-    user: "",
-    date: ""
+    id: '',
+    location: '',
+    user: '',
+    date: ''
 })
 defineExpose({
     data

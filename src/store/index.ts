@@ -31,7 +31,7 @@ export const useLoginStore = defineStore('loginStore', {
     state: (): loginResponse => ({
         account: 'rd',
         password: '123',
-        userName: "",
+        userName: '',
         success: false,
         data: [],
         message: '',
@@ -93,32 +93,32 @@ export const useInformation = defineStore('information', {
         countList: (state) => {
             return [
                 {
-                    title: "總機台數量",
-                    type: "Total",
+                    title: '總機台數量',
+                    type: 'Total',
                     message: state.onlineData.length + state.disconnectData.length + state.abnormalData.length,
-                    icon: "InfoFilled",
-                    color: "info",
+                    icon: 'InfoFilled',
+                    color: 'info',
                 },
                 {
-                    title: "已連線",
-                    type: "online",
+                    title: '已連線',
+                    type: 'online',
                     message: state.onlineData.length,
-                    icon: "SuccessFilled",
-                    color: "green",
+                    icon: 'SuccessFilled',
+                    color: 'green',
                 },
                 {
-                    title: "連線異常",
-                    type: "abnormal",
+                    title: '連線異常',
+                    type: 'abnormal',
                     message: state.abnormalData.length,
-                    icon: "WarningFilled",
-                    color: "orange",
+                    icon: 'WarningFilled',
+                    color: 'orange',
                 },
                 {
-                    title: "已斷線",
-                    type: "disconnect",
+                    title: '已斷線',
+                    type: 'disconnect',
                     message: state.disconnectData.length,
-                    icon: "CircleCloseFilled",
-                    color: "red",
+                    icon: 'CircleCloseFilled',
+                    color: 'red',
                 }
             ]
         }

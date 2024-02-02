@@ -23,11 +23,11 @@ defineProps<{
 .card {
   background: #fff;
   box-shadow: 0 1px 20px 0 rgba(10, 166, 239, 0.08);
-  @apply w-full border border-gray-400;
+  @apply w-full border border-gray-100;
 
   &-footer {
     border-top: 1px solid;
-    @apply border-gray-400;
+    @apply border-gray-100;
   }
 }
 </style>

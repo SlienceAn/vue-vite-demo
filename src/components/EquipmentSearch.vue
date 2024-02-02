@@ -72,7 +72,7 @@
     </el-dialog>
 </template>
 <script setup lang="ts">
-import { reactive, ref, getCurrentInstance } from "vue"
+import { reactive, ref, getCurrentInstance } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useLoginStore } from '../store'
 //note
@@ -82,13 +82,13 @@ const isSearch = ref(false)
 const isDialog = ref(false)
 const loginStore = useLoginStore()
 const params = reactive({
-    city: "台北"
+    city: '台北'
 })
 const modifyValue = reactive({
-    id: "",
-    TMP: "",
-    HUM: "",
-    PM25: ""
+    id: '',
+    TMP: '',
+    HUM: '',
+    PM25: ''
 })
 let data = reactive<any[]>([])
 const checkValue = (value: number) => {
@@ -100,23 +100,23 @@ const search = () => {
     const { city } = params
     if (city) {
         isLoading.value = true
-        app?.$axios("/query", { params: { ...params, type: 'equipment' } })
+        app?.$axios('/query', { params: { ...params, type: 'equipment' } })
             .then((res: any) => {
                 data = res.data.data
                 isLoading.value = false
                 isSearch.value = true
             })
     } else {
-        ElMessage.error("請輸入查詢地區")
+        ElMessage.error('請輸入查詢地區')
     }
 }
-const modify = (type: number, id: "") => {
+const modify = (type: number, id: '') => {
     if (type === 0) {
         isDialog.value = true
         modifyValue.id = id
     }
     if (type === 1) {
-        app?.$axios("/modify/value", { params: { ...modifyValue } }).then(() => isDialog.value = false)
+        app?.$axios('/modify/value', { params: { ...modifyValue } }).then(() => isDialog.value = false)
     }
 }
 </script>

@@ -68,21 +68,21 @@ onMounted(() => {
             city: form.form[key]['city'],
             address: form.form[key]['address'],
             user: loginStore.userName,
-            status: "online",
-            latestUpdate: ""
+            status: 'online',
+            latestUpdate: ''
         })
     }
 })
 const addForm = () => {
-    const id = prompt("請輸入設備ID")
+    const id = prompt('請輸入設備ID')
     if (id) {
         FormList.push({
             id,
-            city: "",
-            address: "",
+            city: '',
+            address: '',
             user: loginStore.userName,
-            status: "online",
-            latestUpdate: ""
+            status: 'online',
+            latestUpdate: ''
         })
     }
 }
@@ -93,7 +93,7 @@ const removeForm = () => {
     })
 }
 const submit = () => {
-    app?.$axios('/modify', { method: "POST", data: FormList })
+    app?.$axios('/modify', { method: 'POST', data: FormList })
         .then((res: any) => {
             if (res.data === 'success') {
                 FormList.length = 0

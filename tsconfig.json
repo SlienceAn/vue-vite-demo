@@ -22,8 +22,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
     "types": [
-      "element-plus/global"
+      "element-plus/global",
+      "unplugin-icons/types/vue"
     ]
   },
   "include": [
@@ -34,6 +36,7 @@
     "src/mockProdServer.js",
     "./auto-imports.d.ts"
   ],
+  "exclude": ["dist", "node_modules"],
   "references": [
     {
       "path": "./tsconfig.node.json"

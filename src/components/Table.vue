@@ -1,38 +1,29 @@
 <template>
-    <el-table :data="attrs.data" height="300" class="border border-gray-400 rounded-md" stripe border>
-        <el-table-column type="index" :index="1" label="#" width="50" align="center" />
-        <el-table-column prop="id" label="設備ID" width="100" />
-        <el-table-column prop="city" label="縣市" width="100" />
-        <el-table-column prop="address" label="詳細地址" />
-        <el-table-column prop="latestUpdate" label="最後更新時間" width="150" />
-    </el-table>
+    <div class="bg-white border border-gray-200 rounded-md">
+        <el-table :data="attrs.data" height="300" stripe border highlight-current-row>
+            <el-table-column type="index" :index="1" label="#" width="50" align="center" />
+            <el-table-column v-for="col in tableColumn" :key="col.prop" :prop="col.prop" :label="col.label"
+                :width="col.width" />
+            <template #empty>
+                <el-empty description="無資料" :image-size="100" />
+            </template>
+        </el-table>
+        <div class="py-4 flex justify-center items-center border border-t-gray-100">
+            <el-pagination background small layout="prev, pager, next" :total="100" />
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
     tableColumn: Array<any>
 }>()
-const attrs = useAttrs()
-console.log('attrs', attrs)
-console.log('props', props)
-// //頁數
-// const page = ref<number>(1)
-// //每頁顯示的數量，預設5筆
-// const showCount = ref<number>(10)
-// //顯示資料
-// const showData = computed<any[]>(() => props.data.slice(showCount.value * (page.value - 1), showCount.value + showCount.value * (page.value - 1)))
-// //頁碼總數
-// const pageCount = computed<number>(() => Math.ceil(props.data.length / showCount.value))
-// //選擇頁數
-// const currentPage = (p: number) => {
-//     page.value = p;
-// }
-
+const attrs: any = useAttrs()
 </script>
 
 <style scoped lang="scss">
 table {
-    @apply w-full text-sm text-left text-gray-500;
+    @apply w-full text-sm text-left text-dark-500;
 
     thead {
 
@@ -57,7 +48,9 @@ table {
         }
     }
 }
-
+:deep(.el-table thead){
+    @apply text-black text-16px bg-dark-700;
+}
 .page {
     @apply border border-gray-400 rounded-md px-3 py-1;
 

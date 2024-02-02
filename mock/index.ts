@@ -1,5 +1,5 @@
 import { MockMethod } from 'vite-plugin-mock'
-import { faker } from "@faker-js/faker/locale/zh_TW"
+import { faker } from '@faker-js/faker/locale/zh_TW'
 import dayjs from 'dayjs';
 const { location, date } = faker
 type Data = {
@@ -15,7 +15,7 @@ type Data = {
 //生成ID
 const generateID = () => {
     const id = Math.random().toString().substring(2, 6)
-    const upperChars = []
+    const upperChars: string[] = []
     for (let i = 65; i < 91; i++) {
         upperChars.push(String.fromCharCode(i))
     }
@@ -27,13 +27,13 @@ const statusRandom = (): string => {
     let status = '';
     switch (code) {
         case 0:
-            status = "online"
+            status = 'online'
             break;
         case 1:
-            status = "disconnect"
+            status = 'disconnect'
             break;
         case 2:
-            status = "abnormal"
+            status = 'abnormal'
             break;
     }
     return status
@@ -63,7 +63,7 @@ for (let i = 0; i < 700; i++) {
             HUM: Math.floor(Math.random() * 100),
             PM25: Math.floor(Math.random() * 100)
         },
-        latestUpdate: dayjs(date.past()).format("YYYY-MM-DD HH:mm"),
+        latestUpdate: dayjs(date.past()).format('YYYY-MM-DD HH:mm'),
         status: statusRandom()
     })
 }
@@ -88,55 +88,55 @@ export default [
                 res.setHeader('Content-Type', 'application/json')
                 data = {
                     success: true,
-                    userName: "PM",
+                    userName: 'PM',
                     isPremission: false,
-                    message: "PM Login Success !",
+                    message: 'PM Login Success !',
                     data: [{
-                        path: "/Main/Information",
-                        name: "設備資訊",
-                        icon: "mti-Info"
+                        path: '/Main/Information',
+                        name: '設備資訊',
+                        icon: 'mti-Info'
                     },
                     {
-                        path: "/Main/Query",
-                        name: "設備查詢",
-                        icon: "mti-QueryStats"
+                        path: '/Main/Query',
+                        name: '設備查詢',
+                        icon: 'mti-QueryStats'
                     }]
                 }
-                res.end(`${JSON.stringify(data)}`, "utf-8")
+                res.end(`${JSON.stringify(data)}`, 'utf-8')
                 //RD...可以修改資料
             } else if (acc === 'rd' && psw === '123') {
                 res.statusCode = 200
                 res.setHeader('Content-Type', 'application/json')
                 data = {
                     success: true,
-                    userName: "RD",
+                    userName: 'RD',
                     isPremission: true,
-                    message: "PM Login Success !",
+                    message: 'PM Login Success !',
                     data: [{
-                        path: "/Main/Information",
-                        name: "設備資訊",
-                        icon: "mti-Info"
+                        path: '/Main/Information',
+                        name: '設備資訊',
+                        icon: 'mti-Info'
                     },
                     {
-                        path: "/Main/Query",
-                        name: "設備查詢",
-                        icon: "mti-QueryStats"
+                        path: '/Main/Query',
+                        name: '設備查詢',
+                        icon: 'mti-QueryStats'
                     },
                     {
-                        path: "/Main/InspectionForm",
-                        name: "巡檢表單",
-                        icon: "mti-Description"
+                        path: '/Main/InspectionForm',
+                        name: '巡檢表單',
+                        icon: 'mti-Description'
                     }]
                 }
-                res.end(`${JSON.stringify(data)}`, "utf-8")
+                res.end(`${JSON.stringify(data)}`, 'utf-8')
             } else {
                 res.statusCode = 200
                 res.setHeader('Content-Type', 'application/json')
                 data = {
                     success: false,
-                    message: "Login failed"
+                    message: 'Login failed'
                 }
-                res.end(`${JSON.stringify(data)}`, "utf-8")
+                res.end(`${JSON.stringify(data)}`, 'utf-8')
             }
         }
     },
@@ -145,18 +145,18 @@ export default [
         method: 'get',
         response: () => {
             const city = new Set(data.map(el => el.city))
-            console.log('city,',city)
+            // console.log('city,',city)
             return {
                 success: true,
-                message: "get city data",
-                data:city
+                message: 'get city data',
+                data: city
             }
         }
     },
     {
         //設備資訊
         url: '/device/:status',
-        method: "get",
+        method: 'get',
         response: ({ query }: any) => {
             if (Object.keys(query).length !== 0) {
                 const { status } = query
@@ -180,7 +180,7 @@ export default [
             } else {
                 return {
                     success: true,
-                    message: "Get all data success",
+                    message: 'Get all data success',
                     data
                 }
             }
@@ -189,7 +189,7 @@ export default [
     {
         //查詢分類
         url: '/query',
-        method: "get",
+        method: 'get',
         response: ({ query }: any) => {
             const { type } = query
             if (type === 'equipment') {
@@ -197,7 +197,7 @@ export default [
                 city = city.replace('台', '臺')
                 return {
                     success: true,
-                    message: "Get success!",
+                    message: 'Get success!',
                     data: data.filter(el => el.city.includes(city))
                 }
             } else if (type === 'event') {
@@ -222,13 +222,13 @@ export default [
                 })
                 return {
                     success: true,
-                    message: "Get success!",
+                    message: 'Get success!',
                     data: result
                 }
             } else {
                 return {
                     success: false,
-                    message: "Get failed..."
+                    message: 'Get failed...'
                 }
             }
         }
@@ -280,7 +280,7 @@ export default [
             })
             res.statusCode = 200
             res.setHeader('Content-Type', 'application/json')
-            res.end(`success`, "utf-8")
+            res.end('success', 'utf-8')
         }
     },
 ] as MockMethod[]

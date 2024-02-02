@@ -1,3 +1,4 @@
+// Menu 用到的 icon
 export { default as Home } from '~icons/material-symbols/home'
 export { default as Info } from '~icons/material-symbols/info'
 export { default as QueryStats } from '~icons/material-symbols/query-stats'

@@ -14,9 +14,8 @@
       </div>
       <div class="flex gap-3 justify-center">
         <button class="px-10 btn bg-blue-700 hover:bg-blue-900" @click="login">
-          <i-material-symbols-add />登入
+          登入
         </button>
-        <!-- <button class="btn bg-red-700 hover:bg-red-900">Sign up</button> -->
       </div>
     </form>
   </div>
