@@ -145,7 +145,6 @@ export default [
         method: 'get',
         response: () => {
             const city = new Set(data.map(el => el.city))
-            // console.log('city,',city)
             return {
                 success: true,
                 message: 'get city data',
@@ -158,30 +157,24 @@ export default [
         url: '/device/:status',
         method: 'get',
         response: ({ query }: any) => {
-            if (Object.keys(query).length !== 0) {
-                const { status } = query
-                let response: any[] = [];
-                response = data.filter(el => el['status'] === status)
-                    .map(el => {
-                        return {
-                            id: el['id'],
-                            city: el['city'],
-                            address: el['address'],
-                            latestUpdate: el['latestUpdate'],
-                        }
-                    }).sort((start, end) => {
-                        return new Date(start.latestUpdate).getTime() - new Date(end.latestUpdate).getTime()
-                    })
+            const { status } = query
+            if (status !== 'all') {
                 return {
                     success: true,
                     message: `Get ${status} Success`,
-                    data: response
+                    data: data
+                        .filter(el => el['status'] === status)
+                        .sort((start, end) => {
+                            return new Date(start.latestUpdate).getTime() - new Date(end.latestUpdate).getTime()
+                        })
                 }
             } else {
                 return {
                     success: true,
-                    message: 'Get all data success',
-                    data
+                    message: 'Get All Success',
+                    data: data.sort((start, end) => {
+                        return new Date(start.latestUpdate).getTime() - new Date(end.latestUpdate).getTime()
+                    })
                 }
             }
         }

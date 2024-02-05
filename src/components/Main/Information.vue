@@ -1,39 +1,34 @@
 <template>
   <div class="card-group">
-    <Card v-for="i in countList" :key="i.title" :title="i.title" :message="i.message" :color="i.color">
+    <Card v-for="i in countList" :key="i.title" :title="i.title" :message="i.message" :color="i.color"
+      @click="fetchData(i.type)">
       <template v-slot:icon>
         <component :is="i.icon" />
       </template>
     </Card>
   </div>
   <div>
-    <div class="inner-header flex items-center justify-between">
-      <el-checkbox-group>
-        <el-checkbox label="連線異常" border />
-        <el-checkbox label="已斷線" border />
-        <el-checkbox label="已連線" border />
-      </el-checkbox-group>
-        <el-date-picker class="w-200px" type="daterange" range-separator="-" start-placeholder="Start date" end-placeholder="End date" />
-    </div>
-    <Table :data="abnormalData" :table-column="tableColumn" />
+    <Table :data="data" :table-column="tableColumn" />
   </div>
 </template>
 <script setup lang="ts">
 import Card from '../Card.vue';
 import Table from '../Table.vue';
 const informationStore = useInformation()
-const { abnormalData, countList } = storeToRefs(informationStore)
+const { data, countList, status } = storeToRefs(informationStore)
 const tableColumn = [
-  { label: '設備ID', prop: 'id', width: '100' },
-  { label: '縣市', prop: 'city', width: '100' },
+  { label: '設備ID', prop: 'id', width: '100', align: 'center' },
+  { label: '縣市', prop: 'city', width: '100', align: 'center' },
   { label: '詳細地址', prop: 'address' },
   { label: '最後更新時間', prop: 'latestUpdate', width: '150' },
 ]
 onMounted(() => {
-  informationStore.getAbnormal()
-  informationStore.getDisconnect()
-  informationStore.getOnline()
+  informationStore.getAll()
 })
+const fetchData = (val: string) => {
+  informationStore.$patch({ status: val })
+  informationStore[`get${status.value}`]()
+}
 </script>
 <style scoped lang="scss">
 .card-group {

@@ -50,77 +50,70 @@ export const useLoginStore = defineStore('loginStore', {
 //設備資訊
 interface informationConfig {
     isLoading: boolean
-    allData: Array<{
-        [Key: string]: string | number
-    }>
-    onlineData: Array<{
-        [Key: string]: string | number
-    }>
-    disconnectData: Array<{
-        [Key: string]: string | number
-    }>
-    abnormalData: Array<{
-        [Key: string]: string | number
-    }>
+    status: string
+    data: Array<any>
 }
 export const useInformation = defineStore('information', {
     state: (): informationConfig => ({
         isLoading: true,
-        allData: [],
-        onlineData: [],
-        disconnectData: [],
-        abnormalData: [],
+        status: 'All',
+        data: [],
     }),
     actions: {
         async getAll() {
-            const data = await httpRequest('/device')
-            this.allData = data.data
+            const data = await httpRequest('/device/all')
+            this.data = data.data
         },
         async getAbnormal() {
             const data = await httpRequest('/device/abnormal')
-            this.abnormalData = data.data
+            this.data = data.data
         },
         async getDisconnect() {
             const data = await httpRequest('/device/disconnect')
-            this.disconnectData = data.data
+            this.data = data.data
         },
         async getOnline() {
             const data = await httpRequest('/device/online')
-            this.onlineData = data.data
+            this.data = data.data
         }
     },
     getters: {
         countList: (state) => {
-            return [
-                {
-                    title: '總機台數量',
-                    type: 'Total',
-                    message: state.onlineData.length + state.disconnectData.length + state.abnormalData.length,
-                    icon: 'InfoFilled',
-                    color: 'info',
-                },
-                {
-                    title: '已連線',
-                    type: 'online',
-                    message: state.onlineData.length,
-                    icon: 'SuccessFilled',
-                    color: 'green',
-                },
-                {
-                    title: '連線異常',
-                    type: 'abnormal',
-                    message: state.abnormalData.length,
-                    icon: 'WarningFilled',
-                    color: 'orange',
-                },
-                {
-                    title: '已斷線',
-                    type: 'disconnect',
-                    message: state.disconnectData.length,
-                    icon: 'CircleCloseFilled',
-                    color: 'red',
-                }
-            ]
+            let data: any[];
+            if (state.status === 'All') {
+                data = state.data
+                return [
+                    {
+                        title: '總機台數量',
+                        type: 'All',
+                        message: data.length,
+                        icon: 'InfoFilled',
+                        color: 'info',
+                    },
+                    {
+                        title: '已連線',
+                        type: 'Online',
+                        message: data.filter(el => el['status'] === 'online').length,
+                        icon: 'SuccessFilled',
+                        color: 'green'
+                    },
+                    {
+                        title: '連線異常',
+                        type: 'Abnormal',
+                        message: data.filter(el => el['status'] === 'abnormal').length,
+                        icon: 'WarningFilled',
+                        color: 'orange',
+                    },
+                    {
+                        title: '已斷線',
+                        type: 'Disconnect',
+                        message: data.filter(el => el['status'] === 'disconnect').length,
+                        icon: 'CircleCloseFilled',
+                        color: 'red',
+                    }
+                ]
+            }
+
         }
     }
 })

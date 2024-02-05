@@ -1,9 +1,9 @@
 <template>
-    <div class="bg-white border border-gray-200 rounded-md">
+    <div class="bg-white rounded-md">
         <el-table :data="attrs.data" height="300" stripe border highlight-current-row>
             <el-table-column type="index" :index="1" label="#" width="50" align="center" />
             <el-table-column v-for="col in tableColumn" :key="col.prop" :prop="col.prop" :label="col.label"
-                :width="col.width" />
+                :width="col.width" :align="col.align" />
             <template #empty>
                 <el-empty description="無資料" :image-size="100" />
             </template>
@@ -48,9 +48,16 @@ table {
         }
     }
 }
-:deep(.el-table thead){
-    @apply text-black text-16px bg-dark-700;
+.el-table {
+	--el-table-bg-color: transparent;
+	--el-table-header-bg-color: #F5F9FF;
+    // --el-table-header-text-color: white;
+	--el-bg-color: transparent;
 }
+:deep(.el-table thead) {
+    @apply text-15px;
+}
+
 .page {
     @apply border border-gray-400 rounded-md px-3 py-1;
 
@@ -70,5 +77,5 @@ table {
             @apply border-gray-300 text-gray-300;
         }
     }
-}
+} 
 </style>

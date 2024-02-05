@@ -23,7 +23,7 @@ defineProps<{
 .card {
   background: #fff;
   box-shadow: 0 1px 20px 0 rgba(10, 166, 239, 0.08);
-  @apply w-full border border-gray-100;
+  @apply w-full border border-gray-100 hover:cursor-pointer hover:border hover:border-solid hover:border-gray-400;
 
   &-footer {
     border-top: 1px solid;
