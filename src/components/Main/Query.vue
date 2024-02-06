@@ -1,11 +1,17 @@
 <template>
-    <div class="group">
-        <span :class="`switch ${isSwtich ? 'switch-active' : ''}`" @click="isSwtich = true">設備查詢</span>
-        <span :class="`switch ${!isSwtich ? 'switch-active' : ''}`" @click="isSwtich = false">事件查詢</span>
-    </div>
-    <div class="py-5">
-        <component :is="searchCate" />
-    </div>
+  <div class="group">
+    <span
+      :class="`switch ${isSwtich ? 'switch-active' : ''}`"
+      @click="isSwtich = true"
+    >設備查詢</span>
+    <span
+      :class="`switch ${!isSwtich ? 'switch-active' : ''}`"
+      @click="isSwtich = false"
+    >事件查詢</span>
+  </div>
+  <div class="py-5">
+    <component :is="searchCate" />
+  </div>
 </template>
 <script setup lang="ts">
 import { computed, defineAsyncComponent, ref } from 'vue'
@@ -13,8 +19,8 @@ const isSwtich = ref(true)
 //動態載入Components
 //模組或組件多才考慮使用defineAsyncComponent
 const searchCate = computed(() => isSwtich.value ?
-    defineAsyncComponent(() => import('../EquipmentSearch.vue')) :
-    defineAsyncComponent(() => import('../EventSearch.vue')))
+  defineAsyncComponent(() => import('../EquipmentSearch.vue')) :
+  defineAsyncComponent(() => import('../EventSearch.vue')))
 </script>
 <style scoped lang="scss">
 $triangle-width: 13px;

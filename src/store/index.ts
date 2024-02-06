@@ -7,15 +7,15 @@ import router from '../router'
 
 
 export const useGlobalStore = defineStore('globalStore', {
-    state: () => ({
-        citylist: [],
-    }),
-    actions: {
-        async getCity() {
-            const data = await httpRequest('/city')
-            this.citylist = data.data
-        }
+  state: () => ({
+    citylist: [],
+  }),
+  actions: {
+    async getCity() {
+      const data = await httpRequest('/city')
+      this.citylist = data.data
     }
+  }
 })
 //登入
 type loginResponse = {
@@ -28,23 +28,23 @@ type loginResponse = {
     data: any
 }
 export const useLoginStore = defineStore('loginStore', {
-    state: (): loginResponse => ({
-        account: 'rd',
-        password: '123',
-        userName: '',
-        success: false,
-        data: [],
-        message: '',
-        isPremission: false
-    }),
-    actions: {
-        async postLogin() {
-            const data = await httpRequest('/login', { method: 'POST', data: { account: this.account, password: this.password } })
-            this.data = data
-            if (this.data.success) router.replace('/Main/information')
-        }
-    },
-    persist: true
+  state: (): loginResponse => ({
+    account: 'rd',
+    password: '123',
+    userName: '',
+    success: false,
+    data: [],
+    message: '',
+    isPremission: false
+  }),
+  actions: {
+    async postLogin() {
+      const data = await httpRequest('/login', { method: 'POST', data: { account: this.account, password: this.password } })
+      this.data = data
+      if (this.data.success) router.replace('/Main/information')
+    }
+  },
+  persist: true
 })
 
 //設備資訊
@@ -52,86 +52,73 @@ interface informationConfig {
     isLoading: boolean
     status: string
     data: Array<any>
+    countList: Array<any>
 }
 export const useInformation = defineStore('information', {
-    state: (): informationConfig => ({
-        isLoading: true,
-        status: 'All',
-        data: [],
-    }),
-    actions: {
-        async getAll() {
-            const data = await httpRequest('/device/all')
-            this.data = data.data
+  state: (): informationConfig => ({
+    isLoading: true,
+    status: '',
+    data: [],
+    countList: []
+  }),
+  actions: {
+    async getAll() {
+      const data = await httpRequest('/device?page=1&size=5')
+      this.data = data.data
+      this.countList = [
+        {
+          title: '總機台數量',
+          type: 'all',
+          message: data.data.length,
+          icon: 'InfoFilled',
+          color: 'info',
         },
-        async getAbnormal() {
-            const data = await httpRequest('/device/abnormal')
-            this.data = data.data
+        {
+          title: '已連線',
+          type: 'online',
+          message: data.data.filter(el => el['status'] === 'online').length,
+          icon: 'SuccessFilled',
+          color: 'green'
         },
-        async getDisconnect() {
-            const data = await httpRequest('/device/disconnect')
-            this.data = data.data
+        {
+          title: '連線異常',
+          type: 'abnormal',
+          message: data.data.filter(el => el['status'] === 'abnormal').length,
+          icon: 'WarningFilled',
+          color: 'orange',
         },
-        async getOnline() {
-            const data = await httpRequest('/device/online')
-            this.data = data.data
+        {
+          title: '已斷線',
+          type: 'disconnect',
+          message: data.data.filter(el => el['status'] === 'disconnect').length,
+          icon: 'CircleCloseFilled',
+          color: 'red',
         }
+      ]
     },
-    getters: {
-        countList: (state) => {
-            let data: any[];
-            if (state.status === 'All') {
-                data = state.data
-                return [
-                    {
-                        title: '總機台數量',
-                        type: 'All',
-                        message: data.length,
-                        icon: 'InfoFilled',
-                        color: 'info',
-                    },
-                    {
-                        title: '已連線',
-                        type: 'Online',
-                        message: data.filter(el => el['status'] === 'online').length,
-                        icon: 'SuccessFilled',
-                        color: 'green'
-                    },
-                    {
-                        title: '連線異常',
-                        type: 'Abnormal',
-                        message: data.filter(el => el['status'] === 'abnormal').length,
-                        icon: 'WarningFilled',
-                        color: 'orange',
-                    },
-                    {
-                        title: '已斷線',
-                        type: 'Disconnect',
-                        message: data.filter(el => el['status'] === 'disconnect').length,
-                        icon: 'CircleCloseFilled',
-                        color: 'red',
-                    }
-                ]
-            }
-
-        }
-    }
+    async getStatusData(type) {
+      this.status = type
+      const data = await httpRequest(`/device?status=${type}&page=1&size=20`)
+      this.data = data.data
+    },
+  },
+  getters: {}
 })
 type formConfig = {
     form: any[]
 }
 export const useForm = defineStore('inspectForm', {
-    state: (): formConfig => ({
-        form: []
-    }),
-    actions: {
-        add(id: string, city: string, address: string) {
-            this.form.push({
-                id,
-                city,
-                address
-            })
-        },
+  state: (): formConfig => ({
+    form: []
+  }),
+  actions: {
+    add(id: string, city: string, address: string) {
+      this.form.push({
+        id,
+        city,
+        address
+      })
     },
-    persist: false
+  },
+  persist: false
 })

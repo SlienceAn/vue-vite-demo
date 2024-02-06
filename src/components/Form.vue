@@ -1,34 +1,49 @@
 <template>
-    <form class="flex px-[15px] py-[10px]">
-        <div class="col">
-            <label for="ID">設備ID</label>
-            <input id="ID" type="text" v-model="data.id">
-        </div>
-        <div class="col">
-            <label for="postition">設備位置</label>
-            <input id="position" type="text" v-model="data.location">
-        </div>
-        <div class="col">
-            <label for="user">巡檢人</label>
-            <input id="user" type="text" v-model="data.user">
-        </div>
-        <div class="col">
-            <label for="inspect">巡檢日期ddd</label>
-            <el-date-picker id="inspect" value-format="YYYY-MM-DD" />
-        </div>
-    </form>
+  <form class="flex px-[15px] py-[10px]">
+    <div class="col">
+      <label for="ID">設備ID</label>
+      <input
+        id="ID"
+        v-model="data.id"
+        type="text"
+      >
+    </div>
+    <div class="col">
+      <label for="postition">設備位置</label>
+      <input
+        id="position"
+        v-model="data.location"
+        type="text"
+      >
+    </div>
+    <div class="col">
+      <label for="user">巡檢人</label>
+      <input
+        id="user"
+        v-model="data.user"
+        type="text"
+      >
+    </div>
+    <div class="col">
+      <label for="inspect">巡檢日期ddd</label>
+      <el-date-picker
+        id="inspect"
+        value-format="YYYY-MM-DD"
+      />
+    </div>
+  </form>
 </template>
 <script setup lang="ts">
 import { reactive } from 'vue'
 
 const data = reactive({
-    id: '',
-    location: '',
-    user: '',
-    date: ''
+  id: '',
+  location: '',
+  user: '',
+  date: ''
 })
 defineExpose({
-    data
+  data
 })
 </script>
 <style scoped lang="scss">

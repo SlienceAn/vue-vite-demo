@@ -1,19 +1,29 @@
 <template>
   <div class="card-group">
-    <Card v-for="i in countList" :key="i.title" :title="i.title" :message="i.message" :color="i.color"
-      @click="fetchData(i.type)">
-      <template v-slot:icon>
+    <Card
+      v-for="i in countList"
+      :key="i.title"
+      :title="i.title"
+      :message="i.message"
+      :color="i.color"
+      :class="{ selected: i.type === status }"
+      @click="fetchData(i.type)"
+    >
+      <template #icon>
         <component :is="i.icon" />
       </template>
     </Card>
   </div>
   <div>
-    <Table :data="data" :table-column="tableColumn" />
+    <Table
+      :data="data"
+      :table-column="tableColumn"
+    />
   </div>
 </template>
 <script setup lang="ts">
-import Card from '../Card.vue';
-import Table from '../Table.vue';
+import Card from '../Card.vue'
+import Table from '../Table.vue'
 const informationStore = useInformation()
 const { data, countList, status } = storeToRefs(informationStore)
 const tableColumn = [
@@ -22,12 +32,9 @@ const tableColumn = [
   { label: '詳細地址', prop: 'address' },
   { label: '最後更新時間', prop: 'latestUpdate', width: '150' },
 ]
-onMounted(() => {
-  informationStore.getAll()
-})
+onMounted(() => informationStore.getAll())
 const fetchData = (val: string) => {
-  informationStore.$patch({ status: val })
-  informationStore[`get${status.value}`]()
+  informationStore.getStatusData(val)
 }
 </script>
 <style scoped lang="scss">
@@ -37,5 +44,16 @@ const fetchData = (val: string) => {
 
 .inner-header {
   @apply bg-white py-2 px-4;
+}
+
+.selected {
+  @apply relative bg-[#ECF5FF] text-[#409EFF] border border-blue-400;
+
+  &:after {
+    @apply absolute w-0 h-0 left-1/2 border-l-[10px] border-l-transparent border-t-[15px] border-t-blue-400 border-r-[10px] border-r-transparent;
+    content: "";
+    z-index: 5;
+
+  }
 }
 </style>

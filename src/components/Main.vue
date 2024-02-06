@@ -6,8 +6,15 @@
         <span>Vue3-Demo</span>
       </div>
       <el-menu router>
-        <el-menu-item v-for="R in data.data" :key="R.name" :index="R.path">
-          <component :is='R.icon' class="text-xl" />
+        <el-menu-item
+          v-for="R in data.data"
+          :key="R.name"
+          :index="R.path"
+        >
+          <component
+            :is="R.icon"
+            class="text-xl"
+          />
           <span>{{ R.name }}</span>
         </el-menu-item>
       </el-menu>
@@ -15,11 +22,16 @@
     <el-container>
       <el-header class="navbar">
         <span class="flex items-center gap-2">
-          <i-material-symbols-menu class="text-xl"/>
+          <i-material-symbols-menu class="text-xl" />
           <span class="font-bold text-lg">{{ $route.name }}</span>
         </span>
         <select-place />
-        <el-button circle :icon="Right" type="primary" @click="SignUp" />
+        <el-button
+          circle
+          :icon="Right"
+          type="primary"
+          @click="SignUp"
+        />
       </el-header>
       <el-main class="bg-[#E4E7ED]">
         <router-view />
@@ -29,13 +41,11 @@
 </template>
 <script setup lang="ts">
 import { Right } from '@element-plus/icons-vue'
-import SelectPlace from './SelectPlace.vue';
-import router from '../router';
+import SelectPlace from './SelectPlace.vue'
+import router from '../router'
 const loginStore = useLoginStore()
-const globalStore = useGlobalStore()
 const { data } = storeToRefs(loginStore)
 const SignUp = () => router.replace('/')
-globalStore.getCity()
 </script>
 <style scoped lang="scss">
 .navbar {
@@ -57,4 +67,5 @@ globalStore.getCity()
 
 .is-active {
   @apply bg-[#ECF5FF] text-[#409EFF] border-solid border-r-4px border-r-[#409EFF];
-}</style>
+}
+</style>
