@@ -3,22 +3,22 @@ import { faker } from '@faker-js/faker/locale/zh_TW'
 import dayjs from 'dayjs'
 const { location, date } = faker
 type Data = {
-    id: string
-    city: string
-    address: string
-    latitude: number
-    longitude: number
-    value: any
-    latestUpdate: string
-    status: string
+  id: string
+  city: string
+  address: string
+  latitude: number
+  longitude: number
+  value: any
+  latestUpdate: string
+  status: string
 }
 interface query {
-    status?: string
-    page: number
-    size: number
+  status?: string
+  page: number
+  size: number
 }
 interface device {
-    query: query
+  query: query
 }
 //生成ID
 const generateID = () => {
@@ -138,6 +138,47 @@ export default [
     }
   },
   {
+    url: '/device/stauts/list',
+    method: 'get',
+    response: () => {
+      const countList = [
+        {
+          title: '總機台數量',
+          type: '',
+          message: data.length,
+          icon: 'InfoFilled',
+          color: 'info',
+        },
+        {
+          title: '已連線',
+          type: 'online',
+          message: data.filter(el => el['status'] === 'online').length,
+          icon: 'SuccessFilled',
+          color: 'green'
+        },
+        {
+          title: '連線異常',
+          type: 'abnormal',
+          message: data.filter(el => el['status'] === 'abnormal').length,
+          icon: 'WarningFilled',
+          color: 'orange',
+        },
+        {
+          title: '已斷線',
+          type: 'disconnect',
+          message: data.filter(el => el['status'] === 'disconnect').length,
+          icon: 'CircleCloseFilled',
+          color: 'red',
+        }
+      ]
+      return {
+        success: true,
+        message: 'get  status',
+        data: countList
+      }
+    }
+  },
+  {
     url: '/city',
     method: 'get',
     response: () => {
@@ -166,7 +207,7 @@ export default [
         return {
           success: true,
           message: 'get all data',
-          data: data.slice(page, size)
+          data: data.slice(Number(size) * (page - 1), Number(size) + Number(size) * (page - 1))
         }
       }
     }
@@ -190,8 +231,8 @@ export default [
         const result: any[] = []
         for (const key of data) {
           if (new Date(key.latestUpdate) <= new Date(endTime) &&
-                        new Date(key.latestUpdate) >= new Date(startTime) &&
-                        key.status === status
+            new Date(key.latestUpdate) >= new Date(startTime) &&
+            key.status === status
           ) {
             result.push({
               id: key.id,

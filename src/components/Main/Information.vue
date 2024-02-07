@@ -16,8 +16,11 @@
   </div>
   <div>
     <Table
+      ref="table"
       :data="data"
       :table-column="tableColumn"
+      :params="{ status }"
+      api-url="device"
     />
   </div>
 </template>
@@ -25,17 +28,20 @@
 import Card from '../Card.vue'
 import Table from '../Table.vue'
 const informationStore = useInformation()
-const { data, countList, status } = storeToRefs(informationStore)
+const globalStore = useGlobalStore()
+const { countList } = storeToRefs(globalStore)
+const { data, status } = storeToRefs(informationStore)
 const tableColumn = [
   { label: '設備ID', prop: 'id', width: '100', align: 'center' },
   { label: '縣市', prop: 'city', width: '100', align: 'center' },
   { label: '詳細地址', prop: 'address' },
   { label: '最後更新時間', prop: 'latestUpdate', width: '150' },
+  { label: '狀態', prop: 'status', width: '100' }
 ]
-onMounted(() => informationStore.getAll())
 const fetchData = (val: string) => {
-  informationStore.getStatusData(val)
+  informationStore.$patch({ status: val })
 }
+onMounted(() => globalStore.getDeviceStatusList())
 </script>
 <style scoped lang="scss">
 .card-group {

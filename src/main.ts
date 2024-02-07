@@ -16,17 +16,17 @@ import mock from '../mock'
 import dayjs from 'element-plus'
 import * as materialIcons from './assets/icons/material-icons'
 
+const app = createApp(App)
 //mock運行在生產環境
 if (process.env.NODE_ENV === 'production') {
-    createProdMockServer(mock)
+  createProdMockServer(mock)
 }
-
+//掛載全局
+app.config.globalProperties.$http = httpRequest
+app.config.globalProperties.$day = dayjs
+app.config.globalProperties.cc='cfdcdfdcdfv'
 const pinia = createPinia()
 pinia.use(piniaPersisted)
-const app = createApp(App)
-app.use(router)
-app.use(pinia)
-app.use(ElementPlus)
 
 //掛載全局組件
 app.component('LMap', LMap)
@@ -35,15 +35,19 @@ app.component('LMarker', LMarker)
 app.component('CircleLoading', Loading)
 
 for (const icons in materialIcons) {
-    app.component(`mti-${icons}`, materialIcons[icons])
+  app.component(`mti-${icons}`, materialIcons[icons])
 }
 
-//掛載全局
-app.config.globalProperties.$axios = httpRequest
-app.config.globalProperties.$day = dayjs
+app.use(router)
+app.use(pinia)
+app.use(ElementPlus)
+
+
+
+
 
 //載入全部icons
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-    app.component(key, component)
+  app.component(key, component)
 }
 app.mount('#app')

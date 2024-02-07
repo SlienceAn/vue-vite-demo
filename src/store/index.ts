@@ -5,27 +5,36 @@ import router from '../router'
 //調用 $reset 方法，將狀態重置到其初始值
 //state推薦使用 完整類型推斷的箭頭函數
 
+interface globalStore {
+  cityList: Array<any>
+  countList : Array<any>
+}
 
 export const useGlobalStore = defineStore('globalStore', {
-  state: () => ({
-    citylist: [],
+  state: (): globalStore => ({
+    cityList: [],
+    countList: []
   }),
   actions: {
     async getCity() {
       const data = await httpRequest('/city')
-      this.citylist = data.data
+      this.cityList = data.data
+    },
+    async getDeviceStatusList() {
+      const data = await httpRequest('/device/stauts/list')
+      this.countList = data.data
     }
   }
 })
 //登入
 type loginResponse = {
-    account: string,
-    password: string,
-    success: boolean,
-    userName: string,
-    message: string,
-    isPremission: boolean,
-    data: any
+  account: string,
+  password: string,
+  success: boolean,
+  userName: string,
+  message: string,
+  isPremission: boolean,
+  data: any
 }
 export const useLoginStore = defineStore('loginStore', {
   state: (): loginResponse => ({
@@ -49,53 +58,17 @@ export const useLoginStore = defineStore('loginStore', {
 
 //設備資訊
 interface informationConfig {
-    isLoading: boolean
-    status: string
-    data: Array<any>
-    countList: Array<any>
+  isLoading: boolean
+  status: string
+  data: Array<any>
 }
 export const useInformation = defineStore('information', {
   state: (): informationConfig => ({
     isLoading: true,
     status: '',
     data: [],
-    countList: []
   }),
   actions: {
-    async getAll() {
-      const data = await httpRequest('/device?page=1&size=5')
-      this.data = data.data
-      this.countList = [
-        {
-          title: '總機台數量',
-          type: 'all',
-          message: data.data.length,
-          icon: 'InfoFilled',
-          color: 'info',
-        },
-        {
-          title: '已連線',
-          type: 'online',
-          message: data.data.filter(el => el['status'] === 'online').length,
-          icon: 'SuccessFilled',
-          color: 'green'
-        },
-        {
-          title: '連線異常',
-          type: 'abnormal',
-          message: data.data.filter(el => el['status'] === 'abnormal').length,
-          icon: 'WarningFilled',
-          color: 'orange',
-        },
-        {
-          title: '已斷線',
-          type: 'disconnect',
-          message: data.data.filter(el => el['status'] === 'disconnect').length,
-          icon: 'CircleCloseFilled',
-          color: 'red',
-        }
-      ]
-    },
     async getStatusData(type) {
       this.status = type
       const data = await httpRequest(`/device?status=${type}&page=1&size=20`)
@@ -105,7 +78,7 @@ export const useInformation = defineStore('information', {
   getters: {}
 })
 type formConfig = {
-    form: any[]
+  form: any[]
 }
 export const useForm = defineStore('inspectForm', {
   state: (): formConfig => ({
