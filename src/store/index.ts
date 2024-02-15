@@ -5,15 +5,24 @@ import router from '../router'
 //調用 $reset 方法，將狀態重置到其初始值
 //state推薦使用 完整類型推斷的箭頭函數
 
+interface CountList {
+  title: string
+  type: string
+  message: number
+  icon: string
+  color: string
+}
 interface globalStore {
-  cityList: Array<any>
-  countList : Array<any>
+  city: string
+  cityList: Array<string>
+  countList: Array<CountList>
 }
 
 export const useGlobalStore = defineStore('globalStore', {
   state: (): globalStore => ({
     cityList: [],
-    countList: []
+    countList: [],
+    city: ''
   }),
   actions: {
     async getCity() {
@@ -21,10 +30,13 @@ export const useGlobalStore = defineStore('globalStore', {
       this.cityList = data.data
     },
     async getDeviceStatusList() {
-      const data = await httpRequest('/device/stauts/list')
+      const data = await httpRequest(`/device/stauts/list?city=${this.city}`)
       this.countList = data.data
+    },
+    fetchCity() {
+      this.city = this.cityList[0]
     }
-  }
+  },
 })
 //登入
 type loginResponse = {

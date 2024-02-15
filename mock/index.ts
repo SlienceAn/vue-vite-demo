@@ -14,6 +14,7 @@ type Data = {
 }
 interface query {
   status?: string
+  city?: string
   page: number
   size: number
 }
@@ -140,33 +141,34 @@ export default [
   {
     url: '/device/stauts/list',
     method: 'get',
-    response: () => {
+    response: ({ query }: any) => {
+      const { city } = query
       const countList = [
         {
           title: '總機台數量',
           type: '',
-          message: data.length,
+          message: data.filter(el => el['city'] === city).length,
           icon: 'InfoFilled',
           color: 'info',
         },
         {
           title: '已連線',
           type: 'online',
-          message: data.filter(el => el['status'] === 'online').length,
+          message: data.filter(el => el['status'] === 'online' && el['city'] === city).length,
           icon: 'SuccessFilled',
           color: 'green'
         },
         {
           title: '連線異常',
           type: 'abnormal',
-          message: data.filter(el => el['status'] === 'abnormal').length,
+          message: data.filter(el => el['status'] === 'abnormal' && el['city'] === city).length,
           icon: 'WarningFilled',
           color: 'orange',
         },
         {
           title: '已斷線',
           type: 'disconnect',
-          message: data.filter(el => el['status'] === 'disconnect').length,
+          message: data.filter(el => el['status'] === 'disconnect' && el['city'] === city).length,
           icon: 'CircleCloseFilled',
           color: 'red',
         }
@@ -182,11 +184,10 @@ export default [
     url: '/city',
     method: 'get',
     response: () => {
-      const city = new Set(data.map(el => el.city))
       return {
         success: true,
         message: 'get city data',
-        data: city
+        data: Array.from(new Set(data.map(el => el.city))).slice(0, 10)
       }
     }
   },
@@ -195,9 +196,11 @@ export default [
     url: '/device',
     method: 'get',
     response: ({ query }: device) => {
-      const { page, size, status } = query
+      const { page, size, status, city } = query
       if (status) {
-        const deviceData = data.filter(el => el['status'] === status).slice(page, size)
+        const deviceData = data
+          .filter(el => el['status'] === status && el['city'] === city)
+          .slice(Number(size) * (Number(page) - 1), Number(size) + Number(size) * (Number(page) - 1))
         return {
           success: true,
           message: `get ${status} data`,
@@ -207,7 +210,9 @@ export default [
         return {
           success: true,
           message: 'get all data',
-          data: data.slice(Number(size) * (page - 1), Number(size) + Number(size) * (page - 1))
+          data: data
+            .filter(el => el['city'] === city)
+            .slice(Number(size) * (Number(page) - 1), Number(size) + Number(size) * (Number(page) - 1))
         }
       }
     }

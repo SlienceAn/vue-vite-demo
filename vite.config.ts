@@ -90,7 +90,8 @@ export default defineConfig((config) => {
         //路徑別名
         '@': path.resolve(__dirname, './src'),
         '@components': path.resolve(__dirname, './src/components'),
-        '@api': path.resolve(__dirname, './src/api')
+        '@api': path.resolve(__dirname, './src/api'),
+        '@untils':path.resolve(__dirname,'./src/untils')
       },
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
     },

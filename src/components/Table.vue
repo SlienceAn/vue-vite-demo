@@ -15,12 +15,13 @@
         align="center"
       />
       <el-table-column
-        v-for="{ prop, label, width, align } in tableColumn"
+        v-for="{ prop, label, width, align, formatter } in tableColumn"
         :key="prop"
         :prop="prop"
         :label="label"
         :width="width"
         :align="align"
+        :formatter="formatter"
       />
       <template #empty>
         <el-empty
@@ -35,10 +36,10 @@
         background
         small
         :pager-count="5"
+        :total="attrs.total"
         :page-size="10"
         layout="prev, pager, next"
         hide-on-single-page
-        :total="tableData.length"
         @current-change="getApiData"
       />
     </div>
@@ -60,7 +61,10 @@ const getApiData = async () => {
   tableData.value = data.data
 }
 onMounted(() => getApiData())
-watch(() => attrs.params, () => getApiData())
+watch(() => attrs.params, () => {
+  currentPage.value = 1
+  getApiData()
+})
 </script>
 
 <style scoped lang="scss">
