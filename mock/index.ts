@@ -49,7 +49,7 @@ const statusRandom = (): string => {
 }
 //All Fake Data
 const data: Data[] = []
-for (let i = 0; i < 1000; i++) {
+for (let i = 0; i < 5000; i++) {
   data.push({
     id: generateID(),
     city: location.city(),
@@ -91,7 +91,7 @@ export default [
           message: 'PM Login Success !',
           data: [{
             path: '/Main/Information',
-            name: '設備資訊',
+            name: '主控台',
             icon: 'mti-Info'
           },
           {
@@ -112,7 +112,7 @@ export default [
           message: 'PM Login Success !',
           data: [{
             path: '/Main/Information',
-            name: '設備資訊',
+            name: '主控台',
             icon: 'mti-Info'
           },
           {
@@ -187,7 +187,7 @@ export default [
       return {
         success: true,
         message: 'get city data',
-        data: Array.from(new Set(data.map(el => el.city))).slice(0, 10)
+        data: Array.from(new Set(data.map(el => el.city))).slice(0, 13)
       }
     }
   },
@@ -222,45 +222,11 @@ export default [
     url: '/query',
     method: 'get',
     response: ({ query }: any) => {
-      const { type } = query
-      if (type === 'equipment') {
-        let { city } = query
-        city = city.replace('台', '臺')
-        return {
-          success: true,
-          message: 'Get success!',
-          data: data.filter(el => el.city.includes(city))
-        }
-      } else if (type === 'event') {
-        const { startTime, endTime, status } = query
-        const result: any[] = []
-        for (const key of data) {
-          if (new Date(key.latestUpdate) <= new Date(endTime) &&
-            new Date(key.latestUpdate) >= new Date(startTime) &&
-            key.status === status
-          ) {
-            result.push({
-              id: key.id,
-              city: key.city,
-              address: key.address,
-              latestUpdate: key.latestUpdate
-            })
-          }
-        }
-        result.sort((start, end) => {
-          // TypeScript 中，當您使用運算符（算術運算符、比較運算符等）並且運算符左側屬於意外類型時，就會發生這種情況
-          return new Date(start.latestUpdate).getTime() - new Date(end.latestUpdate).getTime()
-        })
-        return {
-          success: true,
-          message: 'Get success!',
-          data: result
-        }
-      } else {
-        return {
-          success: false,
-          message: 'Get failed...'
-        }
+      console.log('query query',query)
+      return {
+        success:true,
+        message:'query success !',
+        data:[]
       }
     }
   },

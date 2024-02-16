@@ -9,7 +9,7 @@
     >
       <el-table-column
         type="index"
-        :index="1"
+        :index="indexCount"
         label="#"
         width="50"
         align="center"
@@ -37,7 +37,7 @@
         small
         :pager-count="5"
         :total="attrs.total"
-        :page-size="10"
+        :page-size="pageSize"
         layout="prev, pager, next"
         hide-on-single-page
         @current-change="getApiData"
@@ -52,13 +52,18 @@ defineProps<{
 }>()
 const attrs: any = useAttrs()
 const currentPage = ref(1)
+const pageSize = ref(20)
 const tableData = ref([])
 const { proxy }: any = getCurrentInstance()
+
 const getApiData = async () => {
-  const params = `page=${currentPage.value}&size=20&${new URLSearchParams(attrs.params).toString()}`
+  const params = `page=${currentPage.value}&size=${pageSize.value}&${new URLSearchParams(attrs.params).toString()}`
   const url = `/${attrs['api-url']}?${params}`
   const data = await proxy.$http(url)
   tableData.value = data.data
+}
+const indexCount = (index: number) => {
+  return index + 1 + (currentPage.value * 20 - 20)
 }
 onMounted(() => getApiData())
 watch(() => attrs.params, () => {

@@ -1,3 +1,5 @@
+import { dayjs } from 'element-plus'
+
 export default () => {
   const statusIcon = (type) => {
     switch(type.status) {
@@ -27,7 +29,12 @@ export default () => {
       )
     }
   }
+  const accumulation = (row) => {
+    const now = dayjs().format('YYYY-MM-DD HH:mm')
+    return dayjs(now).diff(row.latestUpdate,'day')
+  }
   return {
-    statusIcon
+    statusIcon,
+    accumulation
   }
 }

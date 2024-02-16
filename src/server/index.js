@@ -62,7 +62,7 @@ app.post('/login', (req, res) => {
       message: 'PM Login Success !',
       data: [{
         path: '/Main/Information',
-        name: '設備資訊'
+        name: '主控台'
       },
       {
         path: '/Main/Query',
@@ -77,7 +77,7 @@ app.post('/login', (req, res) => {
       message: 'RD Login Success !',
       data: [{
         path: '/Main/Information',
-        name: '設備資訊'
+        name: '主控台'
       },
       {
         path: '/Main/Query',

@@ -28,6 +28,7 @@ export const useGlobalStore = defineStore('globalStore', {
     async getCity() {
       const data = await httpRequest('/city')
       this.cityList = data.data
+      this.city = data.data[0]
     },
     async getDeviceStatusList() {
       const data = await httpRequest(`/device/stauts/list?city=${this.city}`)
@@ -37,6 +38,7 @@ export const useGlobalStore = defineStore('globalStore', {
       this.city = this.cityList[0]
     }
   },
+  persist:true
 })
 //登入
 type loginResponse = {

@@ -33,7 +33,7 @@
           @click="SignUp"
         />
       </el-header>
-      <el-main class="bg-[#E4E7ED]">
+      <el-main class="bg-[#E4E7ED] !p-0">
         <router-view />
       </el-main>
     </el-container>

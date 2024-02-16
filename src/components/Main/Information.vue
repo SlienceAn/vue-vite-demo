@@ -14,12 +14,10 @@
       </template>
     </Card>
   </div>
-  <div>
+  <div class="p-2">
     <Table
-      ref="table"
-      :data="data"
       :table-column="tableColumn"
-      :params="{ status,city }"
+      :params="{ status, city }"
       api-url="device"
       :total="currentDataTotal"
     />
@@ -31,29 +29,25 @@ import Table from '../Table.vue'
 import tableFormatter from '../../untils/tableFormatter'
 const informationStore = useInformation()
 const globalStore = useGlobalStore()
-const { countList,city } = storeToRefs(globalStore)
-const { data, status } = storeToRefs(informationStore)
-const { statusIcon } = tableFormatter()
+const { countList, city } = storeToRefs(globalStore)
+const { status } = storeToRefs(informationStore)
+const { statusIcon, accumulation } = tableFormatter()
 const tableColumn = [
   { label: '設備ID', prop: 'id', width: '100', align: 'center' },
-  { label: '縣市', prop: 'city', width: '100', align: 'center' },
   { label: '詳細地址', prop: 'address' },
   { label: '最後更新時間', prop: 'latestUpdate', width: '150' },
-  { label: '狀態', prop: 'status', width: '100', align: 'center', formatter: statusIcon }
+  { label: '累積天數', prop: 'latestUpdate', width: '90', align: 'center', formatter: accumulation },
+  { label: '狀態', prop: 'status', width: '90', align: 'center', formatter: statusIcon }
 ]
 const currentDataTotal = computed(() => countList.value.find(el => el.type === status.value)?.message)
+onMounted(() => globalStore.getDeviceStatusList())
 const fetchData = (val: string) => {
   informationStore.$patch({ status: val })
 }
-onMounted(() => globalStore.getDeviceStatusList())
 </script>
 <style scoped lang="scss">
 .card-group {
-  @apply flex gap-2 mb-2 flex-col md: flex-row;
-}
-
-.inner-header {
-  @apply bg-white py-2 px-4;
+  @apply flex gap-2 flex-col px-2 pt-2 md: flex-row;
 }
 
 .selected {
@@ -63,7 +57,6 @@ onMounted(() => globalStore.getDeviceStatusList())
     @apply absolute w-0 h-0 left-1/2 border-l-[10px] border-l-transparent border-t-[15px] border-t-blue-400 border-r-[10px] border-r-transparent;
     content: "";
     z-index: 5;
-
   }
 }
 </style>

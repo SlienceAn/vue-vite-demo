@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { ElNotification } from 'element-plus'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 const routes = [
@@ -13,7 +14,7 @@ const routes = [
     component: () => import('../components/Main.vue'),
     children: [
       {
-        name: '設備資訊',
+        name: '主控台',
         path: '/Main/Information',
         component: () => import('../components/Main/Information.vue')
       },
@@ -26,7 +27,7 @@ const routes = [
         name: '巡檢表單',
         path: '/Main/InspectionForm',
         component: () => import('../components/Main/InspectionForm.vue')
-      }
+      },
     ]
   }
 ]
@@ -40,5 +41,11 @@ router.beforeEach(()=>{
 })
 router.afterEach(()=>{
   NProgress.done()
+})
+router.onError((error)=>{
+  ElNotification.error({
+    title:'路由錯誤',
+    message:error.message
+  })
 })
 export default router
