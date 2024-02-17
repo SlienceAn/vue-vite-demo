@@ -1,48 +1,42 @@
 <template>
-  <div class="w-full h-full flex justify-center items-start py-10">
-    <form class="border border-gray-400 p-4 rounded-lg bg-gray-100 w-2/3 md:w-1/3">
-      <h4 class="text-center font-bold text-2xl mb-2">
-        Vue Demo Project
-      </h4>
-      <div class="mb-4">
-        <label
-          for="username"
-          class="title-label"
-        >帳號</label>
-        <input
-          id="username"
-          v-model="account"
-          type="text"
-          class="input focus:ring-blue-500 focus:border-blue-500"
-          placeholder="User Name"
+  <div class="relative w-full h-full">
+    <div class="loginBox">
+      <el-form
+        :model="loginForm"
+        :rules="rules"
+      >
+        <el-form-item
+          prop="account"
+          label="帳號"
         >
-      </div>
-      <div class="mb-6">
-        <label
-          for="userpass"
-          class="title-label"
-        >密碼</label>
-        <input
-          id="userpass"
-          v-model="password"
-          type="password"
-          class="input focus:ring-blue-500 focus:border-blue-500"
-          placeholder="User Password"
+          <el-input v-model="loginForm.account" />
+        </el-form-item>
+        <el-form-item
+          prop="password"
+          label="密碼"
         >
-      </div>
-      <div class="flex gap-3 justify-center">
-        <button
-          class="px-10 btn bg-blue-700 hover:bg-blue-900"
-          @click="login"
-        >
-          登入
-        </button>
-      </div>
-    </form>
+          <el-input v-model="loginForm.password" />
+        </el-form-item>
+        <el-button @click="login" />
+      </el-form>
+    </div>
   </div>
 </template>
 <script setup lang="tsx">
 const loginStore = useLoginStore()
-const { account, password } = storeToRefs(loginStore)
+const { loginForm } = storeToRefs(loginStore)
 const login = () => loginStore.postLogin()
+const rules={
+  account:[
+    { required:true,message:'請輸入帳號',trigger:'blur' }
+  ],
+  password:[
+    { required:true,message:'請輸入帳號',trigger:'blur' }
+  ]
+}
 </script>
+<style scoped lang="scss">
+.loginBox{
+  @apply w-1/3;
+}
+</style>

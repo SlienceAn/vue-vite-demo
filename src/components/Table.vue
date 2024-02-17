@@ -1,6 +1,9 @@
 <template>
   <div class="bg-white rounded-md">
     <el-table
+      v-loading="isLoading"
+      element-loading-text="讀取中"
+      element-loading-background="rgba(250, 250, 250, 0.8)"
       :data="tableData"
       height="300"
       stripe
@@ -52,15 +55,18 @@ defineProps<{
 }>()
 const attrs: any = useAttrs()
 const currentPage = ref(1)
+const isLoading = ref(false)
 const pageSize = ref(20)
 const tableData = ref([])
 const { proxy }: any = getCurrentInstance()
 
 const getApiData = async () => {
+  isLoading.value = true
   const params = `page=${currentPage.value}&size=${pageSize.value}&${new URLSearchParams(attrs.params).toString()}`
   const url = `/${attrs['api-url']}?${params}`
   const data = await proxy.$http(url)
   tableData.value = data.data
+  isLoading.value = false
 }
 const indexCount = (index: number) => {
   return index + 1 + (currentPage.value * 20 - 20)
@@ -69,6 +75,9 @@ onMounted(() => getApiData())
 watch(() => attrs.params, () => {
   currentPage.value = 1
   getApiData()
+})
+defineExpose({
+  getApiData
 })
 </script>
 

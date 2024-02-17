@@ -1,44 +1,70 @@
 <template>
-  <div class="px-2 pt-2">
-    <el-select
-      v-model="statusValue"
-      multiple
-      placeholder="選擇狀態"
-    >
-      <el-option
-        label="已連線"
-        value="online"
+  <el-container>
+    <el-header class="flex items-center justify-between !p-2">
+      <div class="w-1/2 flex gap-2">
+        <el-select
+          v-model="statusValue"
+          placeholder="選擇狀態"
+          @change="searchData"
+        >
+          <el-option
+            label="已連線"
+            value="online"
+          />
+          <el-option
+            label="連線異常"
+            value="abnormal"
+          />
+          <el-option
+            label="已斷線"
+            value="disconnect"
+          />
+        </el-select>
+        <el-date-picker
+          type="daterange"
+          range-separator="~"
+          start-placeholder="開始日期"
+          end-placeholder="結束日期"
+        />
+        <el-button
+          type="primary"
+          :icon="Search"
+          @click="searchData"
+        >
+          搜尋
+        </el-button>
+      </div>
+    </el-header>
+    <el-main class="!p-0">
+      <div
+        v-if="data.length !== 0"
+        class="p-2 flex flex-wrap"
+      >
+        <el-card
+          v-for="i in data"
+          :key="i"
+          class="w-1/4"
+        >
+          <div>{{ i.id }}</div>
+          <div>card</div>
+        </el-card>
+      </div>
+      <el-empty
+        v-else
+        description="暫無查詢結果"
       />
-      <el-option
-        label="連線異常"
-        value="abnormal"
-      />
-      <el-option
-        label="已斷線"
-        value="disconnect"
-      />
-    </el-select>
-  </div>
-  <div class="p-2">
-    <Table
-      :table-column="tableColumn"
-      api-url="query"
-      :params="{ city, status: statusValue }"
-    />
-  </div>
+    </el-main>
+  </el-container>
 </template>
 <script setup lang="ts">
-import Table from '../Table.vue'
-const globalStore = useGlobalStore()
-const { city } = storeToRefs(globalStore)
+import { Search } from '@element-plus/icons-vue'
+const informationStore = useInformation()
+const { data } = storeToRefs(informationStore)
 const statusValue = ref('')
-const tableColumn = [
-  { label: '設備ID', prop: 'id', width: '100', align: 'center' },
-  { label: '詳細地址', prop: 'address' },
-  { label: '最後更新時間', prop: 'latestUpdate', width: '150' },
-  { label: '累積天數', prop: 'latestUpdate', width: '90', align: 'center' },
-  { label: '狀態', prop: 'status', width: '90', align: 'center' }
-]
+const searchData = () => {
+  informationStore.getQeryData()
+  console.log(data.value)
+}
 </script>
 <style scoped lang="scss">
 $triangle-width: 13px;

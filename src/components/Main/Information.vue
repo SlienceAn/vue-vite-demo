@@ -36,14 +36,12 @@ const tableColumn = [
   { label: '設備ID', prop: 'id', width: '100', align: 'center' },
   { label: '詳細地址', prop: 'address' },
   { label: '最後更新時間', prop: 'latestUpdate', width: '150' },
-  { label: '累積天數', prop: 'latestUpdate', width: '90', align: 'center', formatter: accumulation },
+  { label: '累積天數', prop: 'accumulation', width: '90', align: 'center', formatter: accumulation },
   { label: '狀態', prop: 'status', width: '90', align: 'center', formatter: statusIcon }
 ]
 const currentDataTotal = computed(() => countList.value.find(el => el.type === status.value)?.message)
 onMounted(() => globalStore.getDeviceStatusList())
-const fetchData = (val: string) => {
-  informationStore.$patch({ status: val })
-}
+const fetchData = (val: string) => informationStore.$patch({ status: val })
 </script>
 <style scoped lang="scss">
 .card-group {

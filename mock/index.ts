@@ -222,11 +222,13 @@ export default [
     url: '/query',
     method: 'get',
     response: ({ query }: any) => {
-      console.log('query query',query)
+      const { city, status } = query
+      console.log('query query', status)
       return {
-        success:true,
-        message:'query success !',
-        data:[]
+        success: true,
+        message: 'query success !',
+        data: data
+          .filter(el => el['city'] === city)
       }
     }
   },

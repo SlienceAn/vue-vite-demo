@@ -38,12 +38,13 @@ export const useGlobalStore = defineStore('globalStore', {
       this.city = this.cityList[0]
     }
   },
-  persist:true
+  persist: true
 })
 //登入
 type loginResponse = {
-  account: string,
-  password: string,
+  loginForm:{
+    [key:string]:string
+  }
   success: boolean,
   userName: string,
   message: string,
@@ -52,8 +53,10 @@ type loginResponse = {
 }
 export const useLoginStore = defineStore('loginStore', {
   state: (): loginResponse => ({
-    account: 'rd',
-    password: '123',
+    loginForm:{
+      account: 'rd',
+      password: '123',
+    },
     userName: '',
     success: false,
     data: [],
@@ -62,7 +65,7 @@ export const useLoginStore = defineStore('loginStore', {
   }),
   actions: {
     async postLogin() {
-      const data = await httpRequest('/login', { method: 'POST', data: { account: this.account, password: this.password } })
+      const data = await httpRequest('/login', { method: 'POST', data: this.loginForm })
       this.data = data
       if (this.data.success) router.replace('/Main/information')
     }
@@ -75,21 +78,30 @@ interface informationConfig {
   isLoading: boolean
   status: string
   data: Array<any>
+  queryList: {
+    [key: string]: string
+  }
 }
 export const useInformation = defineStore('information', {
   state: (): informationConfig => ({
     isLoading: true,
     status: '',
     data: [],
+    queryList: {
+      status: '',
+      startDate: '',
+      endDate:''
+    }
   }),
   actions: {
-    async getStatusData(type) {
-      this.status = type
-      const data = await httpRequest(`/device?status=${type}&page=1&size=20`)
+    //設備查詢
+    async getQeryData() {
+      const globalStore = useGlobalStore()
+      const { city } =storeToRefs(globalStore)
+      const data = await httpRequest(`/query?city=${city.value}`)
       this.data = data.data
     },
   },
-  getters: {}
 })
 type formConfig = {
   form: any[]
