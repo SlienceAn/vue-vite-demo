@@ -14,9 +14,24 @@ pool:
   vmImage: ubuntu-latest
 #階段
 stages:
-  - stage: Saber
+  - stage: Build
+    displayName: Build stage
     jobs:
-    - job: Saber1
-      steps:
-        - bash: echo "Saber 1 !!!"    
+      - job: Job
+        displayName: 環境配置&編譯&更新
+        steps:
+          - task: NodeTool@0
+            inputs:
+                versionSpec: 20.10.0
+            displayName: Install Node.js
+          - task : Cache@2
+            inputs:
+              key: 'pnpm | "$(Agent.OS)"'
+              restoreKeys: |
+              path: $(npm_config_cache)
+            displayName: Cache npm
+          - checkout: self
+            displayName: git clone
+            
+              
     
