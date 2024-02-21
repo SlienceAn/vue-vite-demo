@@ -32,6 +32,15 @@ stages:
             displayName: Cache npm
           - checkout: self
             displayName: git clone
+  - stage: Deploy
+    displayName: Deploy stage
+    jobs:
+      - deployment: deployWeb
+        displayName: 部屬服務
+        environment:
+          name: production-server
+          resourceType: VirtualMachine
+      
             
               
     
