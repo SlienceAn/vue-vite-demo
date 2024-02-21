@@ -37,15 +37,9 @@ console.log('test')
 for (const icons in materialIcons) {
   app.component(`mti-${icons}`, materialIcons[icons])
 }
-
 app.use(router)
 app.use(pinia)
 app.use(ElementPlus)
-
-
-
-
-
 //載入全部icons
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)

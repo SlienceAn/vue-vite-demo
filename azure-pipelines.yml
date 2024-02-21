@@ -1,4 +1,4 @@
-
+# 流程: stages > jobs > steps [ script | bash | pwsh | powershell | checkout | task | templateReference ]
 #變數
 variables:
   - name: npm_config_cache
