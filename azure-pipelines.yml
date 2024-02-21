@@ -1,24 +1,20 @@
 
-# Node.js with Vue
-# Build a Node.js project that uses Vue.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+#變數
+variables:
+  - name: npm_config_cache
+    value: $(Pipeline.Workspace)/.npm
+  - name: vm_front_dist_path
+    value: '~/www/pingtung/frontend-front-dist'
 
+#監控的Git分支(可一個或多個)
 trigger:
-- master
-
+  - master
+#建置環境(可設定 Windows、Linux 或是 macOS)，預設ubuntu-latest
 pool:
   vmImage: ubuntu-latest
+#階段
 stages:
-  -stage: Build
-  -stage: Deploy
-# steps:
-# - task: NodeTool@0
-#   inputs:
-#     versionSpec: '10.x'
-#   displayName: 'Install Node.js'
-
-# - script: |
-#     npm install
-#     npm run build
-  # displayName: 'npm install and build'
+  - stage: Build
+    displayName: Build stage
+  - stage: Deploy
+    displayName: Deploy stage
