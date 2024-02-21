@@ -14,7 +14,9 @@ pool:
   vmImage: ubuntu-latest
 #階段
 stages:
-  - stage: Build
-    displayName: Build stage
-  - stage: Deploy
-    displayName: Deploy stage
+  - stage: Saber
+    jobs:
+    - job: Saber1
+      steps:
+        - bash: echo "Saber 1 !!!"    
+    
