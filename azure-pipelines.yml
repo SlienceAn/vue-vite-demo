@@ -26,6 +26,18 @@ stages:
           - script: |
               pnpm build
             displayName: vite build project
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: vue-vite-demo/dist
+              TargetFolder: $(Build.SourcesDirectory)/vue-vite-demo-dist
+              OverWrite: true
+            displayName: Copy build dist folder  
+          - script: | 
+              git add .
+              git commit -m "[Pipeline] $(Build.SourceVersionMessage)"
+              git push
+            workingDirectory: vue-vite-demo-dist
+            displayName: git dist copy success
   - stage: Deploy
     displayName: Deploy Stage
     jobs:
@@ -37,7 +49,7 @@ stages:
               PathtoPublish: 'dist'
           - script: |
              echo deploy done !
-            displayName: 佈署完成    
+            displayName: 佈署完成
 
       
             
