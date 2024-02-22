@@ -32,6 +32,9 @@ stages:
             displayName: Cache npm
           - checkout: self
             displayName: git clone
+          - script: |
+             echo vue demo CICD 測試
+            displayName: CICD script測試       
   - stage: Deploy
     displayName: Deploy stage
     jobs:
