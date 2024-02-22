@@ -24,7 +24,19 @@ stages:
             displayName: Install pnpm
           - script: |
               pnpm build
-            displayName: vite build project     
+            displayName: vite build project
+  - stage: Deploy
+    jobs:
+      - job: deploy
+        displayName: 佈署vue application
+        steps:
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: 'dist'
+          - script: |
+             echo deploy done !
+            displayName: 佈署完成    
+
       
             
               
