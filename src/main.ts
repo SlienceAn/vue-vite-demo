@@ -33,7 +33,6 @@ app.component('LMap', LMap)
 app.component('LTileLayer', LTileLayer)
 app.component('LMarker', LMarker)
 app.component('CircleLoading', Loading)
-console.log('test')
 for (const icons in materialIcons) {
   app.component(`mti-${icons}`, materialIcons[icons])
 }
