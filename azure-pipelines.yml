@@ -1,57 +1,30 @@
-# 流程: stages > jobs > steps [ script | bash | pwsh | powershell | checkout | task | templateReference ]
-#變數
-variables:
-  - name: npm_config_cache
-    value: $(Pipeline.Workspace)/.npm
-  - name: vm_front_dist_path
-    value: '~/www/pingtung/frontend-front-dist'
+# 流程: 
+# stages > jobs > steps [ script | bash | pwsh | powershell | checkout | task | templateReference ]
 
-#監控的Git分支(可一個或多個)
+# 監控的Git分支(可一個或多個)
 trigger:
   - master
-#建置環境(可設定 Windows、Linux 或是 macOS)，預設ubuntu-latest
+# 建置環境(可設定 Windows、Linux 或是 macOS)，預設ubuntu-latest
 pool:
   vmImage: ubuntu-latest
-#階段
+# 階段
 stages:
-  - stage: Start
+  - stage: Build 
     jobs:
-      - job: StartJob
-        steps:
-          - script: echo Start 開始
-      - job: EndJob
-        steps:
-          - script: echo EEEEEEnd   
-    displayName: Start stage
-  - stage: Build
-    displayName: Build stage
-    jobs:
-      - job: Job
-        displayName: 環境配置&編譯&更新
+      - job: Build
+        displayName: 環境配置
         steps:
           - task: NodeTool@0
             inputs:
-                versionSpec: 20.10.0
+              versionSpec: 20.10.0
             displayName: Install Node.js
-          - task : Cache@2
-            inputs:
-              key: 'pnpm | "$(Agent.OS)"'
-              restoreKeys: |
-              path: $(npm_config_cache)
-            displayName: Cache npm
-          - checkout: self
-            displayName: git clone
           - script: |
-             echo vue demo CICD 測試
-            displayName: CICD script測試       
-  - stage: Deploy
-    displayName: Deploy stage
-    jobs:
-      - deployment: deployWeb
-        displayName: 部屬服務
-        environment:
-          name: production-server
-          resourceType: VirtualMachine
+              npm i -g pnpm
+              pnpm i -no-frozen-lockfile  
+            displayName: Install pnpm
+          - script: |
+              pnpm build
+            displayName: vite build project     
       
             
               
