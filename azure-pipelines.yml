@@ -7,11 +7,12 @@ trigger:
 # 建置環境(可設定 Windows、Linux 或是 macOS)，預設ubuntu-latest
 pool:
   vmImage: ubuntu-latest
-# 階段
+# 階段(包含多個jobs)
 stages:
   - stage: Build
     displayName: Build Stage
     jobs:
+    # 工作(包含多個steps)
       - job: Build
         displayName: 環境配置
         steps:
@@ -38,6 +39,7 @@ stages:
               git push
             workingDirectory: vue-vite-demo-dist
             displayName: git dist copy success
+  # 佈署          
   - stage: Deploy
     displayName: Deploy Stage
     jobs:
