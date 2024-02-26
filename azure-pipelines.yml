@@ -60,7 +60,7 @@ stages:
               git add .
               git commit -m "init"
               git push
-            workingDirectory: vue-vite-demo-dist
+            workingDirectory: vue-demo-dist
             displayName: git dist push success
   # 佈署          
   # - stage: Deploy
