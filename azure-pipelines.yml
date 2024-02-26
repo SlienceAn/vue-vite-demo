@@ -51,17 +51,15 @@ stages:
               TargetFolder: $(Build.SourcesDirectory)/vue-vite-demo-dist
               OverWrite: true
             displayName: Copy build dist folder  
-          - script: |
-             echo $(Build.SourceVersionMessage)
-            displayName: print 變數 
-          - script: |
-              git config user.email "beast964089@gmail.com"
-              git config user.name "silence"
-              git add .
-              git commit -m "init"
-              git push
-            workingDirectory: vue-vite-demo-dist
-            displayName: git dist 上版成功
+
+          # - script: |
+          #     git config user.email "beast964089@gmail.com"
+          #     git config user.name "silence"
+          #     git add .
+          #     git commit -m "init"
+          #     git push
+          #   workingDirectory: vue-vite-demo-dist
+          #   displayName: git dist 上版成功
   # 佈署          
   - stage: Deploy
     displayName: Deploy Stage
