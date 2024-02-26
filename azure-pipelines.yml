@@ -30,14 +30,14 @@ stages:
             workingDirectory: vue-vite-demo    
             displayName: pnpm install
 
-          - checkout: git://vue-vite-demo-dist
+          - checkout: git://Vue3-Vite/vue-vite-demo-dist
             persistCredentials: true
             displayName: gti clone
 
           - script: |
-              git checkout master
+              git checkout main
             workingDirectory: vue-vite-demo-dist
-            displayName: checkout to master  
+            displayName: checkout to main
 
           - script: |
               pnpm build
