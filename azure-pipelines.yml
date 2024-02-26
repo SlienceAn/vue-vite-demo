@@ -53,8 +53,8 @@ stages:
             displayName: Copy build dist folder  
 
           - script: |
-              git config user.email "Pipeline@system.com"
-              git config user.name "Pipeline"
+              git config user.email "beast964089@gmail.com"
+              git config user.name "silence"
               git add .
               git commit -m "init"
               git push
