@@ -34,10 +34,10 @@ stages:
             persistCredentials: true
             displayName: gti clone
 
-          - script: |
-              git checkout master
-            workingDirectory: vue-vite-demo-dist
-            displayName: checkout to master  
+          # - script: |
+          #     git checkout master
+          #   workingDirectory: vue-vite-demo-dist
+          #   displayName: checkout to master  
 
           - script: |
               pnpm build
