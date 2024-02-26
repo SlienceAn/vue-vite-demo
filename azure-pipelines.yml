@@ -56,7 +56,7 @@ stages:
               git config user.email "Pipeline@system.com"
               git config user.name "Pipeline"
               git add .
-              git commit -m "[Pipeline] $(Build.SourceVersionMessage)"
+              git commit -m "init"
               git push
             workingDirectory: vue-vite-demo-dist
             displayName: git dist 上版成功
