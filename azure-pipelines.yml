@@ -30,7 +30,7 @@ stages:
             workingDirectory: vue-vite-demo    
             displayName: pnpm install
 
-          - checkout: git://Vue3Vite/vue-vite-demo-dist
+          - checkout: git://vue-vite-demo-dist
             persistCredentials: true
             displayName: gti clone
 
