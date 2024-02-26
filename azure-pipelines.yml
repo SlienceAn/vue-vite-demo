@@ -20,17 +20,21 @@ stages:
             inputs:
               versionSpec: 20.10.0
             displayName: Install Node.js
+
           - script: |
               npm i -g pnpm
               pnpm i -no-frozen-lockfile  
             displayName: Install pnpm
+
           - checkout: git://Vue3-Vite/vue-vite-demo-dist
             persistCredentials: true
             displayName: gti clone
+
           - script: |
               git checkout master
             workingDirectory: vue-vite-demo-dist
             displayName: checkout to master  
+
           - script: |
               pnpm build
             workingDirectory: vue-vite-demo  
@@ -41,12 +45,13 @@ stages:
               TargetFolder: $(Build.SourcesDirectory)/vue-vite-demo-dist
               OverWrite: true
             displayName: Copy build dist folder  
+
           - script: | 
               git add .
               git commit -m "[Pipeline] $(Build.SourceVersionMessage)"
               git push
             workingDirectory: vue-vite-demo-dist
-            displayName: git dist copy success
+            displayName: git dist 上版成功
   # 佈署          
   - stage: Deploy
     displayName: Deploy Stage
