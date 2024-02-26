@@ -16,7 +16,8 @@ stages:
       - job: Build
         displayName: 環境配置
         steps:
-          - checkout: self
+          # 
+          - checkout: self 
             displayName: git clone
 
           - task: NodeTool@0
@@ -52,6 +53,8 @@ stages:
             displayName: Copy build dist folder  
 
           - script: |
+              git config user.email "Pipeline@system.com"
+              git config user.name "Pipeline"
               git add .
               git commit -m "[Pipeline] $(Build.SourceVersionMessage)"
               git push
