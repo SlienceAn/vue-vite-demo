@@ -24,9 +24,17 @@ stages:
               npm i -g pnpm
               pnpm i -no-frozen-lockfile  
             displayName: Install pnpm
+          - checkout: git://Vue3-Vite/vue-vite-demo-dist
+            persistCredentials: true
+            displayName: gti clone
+          - script: |
+              git checkout master
+            workingDirectory: vue-vite-demo-dist
+            displayName: checkout to master  
           - script: |
               pnpm build
-            displayName: vite build project
+            workingDirectory: vue-vite-demo  
+            displayName: pnpm build
           - task: CopyFiles@2
             inputs:
               SourceFolder: vue-vite-demo/dist
