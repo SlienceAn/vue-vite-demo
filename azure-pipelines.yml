@@ -30,13 +30,13 @@ stages:
             workingDirectory: vue-vite-demo    
             displayName: pnpm install
 
-          - checkout: git://Vue3-Vite/vue-vite-demo-dist
+          - checkout: git://Vue3-Vite/vue-demo-dist
             persistCredentials: true
             displayName: gti clone
 
           - script: |
               git checkout main
-            workingDirectory: vue-vite-demo-dist
+            workingDirectory: vue-demo-dist
             displayName: checkout to main
 
           - script: |
@@ -50,7 +50,7 @@ stages:
           - task: CopyFiles@2
             inputs:
               SourceFolder: vue-vite-demo/dist
-              TargetFolder: $(Build.SourcesDirectory)/vue-vite-demo-dist
+              TargetFolder: $(Build.SourcesDirectory)/vue-demo-dist
               OverWrite: true
             displayName: Copy build dist folder  
 
