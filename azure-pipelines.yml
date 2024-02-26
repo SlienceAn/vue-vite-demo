@@ -52,8 +52,6 @@ stages:
             displayName: Copy build dist folder  
 
           - script: |
-              git config user.email "Pipeline@system.com"
-              git config user.name "Pipeline" 
               git add .
               git commit -m "[Pipeline] $(Build.SourceVersionMessage)"
               git push
