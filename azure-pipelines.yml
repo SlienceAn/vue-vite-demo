@@ -18,7 +18,6 @@ stages:
         steps:
           # self:目前存放庫已取出
           - checkout: self 
-            persistCredentials: true
             displayName: git clone
 
           - task: NodeTool@0
