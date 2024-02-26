@@ -16,7 +16,7 @@ stages:
       - job: Build
         displayName: 環境配置
         steps:
-          # 
+          # self:目前存放庫已取出
           - checkout: self 
             displayName: git clone
 
