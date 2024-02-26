@@ -52,14 +52,14 @@ stages:
               OverWrite: true
             displayName: Copy build dist folder  
 
-          # - script: |
-          #     git config user.email "beast964089@gmail.com"
-          #     git config user.name "silence"
-          #     git add .
-          #     git commit -m "init"
-          #     git push
-          #   workingDirectory: vue-vite-demo-dist
-          #   displayName: git dist 上版成功
+          - script: |
+              git config user.email "beast964089@gmail.com"
+              git config user.name "silence"
+              git add .
+              git commit -m "init"
+              git push
+            workingDirectory: vue-vite-demo-dist
+            displayName: git dist push success
   # 佈署          
   - stage: Deploy
     displayName: Deploy Stage
