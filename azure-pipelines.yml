@@ -30,26 +30,26 @@ stages:
             workingDirectory: vue-vite-demo    
             displayName: pnpm install
 
-          - checkout: git://Vue3-Vite/vue-vite-demo-dist
+          - checkout: git://Vue3Vite/vue-vite-demo-dist
             persistCredentials: true
             displayName: gti clone
 
-          # - script: |
-          #     git checkout master
-          #   workingDirectory: vue-vite-demo-dist
-          #   displayName: checkout to master  
+          - script: |
+              git checkout master
+            workingDirectory: vue-vite-demo-dist
+            displayName: checkout to master  
 
           - script: |
               pnpm build
             workingDirectory: vue-vite-demo  
             displayName: pnpm build
 
-          # - task: CopyFiles@2
-          #   inputs:
-          #     SourceFolder: vue-vite-demo/dist
-          #     TargetFolder: $(Build.SourcesDirectory)/vue-vite-demo-dist
-          #     OverWrite: true
-          #   displayName: Copy build dist folder  
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: vue-vite-demo/dist
+              TargetFolder: $(Build.SourcesDirectory)/vue-vite-demo-dist
+              OverWrite: true
+            displayName: Copy build dist folder  
 
           - script: |
               git config user.email "Pipeline@system.com"
