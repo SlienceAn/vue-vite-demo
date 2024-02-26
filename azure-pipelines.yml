@@ -43,7 +43,10 @@ stages:
               pnpm build
             workingDirectory: vue-vite-demo  
             displayName: pnpm build
-
+            
+          - script: |
+              echo $(Build.SourcesDirectory)
+            displayName: show 路徑
           - task: CopyFiles@2
             inputs:
               SourceFolder: vue-vite-demo/dist
