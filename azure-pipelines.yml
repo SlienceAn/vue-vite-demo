@@ -1,6 +1,5 @@
 # 流程: 
 # stages > jobs > steps [ script | bash | pwsh | powershell | checkout | task | templateReference ]
-
 # 監控的Git分支(可一個或多個)
 trigger:
   - master
@@ -61,18 +60,18 @@ stages:
             workingDirectory: vue-vite-demo-dist
             displayName: git dist push success
   # 佈署          
-  - stage: Deploy
-    displayName: Deploy Stage
-    jobs:
-      - job: deploy
-        displayName: 佈署vue application
-        steps:
-          - task: PublishBuildArtifacts@1
-            inputs:
-              PathtoPublish: 'dist'
-          - script: |
-             echo deploy done !
-            displayName: 佈署完成
+  # - stage: Deploy
+  #   displayName: Deploy Stage
+  #   jobs:
+  #     - job: deploy
+  #       displayName: 佈署vue application
+  #       steps:
+  #         - task: PublishBuildArtifacts@1
+  #           inputs:
+  #             PathtoPublish: 'dist'
+  #         - script: |
+  #            echo deploy done !
+  #           displayName: 佈署完成
 
       
             
