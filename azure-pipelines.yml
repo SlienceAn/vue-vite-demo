@@ -51,6 +51,7 @@ stages:
           - script: |
               echo $(System.DefaultWorkingDirectory) 
               echo show SourcesDirectory
+              echo $(buildPlatform)
             displayName: show 目錄
             
           - task: CopyFiles@2
@@ -69,18 +70,18 @@ stages:
             workingDirectory: vue-demo-dist
             displayName: git dist push success
   # 佈署          
-  # - stage: Deploy
-  #   displayName: Deploy Stage
-  #   jobs:
-  #     - job: deploy
-  #       displayName: 佈署vue application
-  #       steps:
-  #         - task: PublishBuildArtifacts@1
-  #           inputs:
-  #             PathtoPublish: 'dist'
-  #         - script: |
-  #            echo deploy done !
-  #           displayName: 佈署完成
+  - stage: Deploy
+    displayName: Deploy Stage
+    jobs:
+      - job: deploy
+        displayName: 佈署vue application
+        steps:
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: 'dist'
+          - script: |
+             echo deploy done !
+            displayName: 佈署完成
 
       
             
