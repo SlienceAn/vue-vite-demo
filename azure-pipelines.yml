@@ -80,9 +80,9 @@ stages:
             displayName: 切換至 vue-demo repos
 
           - script: |
-              git push https://github.com/SlienceAn/vue-vite-demo.git
+              git pull https://github.com/SlienceAn/vue-vite-demo.git
             workingDirectory: vue-demo
-            displayName: push to git repos  
+            displayName: pull news to git repos  
   # 佈署          
   # - stage: Deploy
   #   displayName: Deploy Stage
