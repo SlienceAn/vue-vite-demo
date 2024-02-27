@@ -45,14 +45,10 @@ stages:
             displayName: pnpm build
             
           - script: |
-              echo $(Build.SourcesDirectory)
-            displayName: show 路徑
-
-          - script: |
               echo $(System.DefaultWorkingDirectory) 
               echo show SourcesDirectory
               echo $(buildPlatform)
-            displayName: show 目錄
+            displayName: show 變數訊息
 
           - script: |
               echo $(Build.SourceVersionMessage)
@@ -69,7 +65,7 @@ stages:
               git config user.email "beast964089@gmail.com"
               git config user.name "silence"
               git add .
-              git commit -m "init"
+              git commit -m "[Pipelines] $(Build.SourcesDirectory)"
               git push
             workingDirectory: vue-vite-demo-dist
             displayName: git dist push success
