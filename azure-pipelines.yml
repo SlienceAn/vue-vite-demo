@@ -78,6 +78,11 @@ stages:
           - checkout: git://Vue3-Vite/vue-demo
             persistCredentials: true
             displayName: 切換至 vue-demo repos
+            
+          - script: |
+              git checkout main
+            workingDirectory: vue-demo
+            displayName: checkout to main
 
           - script: |
               git config user.email "beast964089@gmail.com"
