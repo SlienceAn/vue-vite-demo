@@ -30,13 +30,13 @@ stages:
             workingDirectory: vue-vite-demo    
             displayName: pnpm install
 
-          - checkout: git://Vue3-Vite/vue-demo-dist
+          - checkout: git://Vue3-Vite/vue-vite-demo-dist
             persistCredentials: true
-            displayName: gti clone
+            displayName: gti checkout Dist repos
 
           - script: |
               git checkout main
-            workingDirectory: vue-demo-dist
+            workingDirectory: vue-vite-demo-dist
             displayName: checkout to main
 
           - script: |
@@ -53,11 +53,15 @@ stages:
               echo show SourcesDirectory
               echo $(buildPlatform)
             displayName: show 目錄
-            
+
+          - script: |
+              echo $(Build.SourceVersionMessage)
+            displayName: show push message
+
           - task: CopyFiles@2
             inputs:
               SourceFolder: vue-vite-demo/dist
-              TargetFolder: $(Build.SourcesDirectory)/vue-demo-dist
+              TargetFolder: $(Build.SourcesDirectory)/vue-vite-demo-dist
               OverWrite: true
             displayName: Copy build dist folder  
 
@@ -67,7 +71,7 @@ stages:
               git add .
               git commit -m "init"
               git push
-            workingDirectory: vue-demo-dist
+            workingDirectory: vue-vite-demo-dist
             displayName: git dist push success
   # 佈署          
   - stage: Deploy
