@@ -75,6 +75,10 @@ stages:
       - job: Update
         displayName: 更新與推送 git
         steps:
+           # self:目前存放庫已取出
+          - checkout: self 
+            displayName: git clone
+
           - checkout: git://Vue3-Vite/vue-demo
             persistCredentials: true
             displayName: 切換至 vue-demo repos
@@ -87,7 +91,8 @@ stages:
           - script: |
               git config user.email "beast964089@gmail.com"
               git config user.name "silence"
-              git pull https://github.com/SlienceAn/vue-vite-demo.git
+              git fetch https://github.com/SlienceAn/vue-vite-demo.git --all
+              git pull 
             displayName: pull news to git repos  
   # 佈署          
   # - stage: Deploy
