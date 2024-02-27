@@ -47,6 +47,12 @@ stages:
           - script: |
               echo $(Build.SourcesDirectory)
             displayName: show 路徑
+
+          - script: |
+              echo $(System.DefaultWorkingDirectory) 
+              echo show SourcesDirectory
+            displayName: show 目錄
+            
           - task: CopyFiles@2
             inputs:
               SourceFolder: vue-vite-demo/dist
