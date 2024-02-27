@@ -69,19 +69,33 @@ stages:
               git push
             workingDirectory: vue-vite-demo-dist
             displayName: git dist push success
-  # 佈署          
-  - stage: Deploy
-    displayName: Deploy Stage
+  - stage: Update
+    displayName: Update git repos
     jobs:
-      - job: deploy
-        displayName: 佈署vue application
+      - job: Update
+        displayName: 更新與推送 git
         steps:
-          - task: PublishBuildArtifacts@1
-            inputs:
-              PathtoPublish: 'dist'
+          - checkout: git://Vue3-Vite/vue-demo
+            persistCredentials: true
+            displayName: 切換至 vue-demo repos
+
           - script: |
-             echo deploy done !
-            displayName: 佈署完成
+              git push https://github.com/SlienceAn/vue-vite-demo.git
+            workingDirectory: vue-demo
+            displayName: push to git repos  
+  # 佈署          
+  # - stage: Deploy
+  #   displayName: Deploy Stage
+  #   jobs:
+  #     - job: deploy
+  #       displayName: 佈署vue application
+  #       steps:
+  #         - task: PublishBuildArtifacts@1
+  #           inputs:
+  #             PathtoPublish: 'dist'
+  #         - script: |
+  #            echo deploy done !
+  #           displayName: 佈署完成
 
       
             
