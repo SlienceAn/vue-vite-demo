@@ -81,7 +81,6 @@ stages:
 
           - script: |
               git pull https://github.com/SlienceAn/vue-vite-demo.git
-            workingDirectory: vue-demo
             displayName: pull news to git repos  
   # 佈署          
   # - stage: Deploy
