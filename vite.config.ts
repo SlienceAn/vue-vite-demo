@@ -17,6 +17,17 @@ import { viteMockServe } from 'vite-plugin-mock'
 export default defineConfig((config) => {
   const { mode } = config
   return {
+    build:{
+      outDir:'dist',
+      assetsDir:'static/img/',
+      rollupOptions:{
+        output:{
+          chunkFileNames:'static/js/chunk/[name]-[hash].js',
+          entryFileNames:'static/js/entry/[name]-[hash].js',
+          assetFileNames:'static/[ext]/[name]-[hash].[ext]'
+        }
+      }
+    },
     plugins: [
       vue(),
       vueJsx(),
