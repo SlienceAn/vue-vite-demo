@@ -46,7 +46,6 @@ stages:
             
           - script: |
               echo $(System.DefaultWorkingDirectory) 
-              echo show SourcesDirectory
               echo $(buildPlatform)
             displayName: show 變數訊息
 
