@@ -26,17 +26,17 @@
 const loginStore = useLoginStore()
 const { loginForm } = storeToRefs(loginStore)
 const login = () => loginStore.postLogin()
-const rules={
-  account:[
-    { required:true,message:'請輸入帳號',trigger:'blur' }
+const rules = {
+  account: [
+    { required: true, message: '請輸入帳號', trigger: 'blur' }
   ],
-  password:[
-    { required:true,message:'請輸入帳號',trigger:'blur' }
+  password: [
+    { required: true, message: '請輸入帳號', trigger: 'blur' }
   ]
 }
 </script>
 <style scoped lang="scss">
-.loginBox{
+.loginBox {
   @apply w-1/3;
 }
 </style>
