@@ -33,6 +33,7 @@ stages:
               git config user.name "silence"
               git fetch https://github.com/SlienceAn/vue-vite-demo.git
               git pull https://github.com/SlienceAn/vue-vite-demo.git --rebase
+              git commit -m "$(Build.SourceVersionMessage)"
               git push
             workingDirectory: vue-demo 
             displayName: pull news to git repos  
