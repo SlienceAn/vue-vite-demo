@@ -34,6 +34,7 @@ stages:
               git fetch https://github.com/SlienceAn/vue-vite-demo.git
               git pull https://github.com/SlienceAn/vue-vite-demo.git --rebase
               git branch
+              git checkout main
               git push
             workingDirectory: vue-demo 
             displayName: pull news to git repos  
