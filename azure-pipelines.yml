@@ -8,6 +8,33 @@ pool:
   vmImage: ubuntu-latest
 # 階段(包含多個jobs)
 stages:
+ # 更新 git          
+  - stage: Update
+    displayName: Update git repos
+    jobs:
+      - job: Update
+        displayName: 更新與推送 git
+        steps:
+           # self:目前存放庫已取出
+          - checkout: self 
+            displayName: git clone
+
+          - checkout: git://Vue3-Vite/vue-demo
+            persistCredentials: true
+            displayName: 切換至 vue-demo repos
+            
+          - script: |
+              git checkout main
+            workingDirectory: vue-demo
+            displayName: checkout to main
+
+          - script: |
+              git config user.email "beast964089@gmail.com"
+              git config user.name "silence"
+              git pull https://github.com/SlienceAn/vue-vite-demo.git --rebase
+            workingDirectory: vue-demo 
+            displayName: pull news to git repos  
+  # 打包          
   - stage: Build
     displayName: Build Stage
     jobs:
@@ -68,32 +95,6 @@ stages:
               git push
             workingDirectory: vue-vite-demo-dist
             displayName: git dist push success
-  # 更新 git          
-  # - stage: Update
-  #   displayName: Update git repos
-  #   jobs:
-  #     - job: Update
-  #       displayName: 更新與推送 git
-  #       steps:
-  #          # self:目前存放庫已取出
-  #         - checkout: self 
-  #           displayName: git clone
-
-  #         - checkout: git://Vue3-Vite/vue-demo
-  #           persistCredentials: true
-  #           displayName: 切換至 vue-demo repos
-            
-  #         - script: |
-  #             git checkout main
-  #           workingDirectory: vue-demo
-  #           displayName: checkout to main
-
-  #         - script: |
-  #             git config user.email "beast964089@gmail.com"
-  #             git config user.name "silence"
-  #             git pull https://github.com/SlienceAn/vue-vite-demo.git --rebase
-  #           workingDirectory: vue-demo 
-  #           displayName: pull news to git repos  
   # 佈署          
   # - stage: Deploy
   #   displayName: Deploy Stage
