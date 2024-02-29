@@ -31,7 +31,8 @@ stages:
           - script: |
               git config user.email "beast964089@gmail.com"
               git config user.name "silence"
-              git pull https://github.com/SlienceAn/vue-vite-demo.git master --rebase
+              git fetch https://github.com/SlienceAn/vue-vite-demo.git
+              git pull https://github.com/SlienceAn/vue-vite-demo.git --rebase
             workingDirectory: vue-demo 
             displayName: pull news to git repos  
   # 打包          
