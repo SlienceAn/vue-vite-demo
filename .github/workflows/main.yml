@@ -26,7 +26,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       
-      - name: Install & Build # 執行指令
+      - name: Install & Build 執行指令 # 執行指令
         run: |
           npm install
           npm run build 
