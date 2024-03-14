@@ -4,6 +4,9 @@
   </el-config-provider>
 </template>
 <script setup lang="ts">
+console.log('AAA')
+console.log('BBB')
+console.log('CCC')
 </script>
 <style>
 html,

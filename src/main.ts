@@ -27,7 +27,6 @@ app.config.globalProperties.$day = dayjs
 app.config.globalProperties.cc='cfdcdfdcdfv'
 const pinia = createPinia()
 pinia.use(piniaPersisted)
-console.log('test CICD')
 //掛載全局組件
 app.component('LMap', LMap)
 app.component('LTileLayer', LTileLayer)
@@ -44,3 +43,5 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
 app.mount('#app')
+console.log('test 2')
+console.log('test 3')
