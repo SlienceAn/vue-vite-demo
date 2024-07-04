@@ -17,20 +17,25 @@ import { viteMockServe } from 'vite-plugin-mock'
 export default defineConfig((config) => {
   const { mode } = config
   return {
-    build:{
-      outDir:'dist',
-      assetsDir:'static/img/',
-      rollupOptions:{
-        output:{
-          chunkFileNames:'static/js/chunk/[name].js',
-          entryFileNames:'static/js/entry/[name].js',
-          assetFileNames:'static/[ext]/[name].[ext]',
+    server: {
+      open: false,
+      port: 6969,
+      host: '0.0.0.0',
+    },
+    build: {
+      outDir: 'dist',
+      assetsDir: 'static/img/',
+      rollupOptions: {
+        output: {
+          chunkFileNames: 'static/js/chunk/[name].js',
+          entryFileNames: 'static/js/entry/[name].js',
+          assetFileNames: 'static/[ext]/[name].[ext]',
           //手動拆分node_modules檔案
           manualChunks(id) {
-            if(id.includes('node_modules')) {
+            if (id.includes('node_modules')) {
               const arr = id.toString().split('node_modules/.pnpm/')[1].split('/')[0].replace(/^@/, '').replace(/\+/g, '_')
               const modules = arr.split('@')[0]
-              switch(modules) {
+              switch (modules) {
               case 'axios':
               case 'element-plus':
               case 'dayjs':
@@ -44,8 +49,8 @@ export default defineConfig((config) => {
           }
         }
       },
-      minify:'esbuild',
-      target:'esnext'
+      minify: 'esbuild',
+      target: 'esnext'
     },
     plugins: [
       vue(),
@@ -121,7 +126,7 @@ export default defineConfig((config) => {
         '@': path.resolve(__dirname, './src'),
         '@components': path.resolve(__dirname, './src/components'),
         '@api': path.resolve(__dirname, './src/api'),
-        '@untils':path.resolve(__dirname,'./src/untils')
+        '@untils': path.resolve(__dirname, './src/untils')
       },
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
     },
