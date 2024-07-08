@@ -15,6 +15,7 @@
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
     "@types/express": "^4.17.17",
+    "@vue-flow/core": "^1.38.2",
     "@vueuse/core": "9.13.0",
     "@vueuse/integrations": "^10.3.0",
     "@vueuse/math": "^10.3.0",

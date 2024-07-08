@@ -1,45 +1,3 @@
-<!-- <template>
-  <div class="relative w-full h-full">
-    <div class="loginBox">
-      <el-form
-        :model="loginForm"
-        :rules="rules"
-      >
-        <el-form-item
-          prop="account"
-          label="帳號"
-        >
-          <el-input v-model="loginForm.account" />
-        </el-form-item>
-        <el-form-item
-          prop="password"
-          label="密碼"
-        >
-          <el-input v-model="loginForm.password" />
-        </el-form-item>
-        <el-button @click="login" />
-      </el-form>
-    </div>
-  </div>
-</template>
-<script setup lang="tsx">
-const loginStore = useLoginStore()
-const { loginForm } = storeToRefs(loginStore)
-const login = () => loginStore.postLogin()
-const rules = {
-  account: [
-    { required: true, message: '請輸入帳號', trigger: 'blur' }
-  ],
-  password: [
-    { required: true, message: '請輸入帳號', trigger: 'blur' }
-  ]
-}
-</script>
-<style scoped lang="scss">
-.loginBox {
-  @apply w-1/3;
-}
-</style> -->
 <template>
   <div class="login-container">
     <div class="login-background" />
@@ -57,7 +15,7 @@ const rules = {
       >
         <el-form-item prop="username">
           <el-input
-            v-model="loginForm.username"
+            v-model="loginForm.account"
             placeholder="請輸入帳號"
           >
             <template #prefix>
@@ -89,17 +47,6 @@ const rules = {
             </template>
           </el-input>
         </el-form-item>
-        <div class="login-options">
-          <el-checkbox v-model="loginForm.rememberMe">
-            記住我
-          </el-checkbox>
-          <el-link
-            type="primary"
-            class="forget-password"
-          >
-            忘記密碼？
-          </el-link>
-        </div>
         <el-button
           type="primary"
           class="login-button"
@@ -114,19 +61,12 @@ const rules = {
 </template>
 
 <script setup lang="tsx">
-import { ref, reactive } from 'vue'
-// import { ElMessage } from 'element-plus'
 import { User, Lock, View, Hide } from '@element-plus/icons-vue'
-
+const loginStore = useLoginStore()
+const { loginForm } = storeToRefs(loginStore)
 const loginFormRef = ref(null)
 const showPassword = ref(false)
 const loading = ref(false)
-
-const loginForm = reactive({
-  username: '',
-  password: '',
-  rememberMe: false
-})
 
 const rules = {
   username: [
@@ -144,34 +84,13 @@ const togglePassword = () => {
 }
 
 const handleSubmit = () => {
-  if (!loginFormRef.value) return
-
-  // loginFormRef.value.validate((valid) => {
-  //   if (valid) {
-  //     loading.value = true
-  //     // 模擬 API 調用
-  //     setTimeout(() => {
-  //       console.log('Login attempt with:', loginForm)
-  //       ElMessage.success('登入成功！')
-  //       loading.value = false
-  //     }, 2000)
-  //   } else {
-  //     ElMessage.error('請正確填寫表單！')
-  //     return false
-  //   }
-  // })
+  loginStore.postLogin()
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f0f2f5;
-  position: relative;
-  overflow: hidden;
+  @apply flex justify-center items-center h-screen bg-[#f0f2f5] relative overflow-hidden;
 }
 
 .login-background {

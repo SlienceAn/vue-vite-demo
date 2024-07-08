@@ -19,7 +19,7 @@ export default defineConfig((config) => {
   return {
     server: {
       open: false,
-      port: 6969,
+      port: 2807,
       host: '0.0.0.0',
     },
     build: {
