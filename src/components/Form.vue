@@ -25,7 +25,7 @@
       >
     </div>
     <div class="col">
-      <label for="inspect">巡檢日期ddd</label>
+      <label for="inspect">巡檢日期</label>
       <el-date-picker
         id="inspect"
         value-format="YYYY-MM-DD"
