@@ -17,7 +17,7 @@
       >
     </div>
     <div class="col">
-      <label for="user">巡檢人</label>
+      <label for="user">巡檢人sss</label>
       <input
         id="user"
         v-model="data.user"
