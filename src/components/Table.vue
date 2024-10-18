@@ -64,7 +64,7 @@ const getApiData = async () => {
   isLoading.value = true
   const params = `page=${currentPage.value}&size=${pageSize.value}&${new URLSearchParams(attrs.params).toString()}`
   const url = `/${attrs['api-url']}?${params}`
-  const data = await proxy.$http(url)
+  const data = await proxy.$http.get(url)
   tableData.value = data.data
   isLoading.value = false
 }

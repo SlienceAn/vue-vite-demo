@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { httpRequest } from '../api/api'
+import httpRequest from '../api/request'
 import router from '../router'
 //調用 $patch 方法。它允許您使用部分 “state” 物件同時應用多個更改
 //調用 $reset 方法，將狀態重置到其初始值
@@ -26,12 +26,12 @@ export const useGlobalStore = defineStore('globalStore', {
   }),
   actions: {
     async getCity() {
-      const data = await httpRequest('/city')
+      const data: any = await httpRequest.get('/city')
       this.cityList = data.data
       this.city = data.data[0]
     },
     async getDeviceStatusList() {
-      const data = await httpRequest(`/device/stauts/list?city=${this.city}`)
+      const data: any = await httpRequest.get(`/device/stauts/list?city=${this.city}`)
       this.countList = data.data
     },
     fetchCity() {
@@ -42,8 +42,8 @@ export const useGlobalStore = defineStore('globalStore', {
 })
 //登入
 type loginResponse = {
-  loginForm:{
-    [key:string]:string
+  loginForm: {
+    [key: string]: string
   }
   success: boolean,
   userName: string,
@@ -53,7 +53,7 @@ type loginResponse = {
 }
 export const useLoginStore = defineStore('loginStore', {
   state: (): loginResponse => ({
-    loginForm:{
+    loginForm: {
       account: 'rd',
       password: '123',
     },
@@ -65,7 +65,7 @@ export const useLoginStore = defineStore('loginStore', {
   }),
   actions: {
     async postLogin() {
-      const data = await httpRequest('/login', { method: 'POST', data: this.loginForm })
+      const data = await httpRequest.post('/login', { ...this.loginForm })
       this.data = data
       if (this.data.success) router.replace('/Main/information')
     }
@@ -90,16 +90,16 @@ export const useInformation = defineStore('information', {
     queryList: {
       status: '',
       startDate: '',
-      endDate:''
+      endDate: ''
     }
   }),
   actions: {
     //設備查詢
     async getQeryData() {
       const globalStore = useGlobalStore()
-      const { city } =storeToRefs(globalStore)
-      const data = await httpRequest(`/query?city=${city.value}`)
-      this.data = data.data
+      const { city } = storeToRefs(globalStore)
+      const data: any = await httpRequest.get(`/query?city=${city.value}`)
+      this.data = data
     },
   },
 })

@@ -80,6 +80,7 @@ export default [
         req.on('end', () => resolve(undefined))
       })
       const { account: acc, password: psw } = JSON.parse(reqbody)
+      console.log(JSON.parse(reqbody))
       //PM...只能讀取
       if (acc === 'pm' && psw === '123') {
         res.statusCode = 200
@@ -128,11 +129,11 @@ export default [
         }
         res.end(`${JSON.stringify(data)}`, 'utf-8')
       } else {
-        res.statusCode = 200
+        res.statusCode = 401
         res.setHeader('Content-Type', 'application/json')
         data = {
           success: false,
-          message: 'Login failed'
+          message: '登入失敗'
         }
         res.end(`${JSON.stringify(data)}`, 'utf-8')
       }

@@ -8,8 +8,9 @@ import piniaPersisted from 'pinia-plugin-persistedstate'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/display.css'
+import 'element-plus/theme-chalk/dark/css-vars.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import { httpRequest } from './api/api'
+import httpRequest from './api/request'
 import { LMap, LTileLayer, LMarker } from '@vue-leaflet/vue-leaflet'
 import { createProdMockServer } from 'vite-plugin-mock/es/createProdMockServer'
 import mock from '../mock'
@@ -24,7 +25,6 @@ if (process.env.NODE_ENV === 'production') {
 //掛載全局
 app.config.globalProperties.$http = httpRequest
 app.config.globalProperties.$day = dayjs
-app.config.globalProperties.cc='cfdcdfdcdfv'
 const pinia = createPinia()
 pinia.use(piniaPersisted)
 //掛載全局組件
