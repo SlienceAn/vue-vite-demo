@@ -1,17 +1,6 @@
 import { MockMethod } from 'vite-plugin-mock'
-import { faker } from '@faker-js/faker/locale/zh_TW'
-import dayjs from 'dayjs'
-const { location, date } = faker
-type Data = {
-  id: string
-  city: string
-  address: string
-  latitude: number
-  longitude: number
-  value: any
-  latestUpdate: string
-  status: string
-}
+import data  from './data.ts'
+
 interface query {
   status?: string
   city?: string
@@ -21,50 +10,7 @@ interface query {
 interface device {
   query: query
 }
-//生成ID
-const generateID = () => {
-  const id = Math.random().toString().substring(2, 6)
-  const upperChars: string[] = []
-  for (let i = 65; i < 91; i++) {
-    upperChars.push(String.fromCharCode(i))
-  }
-  const randomChar = upperChars[Math.floor(Math.random() * 26)]
-  return randomChar + id
-}
-const statusRandom = (): string => {
-  const code = Math.floor(Math.random() * (3 - 0))
-  let status = ''
-  switch (code) {
-  case 0:
-    status = 'online'
-    break
-  case 1:
-    status = 'disconnect'
-    break
-  case 2:
-    status = 'abnormal'
-    break
-  }
-  return status
-}
-//All Fake Data
-const data: Data[] = []
-for (let i = 0; i < 5000; i++) {
-  data.push({
-    id: generateID(),
-    city: location.city(),
-    address: location.streetAddress(),
-    latitude: 22.11,
-    longitude: 120.22,
-    value: {
-      TMP: Math.floor(Math.random() * 100),
-      HUM: Math.floor(Math.random() * 100),
-      PM25: Math.floor(Math.random() * 100)
-    },
-    latestUpdate: dayjs(date.past()).format('YYYY-MM-DD HH:mm'),
-    status: statusRandom()
-  })
-}
+
 export default [
   {
     //登入

@@ -1,22 +1,31 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { ElNotification } from 'element-plus'
 
-
+interface ErrorResponseData {
+  success: boolean
+  message: string
+}
 const Request = axios.create({
   baseURL: '/',
 })
-
 const responseDetail = (response: AxiosResponse) => {
   return response
 }
-const responseError = (error: AxiosError) => {
+
+const responseError = (error: AxiosError<ErrorResponseData>) => {
   if (error.response) {
     if (error.response.status === 401) {
       ElNotification.error({
         title: '請求錯誤',
         message: '無權限或是帳號密碼錯誤'
       })
-    } else if (error.response.status === 404) {
+    } else if (error.response.status === 403) {
+      ElNotification.error({
+        title: '請求錯誤',
+        message: error.response.data.message || `Status:${error.response.status}，未知錯誤！`
+      })
+    }
+    else if (error.response.status === 404) {
       ElNotification.error({
         title: '請求錯誤',
         message: '正在請求不存在伺服器'
@@ -24,8 +33,14 @@ const responseError = (error: AxiosError) => {
     }
   }
 }
-//攔截器
-Request.interceptors.request.use()
+//攔截器-request
+Request.interceptors.request.use(
+  (config) => {
+    console.log(config.headers)
+    return config
+  }
+)
+//攔截器-response
 Request.interceptors.response.use(
   responseDetail,
   responseError
