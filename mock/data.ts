@@ -3,15 +3,15 @@ import dayjs from 'dayjs'
 const { location, date } = faker
 
 type Data = {
-    id: string
-    city: string
-    address: string
-    latitude: number
-    longitude: number
-    value: any
-    latestUpdate: string
-    status: string
-  }
+  id: string
+  city: string
+  address: string
+  latitude: number
+  longitude: number
+  data: any
+  latestUpdate: string
+  status: string
+}
 //生成ID
 const generateID = () => {
   const id = Math.random().toString().substring(2, 6)
@@ -48,7 +48,9 @@ const generateLocation = () => {
     longitude: Number(lng.toFixed(6))
   }
 }
-
+const generateValue = (max: number) => {
+  return Math.floor(Math.random() * max)
+}
 const data: Data[] = []
 for (let i = 0; i < 5000; i++) {
   data.push({
@@ -56,11 +58,12 @@ for (let i = 0; i < 5000; i++) {
     city: location.city(),
     address: location.streetAddress(),
     ...generateLocation(),
-    value: {
-      TMP: Math.floor(Math.random() * 100),
-      HUM: Math.floor(Math.random() * 100),
-      PM25: Math.floor(Math.random() * 100)
-    },
+    data: [
+      { item: 'TMP', value: generateValue(100), unit: '˚C', text: '溫度' },
+      { item: 'HUM', value: generateValue(100), unit: 'RH', text: '濕度' },
+      { item: 'WS', value: generateValue(100), unit: 'kn', text: '風速' },
+      { item: 'RAIN', value: generateValue(100), unit: 'mm', text: '雨量' },
+    ],
     latestUpdate: dayjs(date.past()).format('YYYY-MM-DD HH:mm'),
     status: statusRandom()
   })

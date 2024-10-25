@@ -1,5 +1,5 @@
 import { MockMethod } from 'vite-plugin-mock'
-import data  from './data.ts'
+import data from './data.ts'
 
 interface query {
   status?: string
@@ -26,7 +26,6 @@ export default [
         req.on('end', () => resolve(undefined))
       })
       const { account: acc, password: psw } = JSON.parse(reqbody)
-      console.log(JSON.parse(reqbody))
       //PM...只能讀取
       if (acc === 'pm' && psw === '123') {
         res.statusCode = 200
@@ -79,7 +78,7 @@ export default [
         res.setHeader('Content-Type', 'application/json')
         data = {
           success: false,
-          message: '登入失敗'
+          message: '登入失敗!'
         }
         res.end(`${JSON.stringify(data)}`, 'utf-8')
       }
@@ -169,36 +168,43 @@ export default [
     url: '/query',
     method: 'get',
     response: ({ query }: any) => {
-      const { city, status } = query
-      console.log('query query', status)
-      return {
-        success: true,
-        message: 'query success !',
-        data: data
-          .filter(el => el['city'] === city)
-      }
-    }
-  },
-  {
-    //修改測值(初版)
-    url: '/modify/value',
-    method: 'get',
-    response: ({ query }: any) => {
-      console.log(query)
-      const { id, TMP, HUM, PM25 } = query
-      data.forEach(el => {
-        if (el.id === id) {
-          el.value['TMP'] = TMP
-          el.value['HUM'] = HUM
-          el.value['PM25'] = PM25
+      const { city } = query
+      console.log('query', city)
+      const list = data.filter(el => el['city'] === city) || []
+      if (list) {
+        return {
+          success: true,
+          message: 'query success !',
+          data: list
         }
-      })
-      return {
-        success: true,
-        message: 'value modify success'
+      } else {
+        return {
+          success: false,
+          message: 'Query failed',
+        }
       }
     }
   },
+  // {
+  //   //修改測值(初版)
+  //   url: '/modify/value',
+  //   method: 'get',
+  //   response: ({ query }: any) => {
+  //     console.log(query)
+  //     const { id, TMP, HUM, PM25 } = query
+  //     data.forEach(el => {
+  //       if (el.id === id) {
+  //         el.value['TMP'] = TMP
+  //         el.value['HUM'] = HUM
+  //         el.value['PM25'] = PM25
+  //       }
+  //     })
+  //     return {
+  //       success: true,
+  //       message: 'value modify success'
+  //     }
+  //   }
+  // },
   {
     //巡檢表單
     url: '/modify',

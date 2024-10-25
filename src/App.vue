@@ -1,9 +1,12 @@
 <template>
-  <el-config-provider>
+  <el-config-provider :button="config">
     <router-view />
   </el-config-provider>
 </template>
 <script setup lang="ts">
+const config = reactive({
+  autoInsertSpace: true,
+})
 </script>
 <style>
 html,
