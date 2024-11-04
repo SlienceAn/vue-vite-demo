@@ -1,5 +1,5 @@
 import { MockMethod } from 'vite-plugin-mock'
-import data from './data.ts'
+import data, { userList, routerList } from './data.ts'
 
 interface query {
   status?: string
@@ -26,59 +26,28 @@ export default [
         req.on('end', () => resolve(undefined))
       })
       const { account: acc, password: psw } = JSON.parse(reqbody)
-      //PM...只能讀取
-      if (acc === 'pm' && psw === '123') {
-        res.statusCode = 200
-        res.setHeader('Content-Type', 'application/json')
-        data = {
-          success: true,
-          userName: 'PM',
-          isPremission: false,
-          message: 'PM Login Success !',
-          data: [{
-            path: '/Main/Information',
-            name: '主控台',
-            icon: 'mti-Info'
-          },
-          {
-            path: '/Main/Query',
-            name: '設備查詢',
-            icon: 'mti-QueryStats'
-          }]
-        }
-        res.end(`${JSON.stringify(data)}`, 'utf-8')
-        //RD...可以修改資料
-      } else if (acc === 'rd' && psw === '123') {
-        res.statusCode = 200
-        res.setHeader('Content-Type', 'application/json')
-        data = {
-          success: true,
-          userName: 'RD',
-          isPremission: true,
-          message: 'PM Login Success !',
-          data: [{
-            path: '/Main/Information',
-            name: '主控台',
-            icon: 'mti-Info'
-          },
-          {
-            path: '/Main/Query',
-            name: '設備查詢',
-            icon: 'mti-QueryStats'
-          },
-          {
-            path: '/Main/InspectionForm',
-            name: '巡檢表單',
-            icon: 'mti-Description'
-          }]
-        }
-        res.end(`${JSON.stringify(data)}`, 'utf-8')
-      } else {
+      //選單列表
+      const menu: any = []
+      //是否有匹配帳號密碼
+      const userCheck = userList.find(el => el.acc === acc && el.psw === psw)
+      if (!userCheck) {
         res.statusCode = 401
         res.setHeader('Content-Type', 'application/json')
         data = {
           success: false,
           message: '登入失敗!'
+        }
+        res.end(`${JSON.stringify(data)}`, 'utf-8')
+      } else {
+        userCheck.menu.forEach(el => menu.push(routerList[el - 1]))
+        res.statusCode = 200
+        res.setHeader('Content-Type', 'application/json')
+        data = {
+          success: true,
+          userName: userCheck.userName,
+          isPremission: true,
+          message: 'Login Success !',
+          data: menu
         }
         res.end(`${JSON.stringify(data)}`, 'utf-8')
       }
