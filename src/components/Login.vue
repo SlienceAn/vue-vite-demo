@@ -55,7 +55,6 @@
 const loginStore = useLoginStore()
 const { loginForm } = storeToRefs(loginStore)
 const login = () => loginStore.postLogin()
-loginStore.Test()
 const rules = {
   account: [
     { required: true, message: '請輸入帳號', trigger: 'blur' }
