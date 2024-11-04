@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header class="flex items-center justify-between !p-4">
-      <div class="ring w-full flex gap-4 justify-between">
+      <div class="w-full flex gap-4">
         <el-select
           v-model="statusValue"
           placeholder="選擇連線狀態"
@@ -29,14 +29,20 @@
           content="所有異常點"
           class="cursor-pointer"
         >
-          <el-button type="danger">
-            <el-icon
-              size="18"
-              class="cursor-pointer"
+          <el-badge
+            :value="9"
+            type="danger"
+            class="item !ml-auto"
+          >
+            <el-button
+              type="info"
+              @click="isOpen = true"
             >
-              <LocationFilled />
-            </el-icon>
-          </el-button>
+              <el-icon size="18">
+                <LocationFilled />
+              </el-icon>
+            </el-button>
+          </el-badge>
         </el-tooltip>
       </div>
     </el-header>
@@ -77,24 +83,27 @@
           </div>
         </el-card>
       </div>
+
       <el-empty
         v-else
         description="暫無查詢結果"
       />
     </el-main>
   </el-container>
-  <el-drawer v-model="isC">
-    <span>cccc</span>
-  </el-drawer>
+  <DrawerList
+    :is-open="isOpen"
+    @update:close="isOpen = $event"
+  />
 </template>
 <script setup lang="ts">
 import { Search } from '@element-plus/icons-vue'
+import DrawerList from './drawerList.vue'
 const informationStore = useInformation()
 const globalStore = useGlobalStore()
 const { city } = storeToRefs(globalStore)
 const { data } = storeToRefs(informationStore)
-const isC = ref(true)
 const statusValue = ref([])
+const isOpen = ref(false)
 const statusList = ref([
   {
     value: 'disconnect',
@@ -117,6 +126,6 @@ watch(city, () => searchData())
 </script>
 <style scoped lang="scss">
 .error {
-  @apply ring-0.5 ring-red-400 bg-gradient-to-t from-red-400/40 via-white;
+  @apply ring-0.5 ring-red-500 bg-gradient-to-t from-red-500/40 via-white;
 }
 </style>
