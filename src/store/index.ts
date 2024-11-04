@@ -99,7 +99,7 @@ export const useInformation = defineStore('information', {
       const globalStore = useGlobalStore()
       const { city } = storeToRefs(globalStore)
       const data: any = await httpRequest.get(`/query?city=${city.value}`)
-      this.data = data
+      this.data = data.data
     },
   },
 })

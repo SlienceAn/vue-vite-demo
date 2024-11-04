@@ -1,7 +1,14 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+
+const routes_404 = {
+  path: '/:pathMatch(.*)*',
+  hidden: true,
+  component: () => import('../components/404.vue')
+}
+
 const routes = [
   {
     name: 'login',
@@ -28,24 +35,30 @@ const routes = [
         path: '/Main/InspectionForm',
         component: () => import('../components/Main/InspectionForm.vue')
       },
+      {
+        name: '測站分析',
+        path: '/Main/StationAnalysis',
+        component: () => import('../components/Main/StationAnalysis.vue')
+      },
     ]
   }
 ]
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes
 })
 
-router.beforeEach(()=>{
+router.beforeEach(() => {
   NProgress.start()
+  router.addRoute(routes_404)
 })
-router.afterEach(()=>{
+router.afterEach(() => {
   NProgress.done()
 })
-router.onError((error)=>{
+router.onError((error) => {
   ElNotification.error({
-    title:'路由錯誤',
-    message:error.message
+    title: '路由錯誤',
+    message: error.message
   })
 })
 export default router
