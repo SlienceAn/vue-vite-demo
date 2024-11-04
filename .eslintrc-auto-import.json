@@ -310,6 +310,13 @@
     "WritableComputedRef": true,
     "useForm": true,
     "useInformation": true,
-    "usedDD": true
+    "usedDD": true,
+    "DirectiveBinding": true,
+    "MaybeRef": true,
+    "MaybeRefOrGetter": true,
+    "onWatcherCleanup": true,
+    "useId": true,
+    "useModel": true,
+    "useTemplateRef": true
   }
 }
