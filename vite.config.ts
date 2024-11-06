@@ -21,6 +21,13 @@ export default defineConfig((config) => {
       open: false,
       port: 6969,
       host: '0.0.0.0',
+      proxy: {
+        '/api': {
+          target: 'https://vue-vite-demo-api-express.vercel.app',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, '')
+        }
+      }
     },
     build: {
       outDir: 'dist',
