@@ -30,6 +30,11 @@ const responseError = (error: AxiosError<ErrorResponseData>) => {
         title: '請求錯誤',
         message: '正在請求不存在伺服器'
       })
+    } else if (error.response.status === 429) {
+      ElNotification.error({
+        title: '請求錯誤',
+        message: '請求次數過多，請稍後再嘗試'
+      })
     }
   }
 }
