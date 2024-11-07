@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
-import { ElNotification } from 'element-plus'
+import { ElNotification, ElMessageBox } from 'element-plus'
 
 interface ErrorResponseData {
   success: boolean
@@ -7,6 +7,10 @@ interface ErrorResponseData {
 }
 const Request = axios.create({
   baseURL: '/',
+  // 獲取當前請求進度
+  // onDownloadProgress: (progressEvent) => {
+  //   console.log(progressEvent)
+  // }
 })
 const responseDetail = (response: AxiosResponse) => {
   return response
@@ -20,9 +24,16 @@ const responseError = (error: AxiosError<ErrorResponseData>) => {
         message: '無權限或是帳號密碼錯誤'
       })
     } else if (error.response.status === 403) {
-      ElNotification.error({
-        title: '請求錯誤',
-        message: error.response.data.message || `Status:${error.response.status}，未知錯誤！`
+      ElMessageBox.confirm(
+        '當前用戶已被登出或無權限訪問當前資源，請嘗試重新登入後再操作!',
+        '系統通知', {
+          type: 'error',
+          showCancelButton: false,
+          closeOnPressEscape: false,
+          confirmButtonText: '重新登入'
+        }
+      ).then(() => {
+        console.log('返回登入')
       })
     }
     else if (error.response.status === 404) {
@@ -41,7 +52,10 @@ const responseError = (error: AxiosError<ErrorResponseData>) => {
 //攔截器-request
 Request.interceptors.request.use(
   (config) => {
-    console.log(config.headers)
+    const loginStore = useLoginStore()
+    const token = loginStore.token
+    if (token) config.headers['Authorization'] = token
+    console.log(config)
     return config
   }
 )

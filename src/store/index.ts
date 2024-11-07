@@ -27,6 +27,7 @@ export const useGlobalStore = defineStore('globalStore', {
   actions: {
     async getCity() {
       const data: any = await httpRequest.get('/city')
+      await httpRequest.get('/dev/authTest')
       this.cityList = data.data
       this.city = data.data[0]
     },
@@ -49,7 +50,8 @@ type loginResponse = {
   userName: string,
   message: string,
   isPremission: boolean,
-  data: any
+  data: any,
+  token: string
 }
 export const useLoginStore = defineStore('loginStore', {
   state: (): loginResponse => ({
@@ -61,13 +63,17 @@ export const useLoginStore = defineStore('loginStore', {
     success: false,
     data: [],
     message: '',
-    isPremission: false
+    isPremission: false,
+    token: ''
   }),
   actions: {
     async postLogin() {
-      const data = await httpRequest.post('/login', { ...this.loginForm })
+      const data: any = await httpRequest.post('/dev/login', { ...this.loginForm })
       this.data = data
-      if (this.data.success) router.replace('/Main/information')
+      if (data.success) {
+        this.token = data.token
+        router.replace('/Main/information')
+      }
     }
   },
   persist: true
