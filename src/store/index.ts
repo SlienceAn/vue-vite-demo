@@ -74,7 +74,7 @@ export const useLoginStore = defineStore('loginStore', {
         this.token = data.token
         router.replace('/Main/information')
       }
-    }
+    },
   },
   persist: true
 })
