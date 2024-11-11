@@ -7,7 +7,7 @@
       </div>
       <el-menu router>
         <el-menu-item
-          v-for="R in data.data"
+          v-for="R in data.menu"
           :key="R.name"
           :index="R.path"
         >

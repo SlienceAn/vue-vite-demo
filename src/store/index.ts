@@ -27,7 +27,6 @@ export const useGlobalStore = defineStore('globalStore', {
   actions: {
     async getCity() {
       const data: any = await httpRequest.get('/city')
-      await httpRequest.get('/dev/authTest')
       this.cityList = data.data
       this.city = data.data[0]
     },
@@ -68,9 +67,9 @@ export const useLoginStore = defineStore('loginStore', {
   }),
   actions: {
     async postLogin() {
-      const data: any = await httpRequest.post('/dev/login', { ...this.loginForm })
-      this.data = data
+      const data: any = await httpRequest.post('/api/login', { ...this.loginForm })
       if (data.success) {
+        this.data = data
         this.token = data.token
         router.replace('/Main/information')
       }
