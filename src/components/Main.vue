@@ -2,14 +2,18 @@
   <el-container class="h-full">
     <el-aside class="side">
       <div class="h-64px items-center flex gap-2 px-4 border-solid border-b-1px">
-        <i-material-symbols-onsen class="text-4xl text-green-700" />
-        <span>Vue3-Demo</span>
+        <i-material-symbols-javascript class="text-4xl" />
+        <span>vue3-demo</span>
       </div>
-      <el-menu router>
+      <el-menu
+        class="!border-none"
+        default-active="1"
+      >
         <el-menu-item
-          v-for="R in data.menu"
+          v-for="(R, idx) in data.menu"
           :key="R.name"
-          :index="R.path"
+          :index="idx.toString()"
+          :route="{ path: R.path }"
         >
           <component
             :is="R.icon"
@@ -41,9 +45,12 @@
 </template>
 <script setup lang="ts">
 import { Right } from '@element-plus/icons-vue'
+import { useRoute, useRouter } from 'vue-router'
 import SelectPlace from './SelectPlace.vue'
-import router from '../router'
 const loginStore = useLoginStore()
+const route = useRoute()
+const router = useRouter()
+console.log(route.meta)
 const { data } = storeToRefs(loginStore)
 const SignUp = () => router.replace('/')
 </script>
@@ -54,7 +61,7 @@ const SignUp = () => router.replace('/')
 }
 
 .side {
-  @apply w-full md: w-1/6 font-bold bg-white min-h-full border-solid border-r-1px border-r-[#E4E7ED];
+  @apply w-0 md: w-1/6 font-bold bg-dark-100 text-white min-h-full;
 }
 
 .main-content {
@@ -62,10 +69,10 @@ const SignUp = () => router.replace('/')
 }
 
 :deep(.el-menu-item) {
-  @apply gap-3;
+  @apply gap-3 bg-dark-100 text-white;
 }
 
 .is-active {
-  @apply bg-[#ECF5FF] text-[#409EFF] border-solid border-r-4px border-r-[#409EFF];
+  @apply bg-[#fff] text-[#333] border-solid border-r-5px border-r-green-600;
 }
 </style>

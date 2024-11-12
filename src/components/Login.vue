@@ -3,7 +3,7 @@
     <div class="views">
       <div class="back-panel" />
       <div class="front-panel">
-        <div class="text-center py-6 font-bold text-xl">
+        <div class="text-center py-6 font-bold text-3xl title">
           Vue-vite-demo
         </div>
         <el-form
@@ -90,5 +90,11 @@ const rules = {
     padding: 18px 0 18px 0;
     @apply font-bold w-full mt-2;
   }
+}
+
+.title {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 </style>
