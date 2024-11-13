@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import Loading from './components/Loading.vue'
+import Loading from './components/common/Loading.vue'
 import 'virtual:windi.css'
 import router from './router'
 import { createPinia } from 'pinia'

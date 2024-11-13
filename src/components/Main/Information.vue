@@ -25,7 +25,7 @@
 </template>
 <script setup lang="tsx">
 import Card from '../Card.vue'
-import Table from '../Table.vue'
+import Table from '../common/Table.vue'
 import tableFormatter from '../../untils/tableFormatter'
 const informationStore = useInformation()
 const globalStore = useGlobalStore()

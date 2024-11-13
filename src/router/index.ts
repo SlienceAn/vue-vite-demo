@@ -6,7 +6,7 @@ import 'nprogress/nprogress.css'
 const routes_404 = {
   path: '/:pathMatch(.*)*',
   hidden: true,
-  component: () => import('../components/404.vue')
+  component: () => import('../components/other/404.vue')
 }
 
 const routes = [

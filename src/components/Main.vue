@@ -1,41 +1,48 @@
 <template>
   <el-container class="h-full">
-    <el-aside class="side">
-      <div class="h-64px items-center flex gap-2 px-4 border-solid border-b-1px">
-        <i-material-symbols-javascript class="text-4xl" />
-        <span>vue3-demo</span>
-      </div>
-      <el-menu
-        router
-        class="!border-none"
-        @select="handleSelect"
+    <el-menu
+      :router="true"
+      :default-active="route.path"
+      :collapse="menuCollapse"
+      class="!border-none el-menu-main"
+    >
+      <el-menu-item disabled>
+        <i-material-symbols-cable class="text-2xl" />
+        <template #title>
+          Vue Demo
+        </template>
+      </el-menu-item>
+      <el-menu-item
+        v-for="R in data.menu"
+        :key="R.name"
+        :index="R.path"
+        class="font-bold"
       >
-        <el-menu-item
-          v-for="R in data.menu"
-          :key="R.name"
-          :index="R.path"
-        >
-          <component
-            :is="R.icon"
-            class="text-xl"
-          />
-          <span>{{ R.name }}</span>
-        </el-menu-item>
-      </el-menu>
-    </el-aside>
+        <component
+          :is="R.icon"
+          class="text-xl"
+        />
+        <template #title>
+          {{ R.name }}
+        </template>
+      </el-menu-item>
+    </el-menu>
     <el-container>
       <el-header class="navbar">
-        <span class="flex items-center gap-2">
-          <i-material-symbols-menu class="text-xl" />
+        <span
+          class="flex items-center gap-2 hover:cursor-pointer"
+          @click="handleCollapse"
+        >
+          <i-material-symbols-menu-open class="text-xl" />
           <span class="font-bold text-lg">{{ $route.name }}</span>
         </span>
         <select-place />
         <el-button
-          circle
-          :icon="Right"
-          type="primary"
+          class="border-none"
           @click="SignUp"
-        />
+        >
+          <i-material-symbols-logout class="text-xl" />
+        </el-button>
       </el-header>
       <el-main class="bg-[#E4E7ED] !p-0">
         <router-view />
@@ -44,17 +51,19 @@
   </el-container>
 </template>
 <script setup lang="ts">
-import { Right } from '@element-plus/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
-import SelectPlace from './SelectPlace.vue'
-const loginStore = useLoginStore()
+import SelectPlace from './common/SelectPlace.vue'
 const route = useRoute()
 const router = useRouter()
-console.log(route.meta)
+const globalStore = useGlobalStore()
+const loginStore = useLoginStore()
+const { menuCollapse } = storeToRefs(globalStore)
 const { data } = storeToRefs(loginStore)
 const SignUp = () => router.replace('/')
-const handleSelect = (val: any) => {
-  console.log(val)
+const handleCollapse = () => {
+  globalStore.$patch({
+    menuCollapse: !menuCollapse.value
+  })
 }
 </script>
 <style scoped lang="scss">
@@ -63,8 +72,12 @@ const handleSelect = (val: any) => {
   border-bottom: 1px solid #bdbcbc;
 }
 
-.side {
-  @apply w-0 md: w-1/6 font-bold bg-dark-100 text-white min-h-full;
+.el-menu-main {
+  background: linear-gradient(135deg, #5e5e5e, #222222);
+
+  // &:not(.el-menu--collapse) .el-menu-item .el-icon {
+  //   font-size: 60px;
+  // }
 }
 
 .main-content {
@@ -72,10 +85,18 @@ const handleSelect = (val: any) => {
 }
 
 :deep(.el-menu-item) {
-  @apply gap-3 bg-dark-100 text-white;
-}
+  @apply gap-3 text-white;
 
-.is-active {
-  @apply bg-[#fff] text-[#333] border-solid border-r-5px border-r-green-600;
+  &:hover {
+    @apply bg-white bg-opacity-50 border-solid;
+  }
+
+  &.is-active {
+    @apply bg-[#fff] text-[#333] border-solid border-r-5px border-r-green-600;
+  }
+
+  &.is-disabled{
+    @apply min-h-[64px] opacity-100 cursor-default font-bold;
+  }
 }
 </style>

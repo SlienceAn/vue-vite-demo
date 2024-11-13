@@ -13,6 +13,7 @@ interface CountList {
   color: string
 }
 interface globalStore {
+  menuCollapse: boolean
   city: string
   cityList: Array<string>
   countList: Array<CountList>
@@ -20,6 +21,7 @@ interface globalStore {
 
 export const useGlobalStore = defineStore('globalStore', {
   state: (): globalStore => ({
+    menuCollapse: false,
     cityList: [],
     countList: [],
     city: ''

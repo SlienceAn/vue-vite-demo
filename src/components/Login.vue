@@ -40,7 +40,7 @@
             />
           </el-form-item>
           <el-button
-            type="primary"
+            type="info"
             class="btn"
             @click="login"
           >
@@ -66,7 +66,7 @@ const rules = {
 </script>
 <style scoped lang="scss">
 .wrapper {
-  @apply min-h-screen bg-gray-200 p-6 flex flex-col justify-center;
+  @apply min-h-screen p-6 flex flex-col justify-center bg-[#fff];
 }
 
 .views {
@@ -74,12 +74,12 @@ const rules = {
 }
 
 .back-panel {
-  @apply rounded-3xl absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-600 shadow-lg transform -skew-y-6;
+  @apply rounded-3xl absolute inset-0 bg-gradient-to-r from-gray-300 to-dark-600 shadow-lg transform -skew-y-6;
   @apply sm:-skew-y-0 sm:rotate-6;
 }
 
 .front-panel {
-  @apply relative px-4 py-10 bg-white shadow-lg rounded-3xl;
+  @apply relative px-4 py-10 bg-[#fff] shadow-lg rounded-3xl border border-gray-200 border-2;
   @apply sm:p-0 sm:w-[400px];
 
   .label {

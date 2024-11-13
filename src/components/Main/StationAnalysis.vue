@@ -19,7 +19,7 @@
   </el-container>
 </template>
 <script lang="tsx" setup>
-import Echart from '../Echart.vue'
+import Echart from '../common/Echart.vue'
 const date = ref(new Date())
 const option = {
   title: {
