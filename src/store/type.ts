@@ -20,13 +20,13 @@ export type Store<T = unknown> = {
         userName: string,
         message: string,
         isPremission: boolean,
-        data: T,
+        data: T | null,
         token: string
     };
     information: {
         isLoading: boolean
         status: string
-        data: T[]
+        data: T | null
         queryList: {
             [key: string]: string
         }

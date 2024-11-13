@@ -30,14 +30,20 @@ export const useGlobalStore = defineStore('globalStore', {
 })
 //登入
 export const useLoginStore = defineStore('loginStore', {
-  state: (): Store['login'] => ({
+  state: (): Store<{
+    success: boolean, message: string,
+    token?: string,
+    isPremission?: boolean,
+    usersname?: string,
+    menu?: any[]
+  }>['login'] => ({
     loginForm: {
       account: 'rd',
       password: '123',
     },
     userName: '',
     success: false,
-    data: [],
+    data: null,
     message: '',
     isPremission: false,
     token: ''
@@ -60,7 +66,7 @@ export const useInformation = defineStore('information', {
   state: (): Store['information'] => ({
     isLoading: true,
     status: '',
-    data: [],
+    data: null,
     queryList: {
       status: '',
       startDate: '',
