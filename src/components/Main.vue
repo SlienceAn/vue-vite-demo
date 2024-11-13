@@ -6,14 +6,14 @@
         <span>vue3-demo</span>
       </div>
       <el-menu
+        router
         class="!border-none"
-        default-active="1"
+        @select="handleSelect"
       >
         <el-menu-item
-          v-for="(R, idx) in data.menu"
+          v-for="R in data.menu"
           :key="R.name"
-          :index="idx.toString()"
-          :route="{ path: R.path }"
+          :index="R.path"
         >
           <component
             :is="R.icon"
@@ -53,6 +53,9 @@ const router = useRouter()
 console.log(route.meta)
 const { data } = storeToRefs(loginStore)
 const SignUp = () => router.replace('/')
+const handleSelect = (val: any) => {
+  console.log(val)
+}
 </script>
 <style scoped lang="scss">
 .navbar {
