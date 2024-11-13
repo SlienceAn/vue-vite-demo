@@ -1,0 +1,37 @@
+export type Store<T = unknown> = {
+    CountList: {
+        title: string
+        type: string
+        message: number
+        icon: string
+        color: string
+    };
+    global: {
+        menuCollapse: boolean
+        city: string
+        cityList: string[]
+        countList: Store['CountList'][]
+    };
+    login: {
+        loginForm: {
+            [key: string]: string
+        }
+        success: boolean,
+        userName: string,
+        message: string,
+        isPremission: boolean,
+        data: T,
+        token: string
+    };
+    information: {
+        isLoading: boolean
+        status: string
+        data: T[]
+        queryList: {
+            [key: string]: string
+        }
+    };
+    inspect: {
+        form: any[]
+    }
+}

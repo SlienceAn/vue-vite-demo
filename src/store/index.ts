@@ -1,26 +1,12 @@
 import { defineStore } from 'pinia'
+import { Store } from './type'
 import httpRequest from '../api/request'
 import router from '../router'
 //調用 $patch 方法。它允許您使用部分 “state” 物件同時應用多個更改
 //調用 $reset 方法，將狀態重置到其初始值
-//state推薦使用 完整類型推斷的箭頭函數
-
-interface CountList {
-  title: string
-  type: string
-  message: number
-  icon: string
-  color: string
-}
-interface globalStore {
-  menuCollapse: boolean
-  city: string
-  cityList: Array<string>
-  countList: Array<CountList>
-}
-
+//state推薦使用完整類型推斷的箭頭函數
 export const useGlobalStore = defineStore('globalStore', {
-  state: (): globalStore => ({
+  state: (): Store['global'] => ({
     menuCollapse: false,
     cityList: [],
     countList: [],
@@ -43,19 +29,8 @@ export const useGlobalStore = defineStore('globalStore', {
   persist: true
 })
 //登入
-type loginResponse = {
-  loginForm: {
-    [key: string]: string
-  }
-  success: boolean,
-  userName: string,
-  message: string,
-  isPremission: boolean,
-  data: any,
-  token: string
-}
 export const useLoginStore = defineStore('loginStore', {
-  state: (): loginResponse => ({
+  state: (): Store['login'] => ({
     loginForm: {
       account: 'rd',
       password: '123',
@@ -81,16 +56,8 @@ export const useLoginStore = defineStore('loginStore', {
 })
 
 //設備資訊
-interface informationConfig {
-  isLoading: boolean
-  status: string
-  data: Array<any>
-  queryList: {
-    [key: string]: string
-  }
-}
 export const useInformation = defineStore('information', {
-  state: (): informationConfig => ({
+  state: (): Store['information'] => ({
     isLoading: true,
     status: '',
     data: [],
@@ -110,11 +77,9 @@ export const useInformation = defineStore('information', {
     },
   },
 })
-type formConfig = {
-  form: any[]
-}
+
 export const useForm = defineStore('inspectForm', {
-  state: (): formConfig => ({
+  state: (): Store['inspect'] => ({
     form: []
   }),
   actions: {
