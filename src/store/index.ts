@@ -5,6 +5,7 @@ import router from '../router'
 //調用 $patch 方法。它允許您使用部分 “state” 物件同時應用多個更改
 //調用 $reset 方法，將狀態重置到其初始值
 //state推薦使用完整類型推斷的箭頭函數
+
 export const useGlobalStore = defineStore('globalStore', {
   state: (): Store['global'] => ({
     menuCollapse: false,
