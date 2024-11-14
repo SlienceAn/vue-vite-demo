@@ -31,7 +31,8 @@ export const useGlobalStore = defineStore('globalStore', {
 //登入
 export const useLoginStore = defineStore('loginStore', {
   state: (): Store<{
-    success: boolean, message: string,
+    success: boolean,
+    message: string,
     token?: string,
     isPremission?: boolean,
     usersname?: string,

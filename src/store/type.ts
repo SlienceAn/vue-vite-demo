@@ -1,4 +1,9 @@
-export type Store<T = unknown> = {
+type ApiResponse = {
+    success: boolean;
+    message: string;
+    [key: string]: unknown;
+}
+export type Store<T extends ApiResponse = ApiResponse> = {
     CountList: {
         title: string
         type: string
