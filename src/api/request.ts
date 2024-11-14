@@ -1,12 +1,12 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { ElNotification, ElMessageBox } from 'element-plus'
-
+import { useRouter } from 'vue-router'
 interface ErrorResponseData {
   success: boolean
   message: string
 }
 const Request = axios.create({
-  baseURL: '/',
+  baseURL: process.env.NODE_ENV !== 'development' ? '/api' : '/'
   // 獲取當前請求進度
   // onDownloadProgress: (progressEvent) => {
   //   console.log(progressEvent)
@@ -33,7 +33,9 @@ const responseError = (error: AxiosError<ErrorResponseData>) => {
           confirmButtonText: '重新登入'
         }
       ).then(() => {
+        const router = useRouter()
         console.log('返回登入')
+        router.push('/login')
       })
     }
     else if (error.response.status === 404) {

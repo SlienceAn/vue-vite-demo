@@ -51,7 +51,7 @@ export const useLoginStore = defineStore('loginStore', {
   }),
   actions: {
     async postLogin() {
-      const data: any = await httpRequest.post('/api/login', { ...this.loginForm })
+      const data: any = await httpRequest.post('/login', { ...this.loginForm })
       if (data.success) {
         this.data = data
         this.token = data.token
