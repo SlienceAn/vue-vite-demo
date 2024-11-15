@@ -19,11 +19,12 @@ const routes = [
     name: 'Main',
     path: '/Main',
     component: () => import('../components/Main.vue'),
+    redirect: '/main/Information',
     children: [
       {
         name: '主控台',
         path: '/Main/Information',
-        component: () => import('../components/Main/Information.vue')
+        component: () => import('../components/Main/Information.vue'),
       },
       {
         name: '設備查詢',

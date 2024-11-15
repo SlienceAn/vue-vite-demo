@@ -3,7 +3,7 @@
     trigger="click"
     @command="handleSelect"
   >
-    <div class="wrapper flex items-center justify-between px-4 text-gray-700">
+    <div class="wrapper">
       <div />
       <span class="text-xl font-bold">{{ city }}</span>
       <el-icon>
@@ -34,6 +34,6 @@ onMounted(() => globalStore.getCity())
 </script>
 <style lang="scss" scoped>
 .wrapper {
-  @apply w-200px h-40px border rounded-md border-gray-300;
+  @apply w-200px h-40px rounded-md flex items-center justify-between px-4 text-gray-700 border border-solid border-gray cursor-pointer;
 }
 </style>

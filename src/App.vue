@@ -4,9 +4,12 @@
   </el-config-provider>
 </template>
 <script setup lang="ts">
+// import { useWindowSize } from '@vueuse/core'
 const config = reactive({
   autoInsertSpace: true,
 })
+// const { width, height } = useWindowSize()
+
 </script>
 <style>
 body {
@@ -14,7 +17,8 @@ body {
 
   @apply font-["Microsoft_JhengHei"];
 }
-#app{
+
+#app {
   @apply h-screen;
 }
 </style>

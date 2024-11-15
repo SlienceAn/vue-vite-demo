@@ -2,7 +2,7 @@
   <el-container class="h-full">
     <el-menu
       :router="true"
-      :default-active="route.path"
+      :default-active="$route.path"
       :collapse="menuCollapse"
       class="!border-none el-menu-main"
     >
@@ -39,7 +39,7 @@
         <select-place />
         <el-button
           class="border-none"
-          @click="SignUp"
+          @click="$router.replace('/login')"
         >
           <i-material-symbols-logout class="text-xl" />
         </el-button>
@@ -51,15 +51,11 @@
   </el-container>
 </template>
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router'
 import SelectPlace from './common/SelectPlace.vue'
-const route = useRoute()
-const router = useRouter()
 const globalStore = useGlobalStore()
 const loginStore = useLoginStore()
 const { menuCollapse } = storeToRefs(globalStore)
 const { data } = storeToRefs(loginStore)
-const SignUp = () => router.replace('/')
 const handleCollapse = () => {
   globalStore.$patch({
     menuCollapse: !menuCollapse.value
@@ -74,10 +70,6 @@ const handleCollapse = () => {
 
 .el-menu-main {
   background: linear-gradient(135deg, #5e5e5e, #222222);
-
-  // &:not(.el-menu--collapse) .el-menu-item .el-icon {
-  //   font-size: 60px;
-  // }
 }
 
 .main-content {
@@ -95,7 +87,7 @@ const handleCollapse = () => {
     @apply bg-[#fff] text-[#333] border-solid border-r-5px border-r-green-600;
   }
 
-  &.is-disabled{
+  &.is-disabled {
     @apply min-h-[64px] opacity-100 cursor-default font-bold;
   }
 }

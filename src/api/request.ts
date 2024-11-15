@@ -55,7 +55,6 @@ Request.interceptors.request.use(
     const loginStore = useLoginStore()
     const token = loginStore.token
     if (token) config.headers['Authorization'] = token
-    console.log(config)
     return config
   }
 )
