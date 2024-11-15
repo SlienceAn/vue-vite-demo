@@ -6,7 +6,8 @@ import transformerDirectives from '@unocss/transformer-directives'
 export default defineConfig({
   presets: [
     presetUno({
-      dark: 'class'
+      dark: 'class',
+      preflight: true,
     }),
     presetAttributify()
   ],
@@ -14,7 +15,6 @@ export default defineConfig({
     transformerDirectives()
   ],
   theme: {
-    colors: {},
     breakpoints: {
       xs: '768px',
       sm: '768px',

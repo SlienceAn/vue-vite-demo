@@ -45,12 +45,13 @@ const fetchData = (val: string) => informationStore.$patch({ status: val })
 </script>
 <style scoped lang="scss">
 .card-group {
-  @apply flex gap-2 flex-col px-2 pt-2 md: flex-row;
+  @apply flex gap-2 px-2 pt-2 md: flex-row;
 }
 
 .selected {
   @apply relative bg-[#ECF5FF] text-[#409EFF] border border-blue-400;
 
+  // 三角形
   &:after {
     @apply absolute w-0 h-0 left-1/2 border-l-[10px] border-l-transparent border-t-[15px] border-t-blue-400 border-r-[10px] border-r-transparent;
     content: "";

@@ -9,11 +9,12 @@ const config = reactive({
 })
 </script>
 <style>
-html,
 body {
-  height: 100%;
+  @apply m-0 p-0 w-full min-h-screen;
+
+  @apply font-["Microsoft_JhengHei"];
 }
-#app {
-  height: 100vh;
+#app{
+  @apply h-screen;
 }
 </style>

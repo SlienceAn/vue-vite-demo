@@ -88,7 +88,7 @@ const handleCollapse = () => {
   @apply gap-3 text-white;
 
   &:hover {
-    @apply bg-white bg-opacity-50 border-solid;
+    @apply bg-white bg-opacity-50;
   }
 
   &.is-active {

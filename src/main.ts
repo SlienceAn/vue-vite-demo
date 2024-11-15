@@ -1,20 +1,29 @@
+// Core Vue imports
 import { createApp } from 'vue'
 import App from './App.vue'
-import Loading from './components/common/Loading.vue'
-import 'virtual:uno.css'
 import router from './router'
+// Pinia (State Management)
 import { createPinia } from 'pinia'
 import piniaPersisted from 'pinia-plugin-persistedstate'
+// Element Plus
 import ElementPlus from 'element-plus'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/display.css'
-import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import httpRequest from './api/request'
+// Map Components
 import { LMap, LTileLayer, LMarker } from '@vue-leaflet/vue-leaflet'
+// Custom Components
+import Loading from './components/common/Loading.vue'
+// Icons
+import * as materialIcons from './assets/icons/material-icons'
+// Styles
+import 'virtual:uno.css'
+// API and Utilities
+import httpRequest from './api/request'
+import dayjs from 'element-plus'
+// Mock Service
 import { createProdMockServer } from 'vite-plugin-mock/es/createProdMockServer'
 import mock from '../mock'
-import dayjs from 'element-plus'
-import * as materialIcons from './assets/icons/material-icons'
 
 const app = createApp(App)
 //mock運行在生產環境
