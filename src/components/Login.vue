@@ -66,7 +66,7 @@ const rules = {
 </script>
 <style scoped lang="scss">
 .wrapper {
-  @apply p-6 flex flex-col justify-center bg-white;
+  @apply flex flex-col justify-center bg-white min-h-screen;
 }
 
 .views {
@@ -74,8 +74,8 @@ const rules = {
 }
 
 .back-panel {
-  @apply rounded-3xl absolute inset-0 bg-gradient-to-r from-gray-300 to-dark-600 shadow-lg transform -skew-y-6;
-  @apply sm:-skew-y-0 sm:rotate-6;
+  @apply rounded-3xl absolute inset-0 bg-gradient-to-r from-gray-300 to-dark-600 shadow-lg transform;
+  @apply sm:rotate-6;
 }
 
 .front-panel {
