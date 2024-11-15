@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import WindiCSS from 'vite-plugin-windicss'
 import path from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
 import AutoImportComponents from 'unplugin-vue-components/vite'
@@ -12,8 +11,8 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import Checker from 'vite-plugin-checker'
 import eslint from 'vite-plugin-eslint'
 import { viteMockServe } from 'vite-plugin-mock'
+import UnoCSS from 'unocss/vite'
 
-// https://vitejs.dev/config/
 export default defineConfig((config) => {
   const { mode } = config
   return {
@@ -67,7 +66,7 @@ export default defineConfig((config) => {
     plugins: [
       vue(),
       vueJsx(),
-      WindiCSS(),
+      UnoCSS(),
       AutoImport({
         include: [
           /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx

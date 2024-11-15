@@ -66,7 +66,7 @@ const rules = {
 </script>
 <style scoped lang="scss">
 .wrapper {
-  @apply min-h-screen p-6 flex flex-col justify-center bg-[#fff];
+  @apply min-h-screen p-6 flex flex-col justify-center bg-white;
 }
 
 .views {

@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import Loading from './components/common/Loading.vue'
-import 'virtual:windi.css'
+import 'virtual:uno.css'
 import router from './router'
 import { createPinia } from 'pinia'
 import piniaPersisted from 'pinia-plugin-persistedstate'
