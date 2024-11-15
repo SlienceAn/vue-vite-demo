@@ -5,8 +5,9 @@ import router from '../router'
 //調用 $patch 方法。它允許您使用部分 “state” 物件同時應用多個更改
 //調用 $reset 方法，將狀態重置到其初始值
 //state推薦使用完整類型推斷的箭頭函數
+
 export const useGlobalStore = defineStore('globalStore', {
-  state: (): Store['global'] => ({
+  state: (): Store<any>['global'] => ({
     menuCollapse: false,
     cityList: [],
     countList: [],
@@ -64,7 +65,7 @@ export const useLoginStore = defineStore('loginStore', {
 
 //設備資訊
 export const useInformation = defineStore('information', {
-  state: (): Store['information'] => ({
+  state: (): Store<any>['information'] => ({
     isLoading: true,
     status: '',
     data: null,
@@ -86,7 +87,7 @@ export const useInformation = defineStore('information', {
 })
 
 export const useForm = defineStore('inspectForm', {
-  state: (): Store['inspect'] => ({
+  state: (): Store<any>['inspect'] => ({
     form: []
   }),
   actions: {

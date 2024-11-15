@@ -48,7 +48,7 @@
     </el-header>
     <el-main class="!p-0">
       <div
-        v-if="data.length !== 0"
+        v-if="data"
         class="p-4 grid grid-cols-3 gap-4"
       >
         <el-card
@@ -86,7 +86,7 @@
 
       <el-empty
         v-else
-        description="暫無查詢結果"
+        description="撈取資料錯誤"
       />
     </el-main>
   </el-container>
