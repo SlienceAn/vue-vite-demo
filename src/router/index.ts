@@ -53,6 +53,9 @@ router.beforeEach((to, from, next) => {
   const loginStore = useLoginStore()
   const token = loginStore.token
   console.log(from)
+
+  // 完整的 URL 路徑,包含查詢參數和 hash
+  console.log(to.fullPath)
   router.addRoute(routes_404)
   if (to.path !== '/login' && !token) {
     next({
