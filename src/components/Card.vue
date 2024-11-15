@@ -1,6 +1,6 @@
 <template>
   <div class="card rounded-md">
-    <div class="card-body py-2 px-4 flex justify-between items-center font-bold">
+    <div class="card-body">
       <div>
         <span>{{ title }}</span>
         <div class="font-bold text-4xl mt-4">
@@ -25,9 +25,11 @@ defineProps<{
 </script>
 <style scoped lang="scss">
 .card {
-  background: #fff;
-  box-shadow: 0 1px 20px 0 rgba(10, 166, 239, 0.08);
-  @apply w-full border border-gray-100 hover:cursor-pointer;
+  @apply bg-[#fff] w-full border border-gray-100 cursor-pointer shadow-lg;
+
+  &-body {
+    @apply py-2 px-4 flex justify-between items-center font-bold;
+  }
 
   &-footer {
     border-top: 1px solid;

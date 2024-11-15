@@ -2,17 +2,15 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-
 const routes_404 = {
   path: '/:pathMatch(.*)*',
   hidden: true,
   component: () => import('../components/other/404.vue')
 }
-
 const routes = [
   {
     name: 'login',
-    path: '/',
+    path: '/login',
     component: () => import('../components/Login.vue')
   },
   {
@@ -25,6 +23,7 @@ const routes = [
         name: '主控台',
         path: '/Main/Information',
         component: () => import('../components/Main/Information.vue'),
+        alias: ['/Main', '/']
       },
       {
         name: '設備查詢',
@@ -49,10 +48,29 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach(() => {
+router.beforeEach((to, from, next) => {
   NProgress.start()
+  const loginStore = useLoginStore()
+  const token = loginStore.token
+  console.log(from)
   router.addRoute(routes_404)
+  if (to.path !== '/login' && !token) {
+    next({
+      path: '/login'
+    })
+    return false
+  }
+  // 如果已登入但訪問登入頁，轉到首頁
+  // if (to.path === '/login' && token) {
+  //   next({
+  //     path: '/'
+  //   })
+  //   return false
+  // }
+  next()
 })
+
+
 router.afterEach(() => {
   NProgress.done()
 })

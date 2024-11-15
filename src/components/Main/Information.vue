@@ -49,13 +49,13 @@ const fetchData = (val: string) => informationStore.$patch({ status: val })
 }
 
 .selected {
-  @apply relative bg-[#ECF5FF] text-[#409EFF] border border-blue-400;
+  @apply relative bg-[#ECF5FF] text-[#409EFF] border border-solid border-blue-400;
 
-  // 三角形
+  // 三角形(待處理)
   &:after {
-    @apply absolute w-0 h-0 left-1/2 border-l-[10px] border-l-transparent border-t-[15px] border-t-blue-400 border-r-[10px] border-r-transparent;
     content: "";
     z-index: 5;
+    @apply absolute top-0 left-1/2 w-0 h-0 border-[15px_solid_transparent] border-t-[15px_solid_blue];
   }
 }
 </style>
