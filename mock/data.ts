@@ -14,7 +14,7 @@ type Data = {
   [key: string]: any
 }
 //Router List
-export const routerList = [{
+const routerList = [{
   path: '/Main/Information',
   name: '主控台',
   icon: 'mti-Info'
@@ -35,7 +35,7 @@ export const routerList = [{
   icon: 'mti-TroubleShoot'
 }]
 //User List
-export const userList = [
+const userList = [
   {
     acc: 'pm',
     psw: '123',
@@ -62,48 +62,52 @@ export const userList = [
   }
 ]
 
-//生成ID
-// const generateID = () => {
-//   const id = Math.random().toString().substring(2, 6)
-//   const upperChars: string[] = []
-//   for (let i = 65; i < 91; i++) {
-//     upperChars.push(String.fromCharCode(i))
-//   }
-//   const randomChar = upperChars[Math.floor(Math.random() * 26)]
-//   return randomChar + id
-// }
+const count = 1000 as const
+const CITY = ['台北', '高雄', '台南', '屏東', '彰化'] as const
+const STATUS = ['online', 'disconnect', 'abnormal'] as const
+const ITEMS = [
+  { item: 'TMP', unit: '˚C', text: '溫度' },
+  { item: 'HUM', unit: 'RH', text: '濕度' },
+  { item: 'WS', unit: 'kn', text: '風速' },
+  { item: 'RAIN', unit: 'mm', text: '雨量' },
+] as const
 
-//生成隨機狀態
-const statusRandom = (): string => {
-  const statusList= ['online','disconnect','abnormal']
-  const code = Math.floor(Math.random() * (3 - 0))
-  return statusList[code]
+// 生成函數
+const getRandomElement = <T>(array: readonly T[]): T => {
+  return array[Math.floor(Math.random() * array.length)]
 }
+
 // 產生日期範圍
 const dateRange = Array.from({ length: 60 }, (_, i) => dayjs().add(-i, 'day').format('YYYY-MM-DD'))
 // 產生測項資料
-const generateUnitData = () => {
+const generateItemData = (days: number) => {
   return {
     date: dateRange,
-    value: Array.from({ length: 60 }, () => faker.number.int({ min: 0, max: 100 })),
+    value: Array.from({ length: days },
+      () => faker.number.int({ min: 0, max: 100 })),
   }
 }
 // 單一設備資訊
-const singleDeviceData = Array.from({ length: 500 }, (): Data => {
+const singleDeviceData = Array.from({ length: count }, (): Data => {
   return {
     id: faker.string.uuid(),
-    city: location.city(),
+    city: getRandomElement(CITY),
     address: location.streetAddress(),
     latitude: +faker.number.float({ min: 21.90, max: 25.30 }).toFixed(5),
     longitude: +faker.number.float({ min: 120.00, max: 122.00 }).toFixed(5),
-    data: [
-      { item: 'TMP', value: generateUnitData(), unit: '˚C', text: '溫度' },
-      { item: 'HUM', value: generateUnitData(), unit: 'RH', text: '濕度' },
-      { item: 'WS', value: generateUnitData(), unit: 'kn', text: '風速' },
-      { item: 'RAIN', value: generateUnitData(), unit: 'mm', text: '雨量' },
-    ],
+    data: ITEMS.map(({ item, unit, text }) => ({
+      item,
+      unit,
+      text,
+      value: generateItemData(60)
+    })),
     latestUpdate: dayjs(date.past()).format('YYYY-MM-DD HH:mm'),
-    status: statusRandom()
+    status: getRandomElement(STATUS)
   }
 })
-export default singleDeviceData
+export default {
+  data: singleDeviceData,
+  city: CITY,
+  routerList,
+  userList
+}

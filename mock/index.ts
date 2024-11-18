@@ -1,6 +1,7 @@
 import { MockMethod } from 'vite-plugin-mock'
-import data, { userList, routerList } from './data.ts'
+import mockData from './data.ts'
 
+const { data, city, userList, routerList } = mockData
 interface query {
   status?: string
   city?: string
@@ -102,7 +103,7 @@ export default [
       return {
         success: true,
         message: 'get city data',
-        data: Array.from(new Set(data.map(el => el.city))).slice(0, 13)
+        data: city
       }
     }
   },

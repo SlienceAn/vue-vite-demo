@@ -9,7 +9,6 @@ const config = reactive({
   autoInsertSpace: true,
 })
 // const { width, height } = useWindowSize()
-
 </script>
 <style>
 body {
