@@ -25,7 +25,8 @@
     "noImplicitAny": false,
     "types": [
       "element-plus/global",
-      "unplugin-icons/types/vue"
+      "unplugin-icons/types/vue",
+       "vite/client"
     ]
   },
   "include": [
@@ -35,7 +36,8 @@
     "src/**/*.vue", 
     "src/mockProdServer.js",
     "./auto-imports.d.ts",
-    "plugins/**/*.ts"
+    "plugins/**/*.ts",
+    "mock/**/*.ts"
   ],
   "exclude": ["dist", "node_modules"],
   "references": [

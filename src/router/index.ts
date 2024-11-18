@@ -50,19 +50,19 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  const loginStore = useLoginStore()
-  const token = loginStore.token
+  // const loginStore = useLoginStore()
+  // const token = loginStore.token
   console.log(from)
 
   // 完整的 URL 路徑,包含查詢參數和 hash
   console.log(to.fullPath)
   router.addRoute(routes_404)
-  if (to.path !== '/login' && !token) {
-    next({
-      path: '/login'
-    })
-    return false
-  }
+  // if (to.path !== '/login' && !token) {
+  //   next({
+  //     path: '/login'
+  //   })
+  //   return false
+  // }
   // 如果已登入但訪問登入頁，轉到首頁
   // if (to.path === '/login' && token) {
   //   next({

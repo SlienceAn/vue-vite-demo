@@ -15,11 +15,6 @@ export default defineConfig((config) => {
           target: 'https://vue-vite-demo-api-express.vercel.app',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, '')
-        },
-        '/dev': {
-          target: 'http://localhost:3001',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/dev/, '')
         }
       }
     },
