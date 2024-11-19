@@ -25,10 +25,16 @@ export default [
       'vue',
       'vue-router',
       '@vueuse/core',
-      'pinia'
+      'pinia',
+      {
+        'vite-plugin-mock': [
+          ['MockMethod', 'type'] // 導入 MockMethod type
+        ]
+      },
     ],
     dirs: [
-      './src/store'
+      '../src/store',
+      '../mock'
     ],
     dts: './auto-imports.d.ts',
     vueTemplate: false,
@@ -69,7 +75,7 @@ export default [
   }),
   //mock api config
   viteMockServe({
-    mockPath:'mock',
+    mockPath: 'mock',
     localEnabled: true,//開發打包開關
     prodEnabled: true,//生產打包開關
     // injectCode: ` error

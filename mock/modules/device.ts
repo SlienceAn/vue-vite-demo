@@ -1,5 +1,5 @@
-import { MockMethod } from 'vite-plugin-mock'
-import MockData from '../data'
+import type { MockMethod } from 'vite-plugin-mock'
+import MockData from '@mock/data'
 const { data } = MockData
 
 // 設備資訊

@@ -1,5 +1,5 @@
-import { MockMethod } from 'vite-plugin-mock'
-import mockData from '../data'
+import type { MockMethod } from 'vite-plugin-mock'
+import mockData from '@mock/data'
 const { userList, routerList } = mockData
 
 export default {

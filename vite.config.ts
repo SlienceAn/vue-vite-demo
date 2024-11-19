@@ -54,7 +54,8 @@ export default defineConfig((config) => {
         '@': path.resolve(__dirname, './src'),
         '@components': path.resolve(__dirname, './src/components'),
         '@api': path.resolve(__dirname, './src/api'),
-        '@untils': path.resolve(__dirname, './src/untils')
+        '@untils': path.resolve(__dirname, './src/untils'),
+        '@mock':path.resolve(__dirname,'./mock')
       },
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
     },
