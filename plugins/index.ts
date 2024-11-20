@@ -26,15 +26,10 @@ export default [
       'vue-router',
       '@vueuse/core',
       'pinia',
-      {
-        'vite-plugin-mock': [
-          ['MockMethod', 'type'] // 導入 MockMethod type
-        ]
-      },
     ],
     dirs: [
-      '../src/store',
-      '../mock'
+      './src/store',
+      './mock'
     ],
     dts: './auto-imports.d.ts',
     vueTemplate: false,
@@ -45,7 +40,7 @@ export default [
     }
   }),
   AutoImportComponents({
-    dirs: [path.resolve(__dirname, '/src/components')],
+    dirs: ['../src/components'],
     deep: true,
     extensions: ['vue'],
     resolvers: [
@@ -85,5 +80,4 @@ export default [
     logger: true,//是否在控制台顯示請求日誌
     injectFile: path.resolve('./src/main.ts'),
   })
-
 ]
