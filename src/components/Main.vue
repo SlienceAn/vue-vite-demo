@@ -45,9 +45,7 @@
         </el-button>
       </el-header>
       <el-main class="bg-[#E4E7ED] !p-0">
-        <el-scrollbar>
-          <router-view />
-        </el-scrollbar>
+        <router-view />
       </el-main>
     </el-container>
   </el-container>

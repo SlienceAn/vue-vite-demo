@@ -1,25 +1,20 @@
 <template>
-  <el-container>
-    <!-- <el-header style="height: 32px;">
-      <div />
-    </el-header> -->
-    <el-main class="!p-0">
-      <div class="container">
-        <div
-          v-for="i in 5"
-          :key="i"
-          class="chart"
-        >
-          <Chart :option="option" />
-        </div>
+  <el-scrollbar>
+    <div class="container">
+      <div
+        v-for="i in 5"
+        :key="i"
+        class="chart"
+      >
+        <Chart :option="option" />
       </div>
-    </el-main>
-  </el-container>
+    </div>
+  </el-scrollbar>
 </template>
 <script setup lang="tsx">
 import Chart from '@/components/common/Echart.vue'
 // demo data
-const option =  {
+const option = {
   title: {
     text: 'Rainfall & Evaporation',
     subtext: 'Fake Data'
@@ -90,10 +85,10 @@ const option =  {
 </script>
 <style scoped lang="scss">
 .container {
-  @apply flex flex-wrap;
+  @apply flex flex-wrap h-[calc(100vh-64px)];
 
   .chart {
-    @apply h-250px w-full md:w-1/2 box-border border border-solid border-gray-2 border-collapse px-4 p-2 bg-[#fff];
+    @apply h-1/2 w-full md:w-1/2 box-border border border-solid border-gray-2 border-collapse px-4 p-2 bg-[#fff];
   }
 }
 </style>
