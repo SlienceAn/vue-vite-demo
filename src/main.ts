@@ -17,7 +17,7 @@ import Loading from './components/common/Loading.vue'
 // Icons
 import * as materialIcons from './assets/icons/material-icons'
 // Styles
-import 'virtual:uno.css'
+import 'uno.css'
 // API and Utilities
 import httpRequest from './api/request'
 import dayjs from 'element-plus'

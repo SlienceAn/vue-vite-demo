@@ -6,6 +6,12 @@
 </template>
 <script setup lang="ts">
 import *as echarts from 'echarts'
+import type { ECharts } from 'echarts'
+import T from './chartTheme'
+const echart = ref()
+const chart = ref<ECharts | null>(null)
+let isActivat = ref(false)
+echarts.registerTheme('T', T)
 const props = defineProps({
   option: {
     type: Object,
@@ -20,38 +26,45 @@ const props = defineProps({
     default: '100%'
   }
 })
-const echart = ref(null)
-const theme = {
-  backgroundColor: '#FFF',
-  title: {
-    text: '銷售數據'
-  },
-  tooltip: {
-    trigger: 'axis'
-  },
-  legend: {
-    data: ['銷售額', '利潤']
-  },
-  xAxis: {
-    type: 'category',
-    data: ['1月', '2月', '3月', '4月', '5月', '6月']
-  },
-  yAxis: {
-    type: 'value'
-  },
-  series: [
-    {
-      name: '銷售額',
-      type: 'line',
-      data: [5000, 6200, 7800, 8500, 9200, 10500]
-    },
-    {
-      name: '利潤',
-      type: 'line',
-      data: [2500, 3200, 3800, 4200, 4800, 5500]
-    }
-  ]
+const draw = () => {
+  chart.value = markRaw(echarts.init(echart.value, 'T'))
+  chart.value?.setOption(props.option)
+  addEventListener()
 }
-onMounted(() => echarts.init(echart.value).setOption({ ...theme, ...props.option }))
+const dispose = () => {
+  removeEventListener()
+  chart.value?.dispose()
+}
+const resize = () => {
+  if (chart.value) {
+    dispose()
+    setTimeout(() => draw(), 100)
+  }
+}
+const addEventListener = () => {
+  chart.value && window.addEventListener('resize', resize)
+}
+const removeEventListener = () => {
+  chart.value && window.removeEventListener('resize', resize)
+}
+
+// keep-alive激活時的處理
+onActivated(() => {
+  if (!isActivat.value) {
+    nextTick(() => {
+      chart.value?.resize()
+    })
+  }
+})
+onDeactivated(() => {
+  isActivat.value = false
+})
+onBeforeMount(() => {
+  removeEventListener()
+})
+onMounted(() => {
+  nextTick(() => {
+    draw()
+  })
+})
 </script>
-<style scoped lang="scss"></style>
