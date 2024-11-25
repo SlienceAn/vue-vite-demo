@@ -32,7 +32,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 //掛載全局
 app.config.globalProperties.$http = httpRequest
-app.config.globalProperties.$day = dayjs
+app.config.globalProperties.$dayjs = dayjs
 const pinia = createPinia()
 pinia.use(piniaPersisted)
 //掛載全局組件

@@ -39,6 +39,7 @@
     "src/**/*.vue", 
     "./auto-imports.d.ts",
     "plugins/**/*.ts",
+    "./mock/**/*.ts"
   ],
   "exclude": ["dist", "node_modules"],
   "references": [

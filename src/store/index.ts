@@ -68,7 +68,7 @@ export const useInformation = defineStore('information', {
   state: (): Store<any>['information'] => ({
     isLoading: true,
     status: '',
-    data: null,
+    data: [],
     queryList: {
       status: '',
       startDate: '',
@@ -83,6 +83,13 @@ export const useInformation = defineStore('information', {
       const data: any = await httpRequest.get(`/query?city=${city.value}`)
       this.data = data.data
     },
+    async getInfo() {
+      const global = useGlobalStore()
+      const data: any = await httpRequest.get(`/info?city=${global.city}`)
+      if (data.success) {
+        this.data = data.data
+      }
+    }
   },
 })
 

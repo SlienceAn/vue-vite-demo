@@ -62,14 +62,15 @@ const userList = [
   }
 ]
 
-const count = 1000 as const
+const count = 100 as const
+const dayCount = 30 as const // 資料天數
 const CITY = ['台北', '高雄', '台南', '屏東', '彰化'] as const
 const STATUS = ['online', 'disconnect', 'abnormal'] as const
 const ITEMS = [
   { item: 'TMP', unit: '˚C', text: '溫度' },
   { item: 'HUM', unit: 'RH', text: '濕度' },
-  { item: 'WS', unit: 'kn', text: '風速' },
-  { item: 'RAIN', unit: 'mm', text: '雨量' },
+  // { item: 'WS', unit: 'kn', text: '風速' },
+  // { item: 'RAIN', unit: 'mm', text: '雨量' },
 ] as const
 
 // 生成函數
@@ -78,12 +79,12 @@ const getRandomElement = <T>(array: readonly T[]): T => {
 }
 
 // 產生日期範圍
-const dateRange = Array.from({ length: 60 }, (_, i) => dayjs().add(-i, 'day').format('YYYY-MM-DD'))
+const dateRange = Array.from({ length: dayCount }, (_, i) => dayjs().add(-i, 'day').format('YYYY-MM-DD'))
 // 產生測項資料
-const generateItemData = (days: number) => {
+const generateItemData = () => {
   return {
     date: dateRange,
-    value: Array.from({ length: days },
+    value: Array.from({ length: dayCount },
       () => faker.number.int({ min: 0, max: 100 })),
   }
 }
@@ -99,7 +100,7 @@ const singleDeviceData = Array.from({ length: count }, (): Data => {
       item,
       unit,
       text,
-      value: generateItemData(60)
+      value: generateItemData()
     })),
     latestUpdate: dayjs(date.past()).format('YYYY-MM-DD HH:mm'),
     status: getRandomElement(STATUS)
