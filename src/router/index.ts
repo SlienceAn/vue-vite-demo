@@ -36,9 +36,9 @@ const routes = [
         component: () => import('../components/Main/InspectionForm.vue')
       },
       {
-        name: '測站分析',
-        path: '/Main/StationAnalysis',
-        component: () => import('../components/Main/StationAnalysis.vue')
+        name: '帳戶管理',
+        path: '/Main/Setting',
+        component: () => import('../components/Main/Setting.vue')
       },
     ]
   }

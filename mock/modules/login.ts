@@ -36,7 +36,7 @@ export default {
         userName: userCheck.userName,
         isPremission: true,
         message: 'Login Success !',
-        data: menu
+        menu
       }
       res.end(`${JSON.stringify(data)}`, 'utf-8')
     }

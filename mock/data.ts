@@ -30,9 +30,9 @@ const routerList = [{
   icon: 'mti-Description'
 },
 {
-  path: '/Main/StationAnalysis',
-  name: '測站分析',
-  icon: 'mti-TroubleShoot'
+  path: '/Main/Setting',
+  name: '帳戶管理',
+  icon: 'mti-Admin'
 }]
 //User List
 const userList = [

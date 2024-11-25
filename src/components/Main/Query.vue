@@ -20,7 +20,6 @@
         <el-button
           type="primary"
           :icon="Search"
-          @click="searchData"
         >
           搜尋
         </el-button>
@@ -72,7 +71,7 @@
               {{ item.item }}
             </div>
             <div class="min-w-1/4 py-1 text-center">
-              {{ item.value }}
+              <!-- {{ item.value }} -->
             </div>
             <div class="min-w-1/4 py-1 text-right">
               {{ item.unit }}
@@ -99,8 +98,8 @@
 import { Search } from '@element-plus/icons-vue'
 import DrawerList from './drawerList.vue'
 const informationStore = useInformation()
-const globalStore = useGlobalStore()
-const { city } = storeToRefs(globalStore)
+// const globalStore = useGlobalStore()
+// const { city } = storeToRefs(globalStore)
 const { data } = storeToRefs(informationStore)
 const statusValue = ref([])
 const isOpen = ref(false)
@@ -118,11 +117,11 @@ const statusList = ref([
     label: '已連線',
   },
 ])
-const searchData = () => {
-  informationStore.getQeryData()
-}
-onMounted(() => searchData())
-watch(city, () => searchData())
+// const searchData = () => {
+//   informationStore.getQeryData()
+// }
+// onMounted(() => searchData())
+// watch(city, () => searchData())
 </script>
 <style scoped lang="scss">
 .error {

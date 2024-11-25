@@ -13,7 +13,7 @@
         </template>
       </el-menu-item>
       <el-menu-item
-        v-for="R in data!.menu"
+        v-for="R in data.menu"
         :key="R.name"
         :index="R.path"
         class="font-bold"

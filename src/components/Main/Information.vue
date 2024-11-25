@@ -1,6 +1,10 @@
 <template>
   <el-scrollbar>
-    <div class="container">
+    <div
+      v-loading="!options"
+      element-loading-text="讀取中..."
+      class="container"
+    >
       <div
         v-for="i in options"
         :key="i.id"
@@ -16,7 +20,6 @@ import Chart from '@/components/common/Echart.vue'
 import { dayjs } from 'element-plus'
 const infoStore = useInformation()
 const { data } = storeToRefs(infoStore)
-
 const options = computed(() => {
   return data.value.map((el) => ({
     title: {

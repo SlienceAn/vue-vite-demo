@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { Store } from './type'
 import httpRequest from '../api/request'
 import router from '../router'
+
 //調用 $patch 方法。它允許您使用部分 “state” 物件同時應用多個更改
 //調用 $reset 方法，將狀態重置到其初始值
 //state推薦使用完整類型推斷的箭頭函數
@@ -45,7 +46,7 @@ export const useLoginStore = defineStore('loginStore', {
     },
     userName: '',
     success: false,
-    data: null,
+    data: [],
     message: '',
     isPremission: false,
     token: ''

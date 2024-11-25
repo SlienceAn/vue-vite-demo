@@ -25,7 +25,7 @@ export type Store<T extends ApiResponse = ApiResponse> = {
         userName: string,
         message: string,
         isPremission: boolean,
-        data: T | null,
+        data: any,
         token: string
     };
     information: {
