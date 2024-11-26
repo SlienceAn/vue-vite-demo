@@ -92,6 +92,7 @@ export const useInformation = defineStore('information', {
       }
     }
   },
+  persist: true
 })
 
 export const useForm = defineStore('inspectForm', {

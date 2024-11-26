@@ -65,11 +65,7 @@ const handleCollapse = () => {
 <style scoped lang="scss">
 .navbar {
   @apply flex justify-between items-center h-64px;
-  border-bottom: 1px solid #bdbcbc;
-}
-
-.el-menu-main {
-  background: linear-gradient(135deg, #5e5e5e, #222222);
+  @apply border-b border-b-solid border-[--el-menu-border-color];
 }
 
 .main-content {
@@ -77,18 +73,18 @@ const handleCollapse = () => {
 }
 
 :deep(.el-menu-item) {
-  @apply gap-3 text-white;
+  @apply gap-3;
 
   &:hover {
     @apply bg-white bg-opacity-50;
   }
 
   &.is-active {
-    @apply bg-[#fff] text-[#333] border-solid border-r-5px border-r-green-600;
+    @apply border-r-solid border-r-5px border-r-[#409EFF] bg-[#F2F6FC] text-[#409EFF];
   }
 
   &.is-disabled {
-    @apply min-h-[64px] opacity-100 cursor-default font-bold;
+    @apply min-h-[64px] opacity-100 cursor-default font-bold border-r-1 border-[--el-menu-border-color] border-r-solid;
   }
 }
 </style>
