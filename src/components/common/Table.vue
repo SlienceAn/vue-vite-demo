@@ -1,12 +1,12 @@
 <template>
-  <div class="bg-white rounded-md">
+  <div class="h-full bg-white">
     <el-table
       v-loading="isLoading"
       element-loading-text="讀取中"
       element-loading-background="rgba(250, 250, 250, 0.8)"
       :data="tableData"
-      height="300"
       stripe
+      height="85%"
       border
       highlight-current-row
     >
@@ -33,7 +33,7 @@
         />
       </template>
     </el-table>
-    <div class="py-4 flex justify-center items-center border border-t-gray-100">
+    <div class="py-4 flex justify-center items-center box-border border-t border-t-gray-100 h-[15%]">
       <el-pagination
         v-model:current-page="currentPage"
         background
@@ -62,7 +62,11 @@ const { proxy }: any = getCurrentInstance()
 
 const getApiData = async () => {
   isLoading.value = true
-  const params = `page=${currentPage.value}&size=${pageSize.value}&${new URLSearchParams(attrs.params).toString()}`
+  const params = new URLSearchParams({
+    ...attrs['params'],
+    page: currentPage.value.toString(),
+    size: pageSize.value.toString()
+  }).toString()
   const url = `/${attrs['api-url']}?${params}`
   const data = await proxy.$http.get(url)
   tableData.value = data.data
