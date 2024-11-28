@@ -6,7 +6,7 @@ interface ErrorResponseData {
   message: string
 }
 const Request = axios.create({
-  baseURL: process.env.NODE_ENV !== 'development' ? '/api' : '/'
+  // baseURL: process.env.NODE_ENV !== 'development' ? '/api' : '/'
   // 獲取當前請求進度
   // onDownloadProgress: (progressEvent) => {
   //   console.log(progressEvent)
@@ -47,6 +47,11 @@ const responseError = (error: AxiosError<ErrorResponseData>) => {
       ElNotification.error({
         title: '請求錯誤',
         message: '請求次數過多，請稍後再嘗試'
+      })
+    }else if (error.response.status === 500) {
+      ElNotification.error({
+        title: '請求錯誤',
+        message: error.response.data.message
       })
     }
   }

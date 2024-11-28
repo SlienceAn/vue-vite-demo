@@ -33,8 +33,28 @@ export default () => {
     const now = dayjs().format('YYYY-MM-DD HH:mm')
     return dayjs(now).diff(row.latestUpdate, 'day')
   }
+  const menu = (row) => {
+    const list = ['主控台', '設備查詢', '巡檢表單', '帳戶管理']
+    return (
+      <div class="flex gap-1 flex-wrap">
+        {
+          row.menu.map(el => {
+            return (
+              <el-tag type="primary">
+                {list[el - 1]}
+              </el-tag>
+            )
+          })}
+      </div>
+    )
+  }
+  const dateFormat = (row) => {
+    return dayjs(row.created_at).format('YYYY-MM-DD  HH:mm:ss')
+  }
   return {
     statusIcon,
-    accumulation
+    accumulation,
+    menu,
+    dateFormat
   }
 }

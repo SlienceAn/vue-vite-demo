@@ -323,6 +323,9 @@
     "mock": true,
     "type": true,
     "routerList": true,
-    "userList": true
+    "userList": true,
+    "useUserForm": true,
+    "useOusherStore": true,
+    "usePusherStore": true
   }
 }

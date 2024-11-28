@@ -53,7 +53,7 @@ export const useLoginStore = defineStore('loginStore', {
   }),
   actions: {
     async postLogin() {
-      const data: any = await httpRequest.post('/login', { ...this.loginForm })
+      const data: any = await httpRequest.post('/api/login', { ...this.loginForm })
       if (data.success) {
         this.data = data
         this.token = data.token
@@ -109,4 +109,35 @@ export const useForm = defineStore('inspectForm', {
     },
   },
   persist: false
+})
+
+export const useUserForm = defineStore('userForm', {
+  state: () => ({
+    form: {
+      account: '',
+      password: 'qwe',
+      username: '',
+      menu: []
+    },
+    data: []
+  }),
+  actions: {
+    async getAll() {
+      const data: any = await httpRequest.get('/api/user')
+      if (data.success) {
+        this.data = data.data
+        console.log(data)
+      }
+    },
+    async addUser() {
+      const data: any = await httpRequest.post('/dev/user', this.form)
+      console.log(data)
+    }
+  }
+})
+
+export const usePusherStore = defineStore('pusher', {
+  state: () => ({
+    data: 'pusher'
+  }),
 })
