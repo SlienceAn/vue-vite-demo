@@ -1,23 +1,27 @@
 import Pusher from 'pusher-js'
-import { usePusherStore } from '@/store'
+import { useUserForm } from '@/store'
 
-
+const key = import.meta.env.VITE_PUSHER_KEY
+const cluster = import.meta.env.VITE_PUSHER_CLUSTER
+const pusher = new Pusher(key, { cluster })
+const PUSHER_SUCCESS = 'pusher:subscription_succeeded'
+const PUSER_ERROR = 'pusher:subscription_error'
 const createPuser = () => {
   const init = () => {
-    const pusherStore = usePusherStore()
-    const key = import.meta.env.VITE_PUSHER_KEY
-    const cluster = import.meta.env.VITE_PUSHER_CLUSTER
-    const pusher = new Pusher(key, { cluster })
-
+    const userStore = useUserForm()
     // 訂閱頻道
-    const channel = pusher.subscribe('Setting')
+    const settingChannel = pusher.subscribe('Setting')
 
+    settingChannel.bind(PUSHER_SUCCESS, () => {
+      userStore.getAll()
+    })
+
+    settingChannel.bind(PUSER_ERROR, (error) => {
+      console.log('pusher error', error)
+    })
     // 綁定事件
-    channel.bind('update-event', (chunk) => {
-      console.log('pusher =>', chunk)
-      pusherStore.$patch({
-        data: chunk
-      })
+    settingChannel.bind('update-event', () => {
+      userStore.getAll()
     })
 
     // 錯誤處理
@@ -26,7 +30,8 @@ const createPuser = () => {
     })
   }
   const disconnect = () => {
-
+    // 完全斷開連接
+    pusher.disconnect()
   }
   return {
     init,
@@ -35,27 +40,3 @@ const createPuser = () => {
 }
 
 export default createPuser()
-// console.log('Pusher', Pusher)
-
-// const key = import.meta.env.PUSHER_KEY
-// const cluster = import.meta.env.PUSHER_CLUSTER
-// const pusherStore = usePusherStore()
-// const { data } = storeToRefs(pusherStore)
-// const pusher = new Pusher(key, {
-//   cluster,
-// })
-
-// // 訂閱頻道
-// const channel = pusher.subscribe('test-channel')
-
-// channel.bind('my-event', (chunk) => {
-//   console.log('pusher =>', chunk)
-//   data.value = chunk
-
-// })
-
-// pusher.connection.bind('error', (error) => {
-//   console.error('連接錯誤:', error)
-// })
-
-// export const getPusher = () => pusher

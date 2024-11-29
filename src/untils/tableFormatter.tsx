@@ -1,5 +1,5 @@
 import { dayjs } from 'element-plus'
-
+import { Delete, Edit } from '@element-plus/icons-vue'
 export default () => {
   const statusIcon = (type: 'online' | 'abnormal' | 'disconnect') => {
     switch (type) {
@@ -48,13 +48,34 @@ export default () => {
       </div>
     )
   }
-  const dateFormat = (row) => {
-    return dayjs(row.created_at).format('YYYY-MM-DD  HH:mm:ss')
+  const dateFormat = (row) => dayjs(row.created_at).format('YYYY-MM-DD  HH:mm:ss')
+
+  const settingTool = (row) => {
+    const userStore = useUserForm()
+    return (
+      <div>
+        <el-tooltip content="編輯">
+          <el-button
+            icon={Edit}
+            type="info"
+            onClick={() => userStore.modifyUser(row.id)}
+          />
+        </el-tooltip>
+        <el-tooltip content="刪除">
+          <el-button
+            icon={Delete}
+            type="danger"
+            onClick={() => userStore.deleteUser(row.id)}
+          />
+        </el-tooltip>
+      </div>
+    )
   }
   return {
     statusIcon,
     accumulation,
     menu,
-    dateFormat
+    dateFormat,
+    settingTool
   }
 }

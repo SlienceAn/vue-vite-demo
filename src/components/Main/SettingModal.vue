@@ -57,7 +57,7 @@
       <el-form-item>
         <el-button
           type="primary"
-          @click="userStore.addUser"
+          @click="handlePost"
         >
           送出
         </el-button>
@@ -76,6 +76,10 @@ defineProps({
 const emit = defineEmits(['update:close'])
 const close = () => {
   emit('update:close', false)
+}
+const handlePost = () => {
+  userStore.addUser()
+  close()
 }
 </script>
 <style scoped lang="scss"></style>

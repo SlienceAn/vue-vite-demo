@@ -110,7 +110,7 @@ export const useForm = defineStore('inspectForm', {
   },
   persist: false
 })
-
+// 帳戶管理
 export const useUserForm = defineStore('userForm', {
   state: () => ({
     form: {
@@ -123,21 +123,23 @@ export const useUserForm = defineStore('userForm', {
   }),
   actions: {
     async getAll() {
-      const data: any = await httpRequest.get('/api/user')
+      const data: any = await httpRequest.get('/dev/user')
       if (data.success) {
         this.data = data.data
-        console.log(data)
       }
     },
     async addUser() {
       const data: any = await httpRequest.post('/dev/user', this.form)
-      console.log(data)
-    }
+      if(data.success) console.log('post')
+    },
+    async modifyUser(id) {
+      const data: any = await httpRequest.put(`/dev/user/${id}`, this.form)
+      if(data.success) console.log('put')
+    },
+    async deleteUser(id) {
+      const data: any = await httpRequest.delete(`/dev/user/${id}`)
+      if(data.success) console.log('delete')
+    },
   }
 })
 
-export const usePusherStore = defineStore('pusher', {
-  state: () => ({
-    data: 'pusher'
-  }),
-})
