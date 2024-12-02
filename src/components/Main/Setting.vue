@@ -7,12 +7,11 @@
           :prefix-icon="Search"
         />
       </div>
-
       <el-button
         type="primary"
         :icon="Plus"
         class="ml-auto"
-        @click="isOpen = true"
+        @click="handleOpen"
       >
         新增
       </el-button>
@@ -25,34 +24,31 @@
       />
     </el-main>
   </el-container>
-  <SettingModal
-    :is-open="isOpen"
-    @update:close="isOpen = $event"
-  />
+  <SettingModal />
 </template>
 <script setup lang="tsx">
 import { Plus, Search } from '@element-plus/icons-vue'
 import Table from '@/components/common/Table.vue'
 import SettingModal from './SettingModal.vue'
 import tableFormatter from '@/untils/tableFormatter'
-import createPusher from '@/socket'
-const isOpen = ref(false)
 const userStore = useUserForm()
 const { data } = storeToRefs(userStore)
 const { menu, dateFormat, settingTool } = tableFormatter()
+const currentDataTotal = computed(() => data.value.length)
 const tableColumn = [
-  { label: '帳戶名稱', prop: 'account', width: 120 },
+  { label: '帳戶名稱', prop: 'account', width: 150 },
   { label: '使用者名稱', prop: 'username', width: 120 },
   { label: '可使用功能', prop: 'menu', formatter: menu },
-  { label: '建立時間', prop: 'created_at', formatter: dateFormat },
+  { label: '建立時間', prop: 'created_at', width: 200, formatter: dateFormat },
   { label: '功能', width: 150, formatter: settingTool }
 ]
-const currentDataTotal = 80
-
-onMounted(() => {
-  createPusher.init()
-})
-// const currentDataTotal = computed(() => countList.value.find(el => el.type === status.value)?.message)
+const handleOpen = () => {
+  userStore.$patch({
+    isDialog: true,
+    dialogFunc: 1,
+  })
+  userStore.resetForm()
+}
 </script>
 <style scoped lang="scss">
 :deep(.el-header) {

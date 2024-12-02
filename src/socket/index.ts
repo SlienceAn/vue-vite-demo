@@ -6,6 +6,7 @@ const cluster = import.meta.env.VITE_PUSHER_CLUSTER
 const pusher = new Pusher(key, { cluster })
 const PUSHER_SUCCESS = 'pusher:subscription_succeeded'
 const PUSER_ERROR = 'pusher:subscription_error'
+
 const createPuser = () => {
   const init = () => {
     const userStore = useUserForm()
@@ -20,8 +21,10 @@ const createPuser = () => {
       console.log('pusher error', error)
     })
     // 綁定事件
-    settingChannel.bind('update-event', () => {
-      userStore.getAll()
+    settingChannel.bind('update-event', (chunk) => {
+      userStore.$patch({
+        data: chunk
+      })
     })
 
     // 錯誤處理

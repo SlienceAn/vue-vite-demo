@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import createPusher from '@/socket'
+
 const routes_404 = {
   path: '/:pathMatch(.*)*',
   hidden: true,
@@ -50,10 +52,12 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  // const loginStore = useLoginStore()
-  // const token = loginStore.token
-  console.log(from)
-
+  const loginStore = useLoginStore()
+  const token = loginStore.token
+  if (from.path === '/login' && token) {
+    // 建立 socket 連接
+    createPusher.init()
+  }
   // 完整的 URL 路徑,包含查詢參數和 hash
   console.log(to.fullPath)
   router.addRoute(routes_404)

@@ -1,10 +1,12 @@
 <template>
   <el-dialog
-    :model-value="isOpen"
+    v-model="isDialog"
     @close="close"
   >
     <template #header>
-      <div>新增資料</div>
+      <h2 class="m-0 text-center">
+        {{ title }}
+      </h2>
     </template>
     <el-form>
       <el-form-item
@@ -14,7 +16,7 @@
         <el-input
           v-model="form.account"
           type="text"
-          placeholder="user"
+          placeholder="請輸入使用者名稱"
         />
       </el-form-item>
       <el-form-item
@@ -24,8 +26,8 @@
         <el-input
           v-model="form.password"
           type="text"
-          placeholder="user"
-          disabled
+          placeholder="請輸入密碼"
+          :disabled="dialogFunc === 1"
         />
       </el-form-item>
       <el-form-item
@@ -46,17 +48,30 @@
           v-model="form.menu"
           multiple
           clearable
+          placeholder="請選擇功能頁"
         >
           <el-option
-            v-for="i in 4"
-            :key="i"
-            :value="i"
+            label="主控台"
+            :value="1"
+          />
+          <el-option
+            label="設備查詢"
+            :value="2"
+          />
+          <el-option
+            label="巡檢表單"
+            :value="3"
+          />
+          <el-option
+            label="帳戶管理"
+            :value="4"
           />
         </el-select>
       </el-form-item>
       <el-form-item>
         <el-button
           type="primary"
+          class="m-auto"
           @click="handlePost"
         >
           送出
@@ -67,15 +82,15 @@
 </template>
 <script lang="tsx" setup>
 const userStore = useUserForm()
-const { form } = storeToRefs(userStore)
-defineProps({
-  isOpen: {
-    type: Boolean
-  }
+const { form, isDialog, dialogFunc } = storeToRefs(userStore)
+
+const title = computed(() => {
+  return dialogFunc.value === 1 ? '新增資料' : '編輯資料'
 })
-const emit = defineEmits(['update:close'])
 const close = () => {
-  emit('update:close', false)
+  userStore.$patch({
+    isDialog: false
+  })
 }
 const handlePost = () => {
   userStore.addUser()

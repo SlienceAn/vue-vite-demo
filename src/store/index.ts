@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { Store } from './type'
 import httpRequest from '../api/request'
 import router from '../router'
+import { ElMessageBox } from 'element-plus'
 
 //調用 $patch 方法。它允許您使用部分 “state” 物件同時應用多個更改
 //調用 $reset 方法，將狀態重置到其初始值
@@ -113,6 +114,8 @@ export const useForm = defineStore('inspectForm', {
 // 帳戶管理
 export const useUserForm = defineStore('userForm', {
   state: () => ({
+    isDialog: false,
+    dialogFunc: 1, // 1是新增 , 2是編輯
     form: {
       account: '',
       password: 'qwe',
@@ -130,16 +133,37 @@ export const useUserForm = defineStore('userForm', {
     },
     async addUser() {
       const data: any = await httpRequest.post('/dev/user', this.form)
-      if(data.success) console.log('post')
+      if (data.success) console.log('post')
     },
     async modifyUser(id) {
-      const data: any = await httpRequest.put(`/dev/user/${id}`, this.form)
-      if(data.success) console.log('put')
+      this.isDialog = true
+      this.dialogFunc = 2
+      console.log(id)
+      // const data: any = await httpRequest.put(`/dev/user/${id}`, this.form)
+      // if (data.success) console.log('put')
     },
     async deleteUser(id) {
-      const data: any = await httpRequest.delete(`/dev/user/${id}`)
-      if(data.success) console.log('delete')
+      ElMessageBox.confirm(
+        '確定要刪除?',
+        '警告',
+        {
+          confirmButtonText: '確認',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).then(async () => {
+        const data: any = await httpRequest.delete(`/dev/user/${id}`)
+        if (data.success) console.log('delete')
+      })
     },
+    resetForm() {
+      this.form = {
+        account: '',
+        password: 'qwe',
+        username: '',
+        menu: []
+      }
+    }
   }
 })
 
