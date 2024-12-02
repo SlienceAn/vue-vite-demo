@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { ElNotification, ElMessageBox } from 'element-plus'
-import { useRouter } from 'vue-router'
+import router from '@/router'
 interface ErrorResponseData {
   success: boolean
   message: string
@@ -33,8 +33,8 @@ const responseError = (error: AxiosError<ErrorResponseData>) => {
           confirmButtonText: '重新登入'
         }
       ).then(() => {
-        const router = useRouter()
-        console.log('返回登入')
+        console.log('重新登入')
+        console.log('router', router)
         router.push('/login')
       })
     }
@@ -48,7 +48,7 @@ const responseError = (error: AxiosError<ErrorResponseData>) => {
         title: '請求錯誤',
         message: '請求次數過多，請稍後再嘗試'
       })
-    }else if (error.response.status === 500) {
+    } else if (error.response.status === 500) {
       ElNotification.error({
         title: '請求錯誤',
         message: error.response.data.message
