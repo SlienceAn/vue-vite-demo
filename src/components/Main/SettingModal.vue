@@ -1,7 +1,6 @@
 <template>
   <el-dialog
     v-model="isDialog"
-    @close="close"
   >
     <template #header>
       <h2 class="m-0 text-center">
@@ -72,7 +71,7 @@
         <el-button
           type="primary"
           class="m-auto"
-          @click="handlePost"
+          @click="userStore.handleSumbit"
         >
           送出
         </el-button>
@@ -83,18 +82,7 @@
 <script lang="tsx" setup>
 const userStore = useUserForm()
 const { form, isDialog, dialogFunc } = storeToRefs(userStore)
-
 const title = computed(() => {
   return dialogFunc.value === 1 ? '新增資料' : '編輯資料'
 })
-const close = () => {
-  userStore.$patch({
-    isDialog: false
-  })
-}
-const handlePost = () => {
-  userStore.addUser()
-  close()
-}
 </script>
-<style scoped lang="scss"></style>

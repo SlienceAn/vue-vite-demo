@@ -10,10 +10,10 @@
       <el-button
         type="primary"
         :icon="Plus"
-        class="ml-auto"
+        class="ml-auto !font-700"
         @click="handleOpen"
       >
-        新增
+        新增帳戶
       </el-button>
     </el-header>
     <el-main class="!pt-0">

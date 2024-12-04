@@ -33,8 +33,6 @@ const responseError = (error: AxiosError<ErrorResponseData>) => {
           confirmButtonText: '重新登入'
         }
       ).then(() => {
-        console.log('重新登入')
-        console.log('router', router)
         router.push('/login')
       })
     }

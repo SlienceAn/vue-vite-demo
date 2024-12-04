@@ -52,28 +52,23 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  const loginStore = useLoginStore()
-  const token = loginStore.token
-  if (from.path === '/login' && token) {
-    // 建立 socket 連接
+  const userStore = useUserForm()
+  const { isConnect } = storeToRefs(userStore)
+  // const loginStore = useLoginStore()
+  // const { token } = storeToRefs(loginStore)
+  router.addRoute(routes_404)
+  console.log(from)
+
+  if (to.path === '/login') {
+    createPusher.disconnect()
+    next()
+    return
+  }
+  console.log('isConnect=>',isConnect.value)
+
+  if (!isConnect.value) {
     createPusher.init()
   }
-  // 完整的 URL 路徑,包含查詢參數和 hash
-  console.log(to.fullPath)
-  router.addRoute(routes_404)
-  // if (to.path !== '/login' && !token) {
-  //   next({
-  //     path: '/login'
-  //   })
-  //   return false
-  // }
-  // 如果已登入但訪問登入頁，轉到首頁
-  // if (to.path === '/login' && token) {
-  //   next({
-  //     path: '/'
-  //   })
-  //   return false
-  // }
   next()
 })
 

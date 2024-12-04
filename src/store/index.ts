@@ -117,12 +117,14 @@ export const useUserForm = defineStore('userForm', {
     isDialog: false,
     dialogFunc: 1, // 1是新增 , 2是編輯
     form: {
+      id: 1,
       account: '',
-      password: 'qwe',
+      password: 'qwe', // 預設
       username: '',
       menu: []
     },
-    data: []
+    data: [],
+    isConnect: false // 是否連接 Pusher 服務
   }),
   actions: {
     async getAll() {
@@ -135,12 +137,9 @@ export const useUserForm = defineStore('userForm', {
       const data: any = await httpRequest.post('/dev/user', this.form)
       if (data.success) console.log('post')
     },
-    async modifyUser(id) {
-      this.isDialog = true
-      this.dialogFunc = 2
-      console.log(id)
-      // const data: any = await httpRequest.put(`/dev/user/${id}`, this.form)
-      // if (data.success) console.log('put')
+    async modifyUser() {
+      const data: any = await httpRequest.put(`/dev/user/${this.form.id}`, this.form)
+      if (data.success) console.log('put')
     },
     async deleteUser(id) {
       ElMessageBox.confirm(
@@ -158,12 +157,21 @@ export const useUserForm = defineStore('userForm', {
     },
     resetForm() {
       this.form = {
+        id: 1,
         account: '',
         password: 'qwe',
         username: '',
         menu: []
       }
+    },
+    handleSumbit() {
+      this.dialogFunc === 1 ? this.addUser() : this.modifyUser()
+      this.isDialog = false
     }
-  }
+  },
+  // persist: {
+  //   key: 'user',
+  //   paths: ['isConnect']
+  // }
 })
 

@@ -40,7 +40,7 @@ export default () => {
         {
           row.menu.map(el => {
             return (
-              <el-tag type="primary">
+              <el-tag type="info">
                 {list[el - 1]}
               </el-tag>
             )
@@ -57,14 +57,22 @@ export default () => {
         <el-tooltip content="編輯">
           <el-button
             icon={Edit}
-            type="info"
-            onClick={() => userStore.modifyUser(row.id)}
+            onClick={() => userStore.$patch({
+              form: {
+                id: row.id,
+                account: row.account,
+                password: userStore.form.password,
+                username: row.username,
+                menu: row.menu
+              },
+              isDialog: true,
+              dialogFunc: 2
+            })}
           />
         </el-tooltip>
         <el-tooltip content="刪除">
           <el-button
             icon={Delete}
-            type="danger"
             onClick={() => userStore.deleteUser(row.id)}
           />
         </el-tooltip>
