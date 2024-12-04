@@ -58,7 +58,7 @@ export const useLoginStore = defineStore('loginStore', {
       if (data.success) {
         this.data = data
         this.token = data.token
-        router.replace('/Main/information')
+        router.replace('/Information')
       }
     },
   },
@@ -135,11 +135,11 @@ export const useUserForm = defineStore('userForm', {
     },
     async addUser() {
       const data: any = await httpRequest.post('/dev/user', this.form)
-      if (data.success) console.log('post')
+      if (data.success) console.log('新增成功')
     },
     async modifyUser() {
       const data: any = await httpRequest.put(`/dev/user/${this.form.id}`, this.form)
-      if (data.success) console.log('put')
+      if (data.success) console.log('修改成功')
     },
     async deleteUser(id) {
       ElMessageBox.confirm(
@@ -169,9 +169,5 @@ export const useUserForm = defineStore('userForm', {
       this.isDialog = false
     }
   },
-  // persist: {
-  //   key: 'user',
-  //   paths: ['isConnect']
-  // }
 })
 
