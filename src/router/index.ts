@@ -5,24 +5,18 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import createPusher from '@/socket'
 
+// 系統路由
 const systemRouter: RouteRecordRaw[] = [
   {
     name: 'login',
     path: '/login',
-    component: () => import('../components/Login.vue'),
     meta: {
       title: '登入'
-    }
+    },
+    component: () => import('../components/Login.vue'),
   },
-  {
-    name: 'layout',
-    path: '/',
-    component: () => import('../components/Main.vue'),
-    redirect: '/Information',
-    children: []
-  }
 ]
-
+// 特殊路由
 const routes_404: RouteRecordRaw = {
   path: '/:pathMatch(.*)*',
   name: '404',
@@ -34,19 +28,29 @@ const routes_404: RouteRecordRaw = {
 
 const router = createRouter({
   history: createWebHistory(),
-  routes: systemRouter
+  routes: systemRouter,
+
+  // 滾動事件
+  // scrollBehavior(to, form, savedPosition) {
+  //   console.log('scroll', to)
+  //   console.log('scroll', form)
+  //   console.log('scroll', savedPosition)
+  //   return { top: 200 }
+  // }
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _, next) => {
   NProgress.start()
   const userStore = useUserForm()
   const { isConnect } = storeToRefs(userStore)
   const loginStore = useLoginStore()
   const { token, data } = storeToRefs(loginStore)
-  console.log(from)
+
+  document.title = to.meta.title as string
 
   if (to.path === '/login') {
     createPusher.disconnect()
+    removeAllRoutes()
     next()
     return
   }
@@ -86,11 +90,21 @@ router.onError((error) => {
 function updateRoutes(menuRoutes: RouteRecordRaw[]) {
   try {
     router.getRoutes().forEach(route => {
-      console.log('route name', route)
       if (route.name !== '404' && route.name !== 'login' && route.name !== 'layout')
         router.removeRoute(route.name as string)
     })
-    console.log('移除後路由 => ', router.getRoutes())
+
+    // 獲取第一個可訪問的路由
+    const fristRoute = menuRoutes[0].path || '/information'
+
+    router.addRoute({
+      name: 'layout',
+      path: '/',
+      component: () => import('../components/Main.vue'),
+      redirect: fristRoute,  // 動態設置重定向
+      children: []
+    })
+
     menuRoutes.forEach(route => {
       const { path, name, meta } = route
       router.addRoute('layout', {
@@ -100,9 +114,7 @@ function updateRoutes(menuRoutes: RouteRecordRaw[]) {
         component: importRoutes(name as string)
       })
     })
-
     router.addRoute(routes_404)
-    console.log('當前路由 =>', router.getRoutes())
   } catch (error) {
     console.error('路由更新錯誤', error)
   }
@@ -125,5 +137,12 @@ function importRoutes(component: string) {
     return () => import('@/components/other/empty.vue')
   }
 }
-
+// 移除全部動態路由，只剩login
+function removeAllRoutes() {
+  router.getRoutes().forEach(route => {
+    if (route.name !== 'login') {
+      router.removeRoute(route.name as string)
+    }
+  })
+}
 export default router
