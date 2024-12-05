@@ -58,7 +58,7 @@ export const useLoginStore = defineStore('loginStore', {
       if (data.success) {
         this.data = data
         this.token = data.token
-        router.replace('/Information')
+        router.replace('/')
       }
     },
   },

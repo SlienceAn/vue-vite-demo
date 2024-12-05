@@ -23,7 +23,7 @@
           class="text-xl"
         />
         <template #title>
-          {{ R.name }}
+          {{ R.meta.title }}
         </template>
       </el-menu-item>
     </el-menu>
@@ -34,7 +34,7 @@
           @click="handleCollapse"
         >
           <i-material-symbols-menu-open class="text-xl" />
-          <span class="font-bold text-lg">{{ $route.name }}</span>
+          <span class="font-bold text-lg">{{ $route.meta.title }}</span>
         </span>
         <select-place />
         <el-button

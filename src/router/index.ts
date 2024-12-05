@@ -18,13 +18,17 @@ const systemRouter: RouteRecordRaw[] = [
     name: 'layout',
     path: '/',
     component: () => import('../components/Main.vue'),
-    redirect: '/information',
+    redirect: '/Information',
     children: []
   }
 ]
 
 const routes_404: RouteRecordRaw = {
   path: '/:pathMatch(.*)*',
+  name: '404',
+  meta: {
+    title: '404無頁面'
+  },
   component: () => import('../components/other/404.vue')
 }
 
@@ -56,19 +60,16 @@ router.beforeEach((to, from, next) => {
 
   if (data.value.menu && data.value.menu.length > 0) {
     updateRoutes(data.value.menu)
-    console.log('to', to)
     if (to.matched.length === 0) {
       next({ ...to, replace: true })  // 重新導航，使用新的路由配置
       return
     }
   }
-  console.log('to matched', to.matched)
   if (!isConnect.value) {
     createPusher.init()
   }
   next()
 })
-
 
 router.afterEach(() => {
   NProgress.done()
@@ -80,29 +81,49 @@ router.onError((error) => {
   })
 })
 
+
+// 動態添加路由
 function updateRoutes(menuRoutes: RouteRecordRaw[]) {
-  router.getRoutes().forEach(route => {
-    if (route.name !== 'login' && route.name !== 'layout')
-      router.removeRoute(route.name as string)
-  })
-  menuRoutes.forEach(route => {
-    const { path, name,meta } = route
-    const a = {
-      path,
-      name,
-      meta,
-      component: () => import('../components/other/404.vue')
-    }
-    console.log(a)
-    router.addRoute('layout', a)
-  })
+  try {
+    router.getRoutes().forEach(route => {
+      console.log('route name', route)
+      if (route.name !== '404' && route.name !== 'login' && route.name !== 'layout')
+        router.removeRoute(route.name as string)
+    })
+    console.log('移除後路由 => ', router.getRoutes())
+    menuRoutes.forEach(route => {
+      const { path, name, meta } = route
+      router.addRoute('layout', {
+        path,
+        name,
+        meta,
+        component: importRoutes(name as string)
+      })
+    })
 
-  // 添加錯誤路由
-  router.addRoute(routes_404)
+    router.addRoute(routes_404)
+    console.log('當前路由 =>', router.getRoutes())
+  } catch (error) {
+    console.error('路由更新錯誤', error)
+  }
 
-  console.log('更新後路由', router.getRoutes())
 }
+// 導入路由模塊
+function importRoutes(component: string) {
+  try {
+    const modules = import.meta.glob('../views/**/index.vue')
+    const path = `../views/${component}/index.vue`
 
-// function importRoutes(){}
+    if (!modules[path]) {
+      console.warn(`找不到路由組件: ${path}`)
+      return () => import('@/components/other/empty.vue')
+    }
+
+    return modules[path]
+  } catch (error) {
+    console.error('導入路由模組時發生錯誤:', error)
+    return () => import('@/components/other/empty.vue')
+  }
+}
 
 export default router
