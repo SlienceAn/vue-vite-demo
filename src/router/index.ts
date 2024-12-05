@@ -86,19 +86,23 @@ function updateRoutes(menuRoutes: RouteRecordRaw[]) {
       router.removeRoute(route.name as string)
   })
   menuRoutes.forEach(route => {
-    router.addRoute('layout', route)
+    const { path, name,meta } = route
+    const a = {
+      path,
+      name,
+      meta,
+      component: () => import('../components/other/404.vue')
+    }
+    console.log(a)
+    router.addRoute('layout', a)
   })
 
-  // router.addRoute('layout', {
-  //   path: 'c',
-  //   name: 'c',
-  //   redirect: undefined,
-  //   children: []
-  // })
   // 添加錯誤路由
   router.addRoute(routes_404)
 
   console.log('更新後路由', router.getRoutes())
 }
+
+// function importRoutes(){}
 
 export default router

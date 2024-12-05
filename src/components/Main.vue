@@ -19,7 +19,7 @@
         class="font-bold"
       >
         <component
-          :is="R.icon"
+          :is="R.meta.icon"
           class="text-xl"
         />
         <template #title>
