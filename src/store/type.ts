@@ -27,6 +27,7 @@ export type Store<T extends ApiResponse = ApiResponse> = {
         isPremission: boolean,
         data: any,
         token: string
+        isLoading: boolean
     };
     information: {
         isLoading: boolean

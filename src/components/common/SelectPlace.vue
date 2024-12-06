@@ -34,6 +34,6 @@ onMounted(() => globalStore.getCity())
 </script>
 <style lang="scss" scoped>
 .wrapper {
-  @apply w-200px h-40px rounded-md flex items-center justify-between px-4 text-gray-700 border border-solid border-gray cursor-pointer;
+  @apply w-120px h-40px rounded-md flex items-center justify-between px-4 text-gray-700 border border-solid border-gray cursor-pointer;
 }
 </style>

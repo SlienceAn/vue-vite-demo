@@ -29,20 +29,26 @@
     </el-menu>
     <el-container>
       <el-header class="navbar">
-        <span
-          class="flex items-center gap-2 hover:cursor-pointer"
-          @click="handleCollapse"
-        >
-          <i-material-symbols-menu-open class="text-xl" />
-          <span class="font-bold text-lg">{{ $route.meta.title }}</span>
-        </span>
+        <div class="font-bold text-lg inline-flex gap-1 items-center flex-1">
+          <i-material-symbols-menu-open
+            class="text-xl cursor-pointer"
+            @click="handleCollapse"
+          />
+          {{ $route.meta.title }}
+        </div>
         <select-place />
-        <el-button
-          class="border-none"
-          @click="$router.replace('/login')"
-        >
-          <i-material-symbols-logout class="text-xl" />
-        </el-button>
+        <div class="flex flex-1 justify-end">
+          <el-tooltip
+            content="登出"
+            class="border-solid"
+          >
+            <el-button
+              @click="loginOut"
+            >
+              <i-material-symbols-logout class="text-xl" />
+            </el-button>
+          </el-tooltip>
+        </div>
       </el-header>
       <el-main class="bg-[#E4E7ED] !p-0">
         <router-view />
@@ -52,6 +58,9 @@
 </template>
 <script setup lang="ts">
 import SelectPlace from './common/SelectPlace.vue'
+import { ElMessageBox } from 'element-plus'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const globalStore = useGlobalStore()
 const loginStore = useLoginStore()
 const { menuCollapse } = storeToRefs(globalStore)
@@ -61,10 +70,24 @@ const handleCollapse = () => {
     menuCollapse: !menuCollapse.value
   })
 }
+const loginOut = () => {
+  ElMessageBox.confirm(
+    '確定要登出嗎?',
+    '提醒',
+    {
+      confirmButtonText: '登出',
+      cancelButtonText: '取消',
+      type: 'info'
+    }
+  ).then(() => {
+    loginStore.$patch({ token: '' })
+    router.replace('/login')
+  })
+}
 </script>
 <style scoped lang="scss">
 .navbar {
-  @apply flex justify-between items-center h-64px;
+  @apply h-64px flex items-center;
   @apply border-b border-b-solid border-[--el-menu-border-color];
 }
 

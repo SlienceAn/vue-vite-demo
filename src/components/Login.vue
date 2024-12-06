@@ -40,8 +40,9 @@
             />
           </el-form-item>
           <el-button
-            type="info"
+            type="primary"
             class="btn"
+            :loading="isLoading"
             @click="login"
           >
             登入
@@ -53,7 +54,7 @@
 </template>
 <script setup lang="tsx">
 const loginStore = useLoginStore()
-const { loginForm } = storeToRefs(loginStore)
+const { loginForm, isLoading } = storeToRefs(loginStore)
 const login = () => loginStore.postLogin()
 const rules = {
   account: [
@@ -74,7 +75,7 @@ const rules = {
 }
 
 .back-panel {
-  @apply rounded-3xl absolute inset-0 bg-gradient-to-r from-gray-300 to-dark-600 shadow-lg transform;
+  @apply rounded-3xl absolute inset-0 bg-gradient-to-r from-blue-200 to-blue-700 shadow-lg transform;
   @apply sm:rotate-6;
 }
 
