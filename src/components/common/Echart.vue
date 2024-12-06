@@ -26,9 +26,10 @@ const props = defineProps({
     default: '100%'
   }
 })
+const { option } = toRefs(props)
 const draw = () => {
   chart.value = markRaw(echarts.init(echart.value, 'T'))
-  chart.value?.setOption(props.option)
+  chart.value?.setOption(option.value)
   addEventListener()
 }
 const dispose = () => {

@@ -11,6 +11,7 @@
       highlight-current-row
     >
       <el-table-column
+        v-if="indexColumn"
         type="index"
         :index="indexCount"
         label="#"
@@ -51,19 +52,20 @@
 
 <script setup lang="ts">
 defineProps<{
-  tableColumn: Array<any>
+  tableColumn: Array<any>,
+  indexColumn?: boolean
 }>()
 const attrs: any = useAttrs()
 const currentPage = ref(1)
 const isLoading = ref(false)
 const pageSize = ref(20)
 const { proxy }: any = getCurrentInstance()
+const data = ref<any[]>([])
 const tableData = computed(() => {
-  const data = []
   if (attrs['data']) {
     return Object.entries(attrs.data).map(([, value]) => value)
   }
-  return data
+  return data.value
 })
 // 獲取API數據
 const getApiData = async () => {
@@ -85,7 +87,9 @@ const indexCount = (index: number) => {
 }
 onMounted(() => {
   if (attrs['api-url']) {
-    getApiData()
+    getApiData().then(el => {
+      data.value = [...el]
+    })
   }
 })
 </script>
