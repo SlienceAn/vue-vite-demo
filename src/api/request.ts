@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
-import { ElNotification, ElMessageBox } from 'element-plus'
+import { ElNotification, ElMessageBox, ElMessage } from 'element-plus'
 import router from '@/router'
 interface ErrorResponseData {
   success: boolean
@@ -108,6 +108,10 @@ const httpReq: HttpMethod = {
         ...config
       }).then((response) => {
         resolve(response.data || { result: response.status, message: '保存成功' })
+        ElMessage({
+          message: response.data.message,
+          type: 'success'
+        })
       }).catch((error) => {
         reject(error)
       })
@@ -122,6 +126,10 @@ const httpReq: HttpMethod = {
         ...config
       }).then((response) => {
         resolve(response.data || { result: response.status, message: '修改成功' })
+        ElMessage({
+          message: response.data.message,
+          type: 'success'
+        })
       }).catch((error) => {
         reject(error)
       })
@@ -136,6 +144,10 @@ const httpReq: HttpMethod = {
         ...config
       }).then((response) => {
         resolve(response.data || { result: response.status })
+        ElMessage({
+          message: response.data.message,
+          type: 'success'
+        })
       }).catch((error) => {
         reject(error)
       })
@@ -150,6 +162,10 @@ const httpReq: HttpMethod = {
         ...config
       }).then((response) => {
         resolve(response.data || { result: response.status, message: '刪除成功' })
+        ElMessage({
+          message: response.data.message,
+          type: 'success'
+        })
       }).catch((error) => {
         reject(error)
       })

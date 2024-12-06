@@ -39,7 +39,7 @@ const router = createRouter({
   // }
 })
 
-router.beforeEach((to, _, next) => {
+router.beforeEach((to, from, next) => {
   NProgress.start()
   const userStore = useUserForm()
   const { isConnect } = storeToRefs(userStore)
@@ -48,17 +48,17 @@ router.beforeEach((to, _, next) => {
 
   document.title = to.meta.title as string
 
+  // 前往 login 時
   if (to.path === '/login') {
     createPusher.disconnect()
     removeAllRoutes()
     next()
     return
   }
-
-  if (!token.value) {
-    next({
-      path: '/login'
-    })
+  // 未登入的判斷
+  if (from.path !== '/login' && !token.value) {
+    console.log('並非經過login')
+    next({ path: '/login' })
     return false
   }
 
