@@ -45,7 +45,7 @@ router.beforeEach((to, from, next) => {
   const { isConnect } = storeToRefs(userStore)
   const loginStore = useLoginStore()
   const { token, data } = storeToRefs(loginStore)
-
+  console.log(token.value)
   document.title = to.meta.title as string
 
   // 前往 login 時

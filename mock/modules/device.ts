@@ -2,69 +2,62 @@ import type { MockMethod } from 'vite-plugin-mock'
 import MockData from '@mock/data'
 const { data } = MockData
 
+// 依據日期展開資料
+const transformData = (data) => {
+  const groupedByDate = {}
+  data.forEach(el => {
+    el.forEach(item => {
+      const { date, item: measurementType, value, unit, text } = item
+      if (!groupedByDate[date]) {
+        groupedByDate[date] = {
+          date: date,
+          measurements: {}
+        }
+      }
+      groupedByDate[date].measurements[measurementType] = {
+        value,
+        unit,
+        text
+      }
+    })
+  })
+
+  return Object.values(groupedByDate)
+}
 // 設備資訊
 export default {
   url: '/device',
   method: 'get',
-  response: ({ query }) => {
-    const { city } = query
+  rawResponse: async (req, res) => {
+    const token = req.headers['authorization']
+    const url = new URL(`http://localhost${req.url}` as string)
+    const city = url.searchParams.get('city')
     const cityList = data.filter(el => el.city === city)
-    console.log(city)
-    console.log('city', cityList[0].data)
-    const final = [
-      {
-        date: '2022-10-19',
-        tmpValue: 29,
-        humValue: 30
-      },
-      {
-        date: '2022-10-29',
-        tmpValue: 29,
-        humValue: 30
-      },
-      {
-        date: '2022-10-29',
-        tmpValue: 29,
-        humValue: 30
-      },
-      {
-        date: '2022-10-29',
-        tmpValue: 29,
-        humValue: 30
-      },
-      {
-        date: '2022-10-29',
-        tmpValue: 29,
-        humValue: 30
-      },
-      {
-        date: '2022-10-29',
-        tmpValue: 29,
-        humValue: 30
-      }
-    ]
-    return {
+    const testCity = cityList[0].data.map(el => {
+      return el.value.date.map((date, index) => ({
+        item: el.item,
+        unit: el.unit,
+        text: el.text,
+        date: date,
+        value: el.value.value[index]
+      }))
+    }
+    )
+    res.setHeader('Content-Type', 'application/json')
+    if (!token) {
+      res.statusCode = 403
+      res.end(JSON.stringify({
+        success: false,
+        message: '身分驗證失敗'
+      }))
+      return
+    }
+
+    res.statusCode = 200
+    res.end(JSON.stringify({
       success: true,
       message: '查詢成功',
-      data: final
-    }
-    // if (status) {
-    //   const deviceData = data
-    //     .filter(el => el['status'] === status && el['city'] === city)
-    //     .slice(Number(size) * (Number(page) - 1), Number(size) + Number(size) * (Number(page) - 1))
-    //   return {
-    //     success: true,
-    //     message: '查詢成功',
-    //     data: deviceData
-    //   }
-    // } else {
-    //   return {
-    //     success: true,
-    //     message: 'get all data',
-    //     data: data
-    //       .filter(el => el['city'] === city)
-    //       .slice(Number(size) * (Number(page) - 1), Number(size) + Number(size) * (Number(page) - 1))
-    //   }
-    // }
+      data: transformData(testCity)
+    }))
   }
 } as MockMethod

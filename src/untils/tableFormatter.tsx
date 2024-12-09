@@ -79,11 +79,21 @@ export default () => {
       </div>
     )
   }
+  const addUnit = (row, col) => {
+    const { value, unit } = row.measurements[col.property]
+    return (
+      <div className="flex px-2">
+        <span>{value}</span>
+        <span className="text-[10px] font-bold ml-auto">{unit}</span>
+      </div>
+    )
+  }
   return {
     statusIcon,
     accumulation,
     menu,
     dateFormat,
-    settingTool
+    settingTool,
+    addUnit
   }
 }

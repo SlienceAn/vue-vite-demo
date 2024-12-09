@@ -53,8 +53,8 @@ const options = computed(() => {
     ],
     series: el.data.map(el => ({
       name: el.item,
-      type: 'bar',
-      smooth: true,
+      type: 'line',
+      smooth: false,
       symbol: 'none',
       data: Object.values(el.value.value),
       markLine: {

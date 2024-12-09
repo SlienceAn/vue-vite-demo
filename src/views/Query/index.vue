@@ -47,19 +47,18 @@
     <el-main class="!p-0">
       <div
         v-if="data"
-        class="flex px-4 pb-4 flex-wrap gap-1"
+        class="flex px-4 pb-4 flex-wrap gap-2"
       >
         <el-card
           v-for="i in data"
           :key="i"
           class="card"
+          :class="{ error: i.status === 'disconnect' }"
           shadow="always"
         >
           <template #header>
             <div class="font-bold flex justify-between">
-              <component
-                :is="statusIcon(i.status)"
-              />
+              <component :is="statusIcon(i.status)" />
               <span>{{ i.address }}</span>
             </div>
           </template>
@@ -68,17 +67,14 @@
             :key="item.item"
             class="flex"
           >
-            <div class="min-w-1/4 py-1">
-              {{ item.item }}
+            <div class="min-w-1/3 py-1 font-bold">
+              {{ item.text }}
             </div>
-            <div class="min-w-1/4 py-1 text-center">
+            <div class="min-w-1/3 py-1 text-center">
               {{ item.value.value[0] }}
             </div>
-            <div class="min-w-1/4 py-1 text-right">
+            <div class="min-w-1/3 py-1 text-right text-[12px] font-bold">
               {{ item.unit }}
-            </div>
-            <div class="min-w-1/4 py-1 text-right">
-              {{ item.text }}
             </div>
           </div>
         </el-card>
@@ -128,10 +124,10 @@ const statusList = ref([
 }
 
 .card {
-  @apply box-border w-full md:max-w-[calc(25%-0.25rem)];
+  @apply box-border cursor-pointer w-full md:max-w-[calc(25%-0.5rem)];
 }
 
 .error {
-  @apply ring-0.5 ring-red-500 bg-gradient-to-t from-red-500/40 via-white;
+  @apply ring-1 ring-red-500 bg-gradient-to-t from-red-500/40 via-white;
 }
 </style>

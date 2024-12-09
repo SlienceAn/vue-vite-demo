@@ -45,11 +45,7 @@ export const useLoginStore = defineStore('loginStore', {
       account: 'rd',
       password: '123',
     },
-    userName: '',
-    success: false,
     data: [],
-    message: '',
-    isPremission: false,
     token: '',
     isLoading: false
   }),
@@ -64,7 +60,18 @@ export const useLoginStore = defineStore('loginStore', {
       }
     },
   },
-  persist: true
+  persist: [
+    {
+      key: 'token',
+      paths: ['token'],
+      storage: sessionStorage
+    },
+    {
+      key: 'login',
+      paths: ['loginForm','data','isLoading'],
+      storage: localStorage
+    }
+  ]
 })
 
 //設備資訊

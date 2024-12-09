@@ -21,10 +21,6 @@ export type Store<T extends ApiResponse = ApiResponse> = {
         loginForm: {
             [key: string]: string
         }
-        success: boolean,
-        userName: string,
-        message: string,
-        isPremission: boolean,
         data: any,
         token: string
         isLoading: boolean

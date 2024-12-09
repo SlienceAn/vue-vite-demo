@@ -86,9 +86,14 @@ const CITY = ['台北', '高雄', '台南', '屏東', '彰化'] as const
 const STATUS = ['online', 'disconnect', 'abnormal'] as const
 const ITEMS = [
   { item: 'TMP', unit: '˚C', text: '溫度' },
-  { item: 'HUM', unit: 'RH', text: '濕度' },
-  // { item: 'WS', unit: 'kn', text: '風速' },
-  // { item: 'RAIN', unit: 'mm', text: '雨量' },
+  { item: 'HUM', unit: '%', text: '濕度' },
+  { item: 'WS', unit: 'm/s', text: '風速' },
+  { item: 'RAIN', unit: 'mm', text: '雨量' },
+  { item: 'PM25', unit: 'μg/m³', text: 'PM2.5' },
+  { item: 'PM10', unit: 'μg/m³', text: 'PM10' },
+  { item: 'CO', unit: 'ppm', text: 'CO' },
+  { item: 'CO2', unit: 'ppm', text: 'CO₂' },
+  { item: 'O3', unit: 'ppb', text: 'O3' },
 ] as const
 
 // 生成函數
