@@ -25,10 +25,10 @@
 </template>
 <script setup lang="ts">
 const globalStore = useGlobalStore()
-const { cityList, city } = storeToRefs(globalStore)
+const { city,cityList } = storeToRefs(globalStore)
 const handleSelect = (key) => {
   globalStore.$patch({ city: key })
-  globalStore.getDeviceStatusList()
+  // globalStore.getDeviceStatusList()
 }
 onMounted(() => globalStore.getCity())
 </script>

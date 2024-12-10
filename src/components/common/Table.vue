@@ -40,7 +40,7 @@
         background
         small
         :pager-count="5"
-        :total="attrs.total"
+        :total="total"
         :page-size="pageSize"
         layout="prev, pager, next"
         hide-on-single-page
@@ -57,8 +57,9 @@ defineProps<{
 }>()
 const attrs: any = useAttrs()
 const currentPage = ref(1)
-const isLoading = ref(false)
 const pageSize = ref(20)
+const total = ref(0)
+const isLoading = ref(false)
 const { proxy }: any = getCurrentInstance()
 const data = ref<any[]>([])
 const tableData = computed(() => {
@@ -70,7 +71,6 @@ const tableData = computed(() => {
 // 獲取API數據
 const getApiData = async () => {
   isLoading.value = true
-
   // 獲取頁面與父層參數
   const params = {
     ...attrs['params'],
@@ -78,20 +78,22 @@ const getApiData = async () => {
     size: pageSize.value
   }
   const url = `/${attrs['api-url']}?${new URLSearchParams(params)}`
-  const data = await proxy.$http.get(url)
+  const request = await proxy.$http.get(url)
   isLoading.value = false
-  return data.data
+  data.value = [...request.data]
+  total.value = request.total
 }
+// 索引開始值
 const indexCount = (index: number) => {
   return index + 1 + (currentPage.value * 20 - 20)
 }
 onMounted(() => {
-  if (attrs['api-url']) {
-    getApiData().then(el => {
-      data.value = [...el]
-    })
-  }
+  attrs['api-url'] && getApiData()
 })
+watch(
+  () => attrs['params'],
+  () => { getApiData() },
+)
 </script>
 
 <style scoped lang="scss">

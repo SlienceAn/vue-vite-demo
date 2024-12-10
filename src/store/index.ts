@@ -13,20 +13,25 @@ export const useGlobalStore = defineStore('globalStore', {
     menuCollapse: false,
     cityList: [],
     countList: [],
+    data: [],
+    id:'',
     city: ''
   }),
   actions: {
     async getCity() {
       const data: any = await httpRequest.get('/city')
-      this.cityList = data.data
-      this.city = data.data[0]
-    },
-    async getDeviceStatusList() {
-      const data: any = await httpRequest.get(`/device/stauts/list?city=${this.city}`)
-      this.countList = data.data
+      this.data = data.data
+      this.cityList = [...new Set(this.data.map((el: any) => el.city))]
+      this.fetchCity()
     },
     fetchCity() {
       this.city = this.cityList[0]
+    }
+  },
+  getters: {
+    cityAddressList(state) {
+      console.log(state.data)
+      return state.data.filter(el => el.city === state.city)
     }
   },
   persist: true
@@ -68,12 +73,11 @@ export const useLoginStore = defineStore('loginStore', {
     },
     {
       key: 'login',
-      paths: ['loginForm','data','isLoading'],
+      paths: ['loginForm', 'data', 'isLoading'],
       storage: localStorage
     }
   ]
 })
-
 //設備資訊
 export const useInformation = defineStore('information', {
   state: (): Store<any>['information'] => ({
@@ -104,7 +108,6 @@ export const useInformation = defineStore('information', {
   },
   persist: true
 })
-
 export const useForm = defineStore('inspectForm', {
   state: (): Store<any>['inspect'] => ({
     form: []

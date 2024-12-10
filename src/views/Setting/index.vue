@@ -21,6 +21,7 @@
         :table-column="tableColumn"
         :data="data"
         :total="currentDataTotal"
+        index-column
       />
     </el-main>
   </el-container>

@@ -14,8 +14,10 @@ export type Store<T extends ApiResponse = ApiResponse> = {
     global: {
         menuCollapse: boolean
         city: string
-        cityList: string[]
-        countList: Store['CountList'][]
+        cityList: any[]
+        data: any[]
+        id: string
+        countList?: Store['CountList'][]
     };
     login: {
         loginForm: {

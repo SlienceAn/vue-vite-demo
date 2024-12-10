@@ -1,6 +1,6 @@
 import type { MockMethod } from 'vite-plugin-mock'
 import mockData from '@mock/data'
-const { userList, routerList } = mockData
+const { userList = [], routerList = [] } = mockData ?? {}
 
 export default {
   url: '/login',

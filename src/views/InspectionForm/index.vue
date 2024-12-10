@@ -2,11 +2,17 @@
   <el-container class="h-full">
     <el-header>
       <el-select
-        multiple
+        v-model="id"
         clearable
-        class="!w-150px"
+        class="!w-200px"
+        placeholder="請選擇設備"
       >
-        <el-option value="cccc" />
+        <el-option
+          v-for="i in cityAddressList"
+          :key="i"
+          :label="i.address"
+          :value="i.id"
+        />
       </el-select>
       <el-button type="primary">
         搜尋
@@ -15,10 +21,10 @@
     <el-main class="!pt-0">
       <Table
         :table-column="tableColumn"
-        :params="{ city }"
+        :params="{ city,id }"
         api-url="device"
         :total="currentDataTotal"
-        :index-column="false"
+        index-column
       />
     </el-main>
   </el-container>
@@ -27,7 +33,8 @@
 import Table from '@/components/common/Table.vue'
 import tableFormatter from '@/untils/tableFormatter'
 const { addUnit } = tableFormatter()
-const { city } = useGlobalStore()
+const gloalStore = useGlobalStore()
+const { city, cityAddressList, id } = storeToRefs(gloalStore)
 const tableColumn = [
   { label: '日期', prop: 'date', align: 'center' },
   { label: '溫度', prop: 'TMP', align: 'center', width: 80, formatter: addUnit },
@@ -40,7 +47,7 @@ const tableColumn = [
   { label: 'PM10', prop: 'PM10', align: 'center', width: 100, formatter: addUnit },
   { label: 'O3', prop: 'O3', align: 'center', width: 100, formatter: addUnit },
 ]
-const currentDataTotal = 80
+const currentDataTotal = 76
 </script>
 <style scoped lang="scss">
 :deep(.el-header) {
