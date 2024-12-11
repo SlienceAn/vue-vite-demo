@@ -14,7 +14,7 @@ export const useGlobalStore = defineStore('globalStore', {
     cityList: [],
     countList: [],
     data: [],
-    id:'',
+    id: '',
     city: ''
   }),
   actions: {
@@ -82,25 +82,14 @@ export const useLoginStore = defineStore('loginStore', {
 export const useInformation = defineStore('information', {
   state: (): Store<any>['information'] => ({
     isLoading: true,
-    status: '',
+    month: '',
     data: [],
-    queryList: {
-      status: '',
-      startDate: '',
-      endDate: ''
-    }
   }),
   actions: {
-    //設備查詢
-    async getQeryData() {
-      const globalStore = useGlobalStore()
-      const { city } = storeToRefs(globalStore)
-      const data: any = await httpRequest.get(`/query?city=${city.value}`)
-      this.data = data.data
-    },
     async getInfo() {
       const global = useGlobalStore()
-      const data: any = await httpRequest.get(`/info?city=${global.city}`)
+      const { city } = storeToRefs(global)
+      const data: any = await httpRequest.get(`/info?city=${city.value}&month=${this.month}`)
       if (data.success) {
         this.data = data.data
       }
@@ -108,18 +97,20 @@ export const useInformation = defineStore('information', {
   },
   persist: true
 })
-export const useForm = defineStore('inspectForm', {
-  state: (): Store<any>['inspect'] => ({
-    form: []
+export const useQueryStore = defineStore('queryStore', {
+  state: (): Store<any>['query'] => ({
+    isLoading: false,
+    data: []
   }),
   actions: {
-    add(id: string, city: string, address: string) {
-      this.form.push({
-        id,
-        city,
-        address
-      })
-    },
+    async getQuery() {
+      const global = useGlobalStore()
+      const { city } = storeToRefs(global)
+      const data: any = await httpRequest.get(`/search?city=${city.value}`)
+      if (data.success) {
+        this.data = data.data
+      }
+    }
   },
   persist: false
 })

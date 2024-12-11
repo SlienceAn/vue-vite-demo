@@ -95,8 +95,8 @@ import { Search } from '@element-plus/icons-vue'
 import DrawerList from './drawerList.vue'
 import tableFormatter from '@/untils/tableFormatter'
 const { statusIcon } = tableFormatter()
-const informationStore = useInformation()
-const { data } = storeToRefs(informationStore)
+const queryStore = useQueryStore()
+const { data } = storeToRefs(queryStore)
 const statusValue = ref([])
 const isOpen = ref(false)
 const statusList = ref([
@@ -113,6 +113,7 @@ const statusList = ref([
     label: '已連線',
   },
 ])
+onMounted(()=>queryStore.getQuery())
 </script>
 <style scoped lang="scss">
 .header {

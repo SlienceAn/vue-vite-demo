@@ -36,8 +36,8 @@ export default {
     const size = url.searchParams.get('size')
 
     const cityList = data.filter(el => el.city === city)
-    const a = cityList.find(el => el.id === id)
-    console.log('obj', a)
+    // const a = cityList.find(el => el.id === id)
+    // console.log('obj', a)
     const transformList = cityList[0].data.map(el => {
       return el.value.date.map((date, index) => ({
         item: el.item,

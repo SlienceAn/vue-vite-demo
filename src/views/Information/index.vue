@@ -1,4 +1,15 @@
 <template>
+  <div>
+    <el-date-picker
+      v-model="month"
+      type="month"
+      placeholder="Pick a month"
+      format="YYYY-MM"
+      value-format="YYYY-MM"
+      class="!w-150px"
+      @change="infoStore.getInfo"
+    />
+  </div>
   <el-scrollbar>
     <div
       v-loading="!options"
@@ -7,7 +18,7 @@
     >
       <div
         v-for="i in options"
-        :key="i.id"
+        :key="i"
         class="chart"
       >
         <Chart :option="i" />
@@ -17,53 +28,69 @@
 </template>
 <script setup lang="tsx">
 import Chart from '@/components/common/Echart.vue'
-import { dayjs } from 'element-plus'
 const infoStore = useInformation()
-const { data } = storeToRefs(infoStore)
+const { month } = storeToRefs(infoStore)
 const options = computed(() => {
-  return data.value.map((el) => ({
-    title: {
-      text: el.address,
-    },
-    tooltip: {
-      trigger: 'axis',
-      valueFormatter: function (value) {
-        return value + ' ' + el.data[0].unit // 暫時用第一個
-      }
-    },
-    legend: {},
-    xAxis: [
-      {
-        type: 'category',
-        data: el.data[0].value.date,
-        axisLabel: {
-          interval: 1,
-          rotate: 45,
-          margin: 15,
-          formatter: function (value) {
-            return dayjs(value).format('MM-DD')
-          }
-        }
-      }
-    ],
-    yAxis: [
-      {
-        type: 'value'
-      }
-    ],
-    series: el.data.map(el => ({
-      name: el.item,
-      type: 'line',
-      smooth: false,
-      symbol: 'none',
-      data: Object.values(el.value.value),
-      markLine: {
-        symbol: ['none', 'none'],
-        silent: true,
-        data: [{ type: 'average', name: 'Avg' }],
-      }
-    })),
-  }))
+  // return data.value.map((el) => ({
+  //   title: {
+  //     text: el.address,
+  //     textStyle: {
+  //       fontSize: 18,
+  //       fontWeight: 'bold'
+  //     }
+  //   },
+  //   tooltip: {
+  //     trigger: 'axis',
+  //     valueFormatter: function (value) {
+  //       return value + ' ' + el.data[0].unit // 暫時用第一個
+  //     }
+  //   },
+  //   legend: {
+  //     bottom: 0,
+  //     textStyle: {
+  //       fontSize: 10
+  //     },
+  //     itemWidth: 18,
+  //     itemHeight: 12,
+  //     left: 'center',
+  //     orient: 'horizontal',
+  //   },
+  //   grid: {
+  //     bottom: 20
+  //   },
+  //   xAxis: [
+  //     {
+  //       type: 'category',
+  //       data: el.data[0].value.date,
+  //       axisLabel: {
+  //         interval: 1,
+  //         rotate: 45,
+  //         margin: 15,
+  //         formatter: function (value) {
+  //           return dayjs(value).format('MM-DD')
+  //         }
+  //       }
+  //     }
+  //   ],
+  //   yAxis: [
+  //     {
+  //       type: 'value'
+  //     }
+  //   ],
+  //   series: el.data.map(el => ({
+  //     name: el.item,
+  //     type: 'line',
+  //     smooth: false,
+  //     symbol: 'none',
+  //     data: Object.values(el.value.value),
+  //     markLine: {
+  //       symbol: ['none', 'none'],
+  //       silent: true,
+  //       data: [{ type: 'average', name: 'Avg' }],
+  //     }
+  //   })),
+  // }))
+  return []
 })
 onMounted(() => infoStore.getInfo())
 </script>

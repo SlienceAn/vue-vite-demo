@@ -23,8 +23,8 @@
   </el-drawer>
 </template>
 <script lang="ts" setup>
-const informationStore = useInformation()
-const { data } = storeToRefs(informationStore)
+const queryStore = useQueryStore()
+const { data } = storeToRefs(queryStore)
 defineProps({
   isOpen: {
     type: Boolean

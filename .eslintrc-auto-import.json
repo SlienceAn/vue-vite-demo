@@ -326,6 +326,8 @@
     "userList": true,
     "useUserForm": true,
     "useOusherStore": true,
-    "usePusherStore": true
+    "usePusherStore": true,
+    "queryStore": true,
+    "useQueryStore": true
   }
 }

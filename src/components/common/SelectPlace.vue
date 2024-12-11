@@ -28,7 +28,6 @@ const globalStore = useGlobalStore()
 const { city,cityList } = storeToRefs(globalStore)
 const handleSelect = (key) => {
   globalStore.$patch({ city: key })
-  // globalStore.getDeviceStatusList()
 }
 onMounted(() => globalStore.getCity())
 </script>
