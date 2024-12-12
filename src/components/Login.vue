@@ -4,7 +4,7 @@
       <div class="back-panel" />
       <div class="front-panel">
         <div class="text-center py-6 font-bold text-3xl title">
-          Vue-vite-demo
+          {{ config.name }}
         </div>
         <el-form
           refs="form"
@@ -53,6 +53,7 @@
   </div>
 </template>
 <script setup lang="tsx">
+import config from '@/config'
 const loginStore = useLoginStore()
 const { loginForm, isLoading } = storeToRefs(loginStore)
 const login = () => loginStore.postLogin()

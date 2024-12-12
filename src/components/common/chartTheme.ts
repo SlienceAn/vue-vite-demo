@@ -8,18 +8,35 @@ export default {
     '#909399'
   ],
   grid: {
-    left: '3%',
-    right: '3%',
-    bottom: '10',
-    top: '40',
+    left: '1%',
+    right: '1%',
+    bottom: '1%',
+    top: '30',
     containLabel: true
+  },
+  title: {
+    textStyle: {
+      fontSize: 14,
+      fontWeight: 'bold'
+    },
+  },
+  tooltip: {
+    trigger: 'axis',
   },
   legend: {
     textStyle: {
-      color: '#999'
+      color: '#999',
+      fontSize: 12
     },
-    inactiveColor: 'rgba(128,128,128,0.4)'
+    inactiveColor: 'rgba(128,128,128,0.4)',
+    itemWidth: 18,
+    itemHeight: 12,
   },
+  yAxis: [
+    {
+      type: 'value'
+    }
+  ],
   categoryAxis: {
     axisLine: {
       show: true,

@@ -10,6 +10,8 @@ import type { ECharts } from 'echarts'
 import T from './chartTheme'
 const echart = ref()
 const chart = ref<ECharts | null>(null)
+const infoStore = useInformation()
+const { grids } = storeToRefs(infoStore)
 let isActivat = ref(false)
 echarts.registerTheme('T', T)
 const props = defineProps({
@@ -68,4 +70,13 @@ onMounted(() => {
     draw()
   })
 })
+watch(grids, () => {
+  nextTick(() => {
+    chart.value?.resize()
+  })
+})
+// 提供開發人員一個方法，來對 DOM tree 的變動來作反應，這被設計用來替換在 DOM3 事件規範中的 Mutation Events
+// const observer = new MutationObserver((mutations) => {
+//   console.log(mutations)
+// })
 </script>

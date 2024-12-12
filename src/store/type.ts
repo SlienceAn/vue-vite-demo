@@ -31,8 +31,9 @@ export type Store<T extends ApiResponse = ApiResponse> = {
         isLoading: boolean
         month: string | Date
         data: T | null
+        grids: 'two'| 'four'
     };
-    query:{
+    query: {
         isLoading: boolean
         data: T | null
     };

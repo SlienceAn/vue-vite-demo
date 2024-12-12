@@ -7,9 +7,9 @@
       class="!border-none el-menu-main"
     >
       <el-menu-item disabled>
-        <i-material-symbols-cable class="text-2xl" />
+        <i-material-symbols-demography class="text-2xl" />
         <template #title>
-          Vue Demo
+          {{ config.name }}
         </template>
       </el-menu-item>
       <el-menu-item
@@ -42,9 +42,7 @@
             content="登出"
             class="border-solid"
           >
-            <el-button
-              @click="loginOut"
-            >
+            <el-button @click="loginOut">
               <i-material-symbols-logout class="text-xl" />
             </el-button>
           </el-tooltip>
@@ -60,6 +58,7 @@
 import SelectPlace from './common/SelectPlace.vue'
 import { ElMessageBox } from 'element-plus'
 import { useRouter } from 'vue-router'
+import config from '@/config'
 const router = useRouter()
 const globalStore = useGlobalStore()
 const loginStore = useLoginStore()

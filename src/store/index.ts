@@ -30,7 +30,6 @@ export const useGlobalStore = defineStore('globalStore', {
   },
   getters: {
     cityAddressList(state) {
-      console.log(state.data)
       return state.data.filter(el => el.city === state.city)
     }
   },
@@ -84,6 +83,7 @@ export const useInformation = defineStore('information', {
     isLoading: true,
     month: '',
     data: [],
+    grids: 'four' // 版面顯示的網格數
   }),
   actions: {
     async getInfo() {
