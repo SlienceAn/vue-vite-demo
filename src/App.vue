@@ -1,9 +1,13 @@
 <template>
-  <el-config-provider :button="config">
+  <el-config-provider
+    :button="config"
+    :locale="zhCn"
+  >
     <router-view />
   </el-config-provider>
 </template>
 <script setup lang="ts">
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 // import { useWindowSize } from '@vueuse/core'
 const config = reactive({
   autoInsertSpace: true,
