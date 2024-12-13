@@ -71,13 +71,16 @@ export default [
   //mock api config
   viteMockServe({
     mockPath: 'mock',
-    localEnabled: true,//開發打包開關
-    prodEnabled: true,//生產打包開關
-    // injectCode: ` error
-    // import { setupProdMockServer } from './src/mockProdServer';
-    // setupProdMockServer();
-    // `,
-    logger: true,//是否在控制台顯示請求日誌
+    //開發打包開關
+    localEnabled: true,
+    //生產打包開關
+    prodEnabled: true,
+    //是否在控制台顯示請求日誌
+    logger: true,
     injectFile: path.resolve('./src/main.ts'),
+    injectCode: `
+    import { setupProdMockServer } from '../mock/mockProdServer';
+    setupProdMockServer();
+    `,
   })
 ]

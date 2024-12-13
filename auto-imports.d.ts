@@ -97,6 +97,7 @@ declare global {
   const routerList: typeof import('./mock/data')['routerList']
   const setActivePinia: typeof import('pinia')['setActivePinia']
   const setMapStoreSuffix: typeof import('pinia')['setMapStoreSuffix']
+  const setupProdMockServer: typeof import('./mock/mockProdServer')['setupProdMockServer']
   const shallowReactive: typeof import('vue')['shallowReactive']
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']

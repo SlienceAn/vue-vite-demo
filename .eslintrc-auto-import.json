@@ -328,6 +328,7 @@
     "useOusherStore": true,
     "usePusherStore": true,
     "queryStore": true,
-    "useQueryStore": true
+    "useQueryStore": true,
+    "setupProdMockServer": true
   }
 }
