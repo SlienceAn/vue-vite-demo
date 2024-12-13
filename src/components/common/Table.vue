@@ -1,13 +1,12 @@
 <template>
-  <div class="h-full bg-white">
+  <div class="h-full bg-white border-gray-300 border-solid border-0.5 rounded-md">
     <el-table
       v-loading="isLoading"
       element-loading-text="讀取中"
       element-loading-background="rgba(250, 250, 250, 0.8)"
       :data="tableData"
-      stripe
-      height="85%"
-      border
+      :stripe="true"
+      height="90%"
       highlight-current-row
     >
       <el-table-column
@@ -34,7 +33,7 @@
         />
       </template>
     </el-table>
-    <div class="py-4 flex justify-center items-center box-border border-t border-t-gray-100 h-[15%]">
+    <div class="page">
       <el-pagination
         v-model:current-page="currentPage"
         background
@@ -43,7 +42,7 @@
         :total="total"
         :page-size="pageSize"
         layout="prev, pager, next"
-        hide-on-single-page
+        :hide-on-single-page="false"
         @current-change="getApiData"
       />
     </div>
@@ -97,61 +96,7 @@ watch(
 </script>
 
 <style scoped lang="scss">
-table {
-  @apply w-full text-sm text-left text-dark-500;
-
-  thead {
-
-    @apply text-xs text-gray-700 border-t border-gray-300;
-
-    tr th {
-      @apply px-3 py-2 text-lg;
-    }
-  }
-
-  tbody {
-    tr {
-      @apply border-t bg-gray-50 border-gray-300;
-
-      th {
-        @apply px-6 py-4 font-medium text-gray-900 whitespace-nowrap;
-      }
-
-      td {
-        @apply px-3 py-2;
-      }
-    }
-  }
-}
-
-.el-table {
-  --el-table-bg-color: transparent;
-  --el-table-header-bg-color: #F5F9FF;
-  --el-bg-color: transparent;
-}
-
-:deep(.el-table thead) {
-  @apply text-15px;
-}
-
 .page {
-  @apply border border-gray-400 rounded-md px-3 py-1;
-
-  &:hover,
-  &-btn:hover {
-    @apply cursor-pointer bg-dark-300 text-white font-bold;
-  }
-
-  &-active {
-    @apply bg-dark-300 text-white font-bold;
-  }
-
-  &-btn {
-    @apply flex items-center border border-gray-400 rounded-md px-2;
-
-    &:disabled {
-      @apply border-gray-300 text-gray-300;
-    }
-  }
+  @apply py-4 flex justify-center box-border h-[10%];
 }
 </style>

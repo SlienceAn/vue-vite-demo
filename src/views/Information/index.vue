@@ -56,6 +56,19 @@ const { month, data, grids } = storeToRefs(infoStore)
 const getInfoData = () => {
   infoStore.getInfo()
 }
+const baseChartConfig={
+  tooltip: {
+    show: true
+  },
+  legend: {
+    show: true,
+    left: 'center',
+    bottom: 0
+  },
+  grid: {
+    bottom: 20
+  }
+}
 const createSeriesConfig = (el) => ({
   name: el.item,
   type: 'line',
@@ -75,6 +88,7 @@ const createXAxisConfig = (dates) => ({
 })
 const options = computed(() => {
   return data.value.map(item => ({
+    ...baseChartConfig,
     title: {
       text: item.address,
     },

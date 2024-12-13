@@ -4,7 +4,7 @@
       :router="true"
       :default-active="$route.path"
       :collapse="menuCollapse"
-      class="!border-none el-menu-main"
+      class="el-menu-main"
     >
       <el-menu-item disabled>
         <i-material-symbols-demography class="text-2xl" />
@@ -48,7 +48,7 @@
           </el-tooltip>
         </div>
       </el-header>
-      <el-main class="bg-[#E4E7ED] !p-0">
+      <el-main class="!p-0">
         <router-view />
       </el-main>
     </el-container>
@@ -87,7 +87,7 @@ const loginOut = () => {
 <style scoped lang="scss">
 .navbar {
   @apply h-64px flex items-center;
-  @apply border-b border-b-solid border-[--el-menu-border-color];
+  @apply border-b border-b-solid border-[--el-menu-border-color] border-l-amber;
 }
 
 .main-content {
@@ -106,7 +106,7 @@ const loginOut = () => {
   }
 
   &.is-disabled {
-    @apply min-h-[64px] opacity-100 cursor-default font-bold border-r-1 border-[--el-menu-border-color] border-r-solid;
+    @apply min-h-[64px] opacity-100 cursor-default font-bold;
   }
 }
 </style>

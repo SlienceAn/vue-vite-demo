@@ -4,7 +4,7 @@
       <el-select
         v-model="id"
         clearable
-        class="!w-200px"
+        class="!w-200px mr-2"
         placeholder="請選擇設備"
       >
         <el-option
@@ -18,10 +18,10 @@
         搜尋
       </el-button>
     </el-header>
-    <el-main class="!pt-0">
+    <el-main class="!p-4 bg-white">
       <Table
         :table-column="tableColumn"
-        :params="{ city,id }"
+        :params="{ city, id }"
         api-url="device"
         :total="currentDataTotal"
         index-column
@@ -51,6 +51,6 @@ const currentDataTotal = 76
 </script>
 <style scoped lang="scss">
 :deep(.el-header) {
-  @apply flex px-4 items-center gap-4;
+  @apply h-56px w-full bg-white px-4 border-b-solid border-b-1 box-border border-[#dcdfe6] flex items-center;
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
-  <el-container>
+  <el-container class="h-full">
     <el-header class="header">
       <el-select
         v-model="statusValue"
         placeholder="選擇連線狀態"
         clearable
-        class="!w-150px"
+        class="!w-180px mr-2"
       >
         <template
           v-for="opt in statusList"
@@ -44,45 +44,47 @@
         </el-badge>
       </el-tooltip>
     </el-header>
-    <el-main class="!p-0">
-      <div
-        v-if="data"
-        class="flex px-4 pb-4 flex-wrap gap-2"
-      >
-        <el-card
-          v-for="i in data"
-          :key="i"
-          class="card"
-          :class="{ error: i.status === 'disconnect' }"
-          shadow="always"
+    <el-main class="!p-0 bg-white">
+      <el-scrollbar>
+        <div
+          v-if="data"
+          class="flex flex-wrap gap-2 p-4"
         >
-          <template #header>
-            <div class="font-bold flex justify-between">
-              <component :is="statusIcon(i.status)" />
-              <span>{{ i.address }}</span>
-            </div>
-          </template>
-          <div
-            v-for="item in i.data"
-            :key="item.item"
-            class="flex"
+          <el-card
+            v-for="i in data"
+            :key="i"
+            class="card"
+            :class="{ error: i.status === 'disconnect' }"
+            shadow="always"
           >
-            <div class="min-w-1/3 py-1 font-bold">
-              {{ item.text }}
+            <template #header>
+              <div class="font-bold flex justify-between">
+                <component :is="statusIcon(i.status)" />
+                <span>{{ i.address }}</span>
+              </div>
+            </template>
+            <div
+              v-for="item in i.data"
+              :key="item.item"
+              class="flex"
+            >
+              <div class="min-w-1/3 py-1 font-bold">
+                {{ item.text }}
+              </div>
+              <div class="min-w-1/3 py-1 text-center">
+                {{ item.value.value[0] }}
+              </div>
+              <div class="min-w-1/3 py-1 text-right text-[12px] font-bold">
+                {{ item.unit }}
+              </div>
             </div>
-            <div class="min-w-1/3 py-1 text-center">
-              {{ item.value.value[0] }}
-            </div>
-            <div class="min-w-1/3 py-1 text-right text-[12px] font-bold">
-              {{ item.unit }}
-            </div>
-          </div>
-        </el-card>
-      </div>
-      <el-empty
-        v-else
-        description="撈取資料錯誤"
-      />
+          </el-card>
+        </div>
+        <el-empty
+          v-else
+          description="撈取資料錯誤"
+        />
+      </el-scrollbar>
     </el-main>
   </el-container>
   <DrawerList
@@ -102,7 +104,7 @@ const isOpen = ref(false)
 const statusList = ref([
   {
     value: 'disconnect',
-    label: '已斷線',
+    label: '斷線',
   },
   {
     value: 'abnormal',
@@ -110,14 +112,14 @@ const statusList = ref([
   },
   {
     value: 'online',
-    label: '已連線',
+    label: '連線',
   },
 ])
 onMounted(()=>queryStore.getQuery())
 </script>
 <style scoped lang="scss">
 .header {
-  @apply flex px-4 items-center gap-4;
+  @apply h-56px w-full bg-white px-4 border-b-solid border-b-1 box-border border-[#dcdfe6] flex items-center;
 }
 
 :deep(.el-card__header) {
@@ -125,10 +127,10 @@ onMounted(()=>queryStore.getQuery())
 }
 
 .card {
-  @apply box-border cursor-pointer w-full md:max-w-[calc(25%-0.5rem)];
+  @apply rounded-2xl ring-0.5 ring-gray-300 cursor-pointer w-full md:max-w-[calc(25%-0.5rem)];
 }
 
 .error {
-  @apply ring-1 ring-red-500 bg-gradient-to-t from-red-500/40 via-white;
+  @apply ring-0.5 ring-red-300 bg-gradient-to-t from-red-500/30 via-white;
 }
 </style>

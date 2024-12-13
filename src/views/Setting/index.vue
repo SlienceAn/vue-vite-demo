@@ -16,7 +16,7 @@
         新增帳戶
       </el-button>
     </el-header>
-    <el-main class="!pt-0">
+    <el-main class="!p-4 bg-white">
       <Table
         :table-column="tableColumn"
         :data="data"
@@ -53,6 +53,6 @@ const handleOpen = () => {
 </script>
 <style scoped lang="scss">
 :deep(.el-header) {
-  @apply flex px-4 items-center gap-4;
+  @apply h-56px w-full bg-white px-4 border-b-solid border-b-1 box-border border-[#dcdfe6] flex items-center;
 }
 </style>
