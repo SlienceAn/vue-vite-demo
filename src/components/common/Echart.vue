@@ -17,7 +17,19 @@ echarts.registerTheme('T', T)
 const props = defineProps({
   option: {
     type: Object,
-    default: () => ({})
+    default: () => ({
+      tooltip: {
+        show: true
+      },
+      legend: {
+        show: true,
+        left: 'center',
+        bottom: 0
+      },
+      grid: {
+        bottom: 20
+      }
+    })
   },
   height: {
     type: String,

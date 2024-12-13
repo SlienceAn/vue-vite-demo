@@ -1,7 +1,6 @@
 import type { MockMethod } from 'vite-plugin-mock'
 import MockData from '@mock/data'
-const { data = [] } = MockData ?? {}
-
+const data = MockData?.data ?? []
 export default {
   url: '/info',
   method: 'get',

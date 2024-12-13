@@ -81,7 +81,7 @@ const userList = [
 ]
 
 let isInitialized = false
-const count = 100 as const // 資料總數
+const count = 50 as const // 資料總數
 const dayCount = 30 as const // 資料天數
 const CITY = ['台北', '高雄', '台南', '屏東', '彰化'] as const
 const STATUS = ['online', 'disconnect', 'abnormal'] as const

@@ -27,7 +27,7 @@
       </span>
     </el-header>
     <el-main class="!p-0">
-      <el-scrollbar>
+      <chartScrollbar>
         <div
           v-loading="!options"
           element-loading-text="讀取中..."
@@ -41,67 +41,54 @@
             <Chart :option="i" />
           </div>
         </div>
-      </el-scrollbar>
+      </chartScrollbar>
     </el-main>
   </el-container>
 </template>
 <script setup lang="tsx">
 import Chart from '@/components/common/Echart.vue'
+import chartScrollbar from './chartScrollbar.vue'
+import { dayjs } from 'element-plus'
 const globalStore = useGlobalStore()
 const { city } = storeToRefs(globalStore)
 const infoStore = useInformation()
 const { month, data, grids } = storeToRefs(infoStore)
+const getInfoData = () => {
+  infoStore.getInfo()
+}
+const createSeriesConfig = (el) => ({
+  name: el.item,
+  type: 'line',
+  smooth: false,
+  symbol: 'none',
+  data: el.value
+})
+const createXAxisConfig = (dates) => ({
+  type: 'category',
+  data: dates,
+  axisLabel: {
+    interval: 0,
+    rotate: 15,
+    margin: 10,
+    formatter: val => dayjs(val).format('MM-DD')
+  }
+})
 const options = computed(() => {
   return data.value.map(item => ({
     title: {
       text: item.address,
     },
-    tooltip: {
-      show: true,
-    },
-    legend: {
-      show: true,
-      left: 'center',
-      bottom: 0,
-    },
-    grid: {
-      bottom: 20
-    },
-    xAxis: [
-      {
-        type: 'category',
-        data: item.data[0].date,
-        axisLabel: {
-          interval: 0,
-          rotate: 30,
-          margin: 10,
-        }
-      }
-    ],
+    xAxis: [createXAxisConfig(item.data[0].date)],
     yAxis: [
       {
         type: 'value'
       }
     ],
-    series: item.data.map(el => ({
-      name: el.item,
-      type: 'line',
-      smooth: false,
-      symbol: 'none',
-      data: el.value,
-      // markLine: {
-      //   symbol: ['none', 'none'],
-      //   silent: true,
-      //   data: [{ type: 'average', name: 'Avg' }],
-      // }
-    })),
+    series: item.data.map(createSeriesConfig),
   }))
 })
 const changeGrids = (val: 'two' | 'four') => {
   infoStore.$patch({ grids: val })
-}
-const getInfoData = () => {
-  infoStore.getInfo()
 }
 onMounted(() => getInfoData())
 watch(city, () => getInfoData())

@@ -1,13 +1,12 @@
 import type { MockMethod } from 'vite-plugin-mock'
 import MockData from '@mock/data'
-const { data = [] } = MockData ?? {}
-
+const datas = MockData?.data ?? []
 // 返回所有城市的設備id與位址
 export default {
   url: '/city',
   method: 'get',
   rawResponse: async (req, res) => {
-    const list = data.map(el => ({
+    const list = datas.map(el => ({
       id: el.id,
       city: el.city,
       address: el.address

@@ -1,7 +1,6 @@
 import type { MockMethod } from 'vite-plugin-mock'
 import MockData from '@mock/data'
-const { data = [] } = MockData ?? {}
-
+const data = MockData?.data ?? []
 // 設備查詢
 export default {
   url: '/search',
