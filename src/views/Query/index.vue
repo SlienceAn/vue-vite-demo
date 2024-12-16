@@ -44,7 +44,7 @@
         </el-badge>
       </el-tooltip>
     </el-header>
-    <el-main class="!p-0 bg-white">
+    <el-main class="!p-0">
       <el-scrollbar>
         <div
           v-if="data"
@@ -119,7 +119,7 @@ onMounted(()=>queryStore.getQuery())
 </script>
 <style scoped lang="scss">
 .header {
-  @apply h-56px w-full bg-white px-4 border-b-solid border-b-1 box-border border-[#dcdfe6] flex items-center;
+  @apply h-56px w-full px-4 border-b-solid border-b-1 box-border border-[#dcdfe6] flex items-center;
 }
 
 :deep(.el-card__header) {
@@ -128,6 +128,7 @@ onMounted(()=>queryStore.getQuery())
 
 .card {
   @apply rounded-2xl ring-0.5 ring-gray-300 cursor-pointer w-full md:max-w-[calc(25%-0.5rem)];
+  @apply dark:bg-[#333] dark:text-white;
 }
 
 .error {

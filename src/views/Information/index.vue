@@ -1,6 +1,6 @@
 <template>
   <el-container class="h-full">
-    <el-header class="!h-56px w-full bg-white px-4 border-b-solid border-b-1 box-border border-[#dcdfe6] flex">
+    <el-header class="!h-56px w-full px-4 border-b-solid border-b-1 box-border border-[#dcdfe6] flex">
       <div class="flex items-center">
         <span class="mr-2">搜尋日期</span>
         <el-date-picker

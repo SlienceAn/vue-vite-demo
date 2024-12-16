@@ -4,7 +4,6 @@
       :router="true"
       :default-active="$route.path"
       :collapse="menuCollapse"
-      class="el-menu-main"
     >
       <el-menu-item disabled>
         <i-material-symbols-demography class="text-2xl" />
@@ -38,6 +37,20 @@
         </div>
         <select-place />
         <div class="flex flex-1 justify-end">
+          <el-button @click="toggleDark()">
+            <el-icon
+              v-if="isDark"
+              class="text-[18px]"
+            >
+              <Moon />
+            </el-icon>
+            <el-icon
+              v-else
+              class="text-[18px]"
+            >
+              <Sunny />
+            </el-icon>
+          </el-button>
           <el-tooltip
             content="登出"
             class="border-solid"
@@ -58,7 +71,10 @@
 import SelectPlace from './common/SelectPlace.vue'
 import { ElMessageBox } from 'element-plus'
 import { useRouter } from 'vue-router'
+import { useDark, useToggle } from '@vueuse/core'
 import config from '@/config'
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
 const router = useRouter()
 const globalStore = useGlobalStore()
 const loginStore = useLoginStore()
@@ -87,7 +103,7 @@ const loginOut = () => {
 <style scoped lang="scss">
 .navbar {
   @apply h-64px flex items-center;
-  @apply border-b border-b-solid border-[--el-menu-border-color] border-l-amber;
+  @apply border-b border-b-solid border-[--el-menu-border-color];
 }
 
 .main-content {
@@ -103,10 +119,18 @@ const loginOut = () => {
 
   &.is-active {
     @apply border-r-solid border-r-5px border-r-[#409EFF] bg-[#F2F6FC] text-[#409EFF];
+    @apply dark:bg-white dark:text-black dark:border-r-gray;
   }
 
   &.is-disabled {
     @apply min-h-[64px] opacity-100 cursor-default font-bold;
   }
 }
+.navbar,
+:deep(.el-main),
+:deep(.el-menu),
+:deep(.el-menu-item) {
+  @apply dark:bg-[#333] dark:text-white;
+}
+
 </style>

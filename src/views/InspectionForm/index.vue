@@ -18,7 +18,7 @@
         搜尋
       </el-button>
     </el-header>
-    <el-main class="!p-4 bg-white">
+    <el-main class="!p-4">
       <Table
         :table-column="tableColumn"
         :params="{ city, id }"
@@ -51,6 +51,6 @@ const currentDataTotal = 76
 </script>
 <style scoped lang="scss">
 :deep(.el-header) {
-  @apply h-56px w-full bg-white px-4 border-b-solid border-b-1 box-border border-[#dcdfe6] flex items-center;
+  @apply h-56px w-full px-4 border-b-solid border-b-1 box-border border-[#dcdfe6] flex items-center;
 }
 </style>

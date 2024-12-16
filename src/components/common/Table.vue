@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full bg-white border-gray-300 border-solid border-0.5 rounded-md">
+  <div class="h-full box-border border-gray-300 border-solid border-0.5 rounded-md">
     <el-table
       v-loading="isLoading"
       element-loading-text="讀取中"
@@ -97,6 +97,6 @@ watch(
 
 <style scoped lang="scss">
 .page {
-  @apply py-4 flex justify-center box-border h-[10%];
+  @apply flex justify-center h-10%;
 }
 </style>

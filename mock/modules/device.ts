@@ -31,7 +31,7 @@ export default {
     const token = req.headers['authorization']
     const url = new URL(`http://localhost${req.url}` as string)
     const city = url.searchParams.get('city')
-    const id = url.searchParams.get('id')
+    // const id = url.searchParams.get('id')
     const page = url.searchParams.get('page')
     const size = url.searchParams.get('size')
 
@@ -56,7 +56,7 @@ export default {
       }))
       return
     }
-    if (!id || !city || !size || !page) {
+    if (!city || !size || !page) {
       res.statusCode = 400
       res.end(JSON.stringify({
         success: false,
