@@ -57,7 +57,7 @@ export default {
       return
     }
     if (!id || !city || !size || !page) {
-      res.statusCode = 404
+      res.statusCode = 400
       res.end(JSON.stringify({
         success: false,
         message: '參數錯誤'

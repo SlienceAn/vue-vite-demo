@@ -38,6 +38,12 @@ export default {
             })
           }))
       } catch (error) {
+        res.setHeader('Content-Type', 'application/json')
+        res.statusCode = 500
+        res.end(JSON.stringify({
+          success: false,
+          message: 'Info資料處理錯誤 / ' + error
+        }))
         console.log('Info資料處理錯誤', error)
       }
     }

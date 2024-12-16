@@ -6,23 +6,6 @@ import path from 'path'
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
   return {
     plugins,
-    preview:{
-      open:true,
-      port:6970,
-      host:'0.0.0.0',
-      proxy:{
-        '/api': {
-          target: 'https://vue-vite-demo-api-express.vercel.app',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, '')
-        },
-        '/dev': {
-          target: 'http://localhost:3000',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/dev/, '')
-        }
-      }
-    },
     server: {
       open: false,
       port: 6969,

@@ -22,14 +22,14 @@ import 'uno.css'
 import httpRequest from './api/request'
 import dayjs from 'element-plus'
 // Mock Service
-import { createProdMockServer } from 'vite-plugin-mock/es/createProdMockServer'
-import mock from '../mock'
+// import { createProdMockServer } from 'vite-plugin-mock/es/createProdMockServer'
+// import mock from '../mock'
 
 const app = createApp(App)
 //mock運行在生產環境
-if (process.env.NODE_ENV === 'production') {
-  createProdMockServer(mock)
-}
+// if (process.env.NODE_ENV === 'production') {
+//   createProdMockServer(mock)
+// }
 //掛載全局
 app.config.globalProperties.$http = httpRequest
 app.config.globalProperties.$dayjs = dayjs

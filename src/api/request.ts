@@ -18,7 +18,12 @@ const responseDetail = (response: AxiosResponse) => {
 
 const responseError = (error: AxiosError<ErrorResponseData>) => {
   if (error.response) {
-    if (error.response.status === 401) {
+    if (error.response.status === 400) {
+      ElNotification.error({
+        title: '請求錯誤',
+        message: '請求格式錯誤'
+      })
+    } else if (error.response.status === 401) {
       ElNotification.error({
         title: '請求錯誤',
         message: '無權限或是帳號密碼錯誤'

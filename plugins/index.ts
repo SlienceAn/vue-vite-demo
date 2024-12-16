@@ -71,16 +71,7 @@ export default [
   //mock api config
   viteMockServe({
     mockPath: 'mock',
-    //開發打包開關
-    localEnabled: true,
-    //生產打包開關
-    prodEnabled: true,
-    //是否在控制台顯示請求日誌
+    enable: true,
     logger: true,
-    injectFile: path.resolve('./src/main.ts'),
-    injectCode: `
-    import { setupProdMockServer } from '../mock/mockProdServer';
-    setupProdMockServer();
-    `,
   })
 ]
