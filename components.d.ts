@@ -44,6 +44,7 @@ declare module 'vue' {
     IMaterialSymbolsLogout: typeof import('~icons/material-symbols/logout')['default']
     IMaterialSymbolsMenuOpen: typeof import('~icons/material-symbols/menu-open')['default']
     IMaterialSymbolsMoon: typeof import('~icons/material-symbols/moon')['default']
+    IMaterialSymbolsNotifications: typeof import('~icons/material-symbols/notifications')['default']
     IMaterialSymbolsViewAgenda: typeof import('~icons/material-symbols/view-agenda')['default']
     IMaterialSymbolsWarning: typeof import('~icons/material-symbols/warning')['default']
     IMaterialSymbolsWbSunny: typeof import('~icons/material-symbols/wb-sunny')['default']

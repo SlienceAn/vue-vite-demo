@@ -37,15 +37,7 @@
         </div>
         <select-place />
         <div class="flex flex-1 justify-end">
-          <theme-button />
-          <el-tooltip
-            content="登出"
-            class="border-solid"
-          >
-            <el-button @click="loginOut">
-              <i-material-symbols-logout class="text-xl" />
-            </el-button>
-          </el-tooltip>
+          <ToolList />
         </div>
       </el-header>
       <el-main class="!p-0">
@@ -56,11 +48,8 @@
 </template>
 <script setup lang="ts">
 import SelectPlace from './common/SelectPlace.vue'
-import { ElMessageBox } from 'element-plus'
-import { useRouter } from 'vue-router'
 import config from '@/config'
-import themeButton from './common/themeButton.vue'
-const router = useRouter()
+import ToolList from './common/ToolList.vue'
 const globalStore = useGlobalStore()
 const loginStore = useLoginStore()
 const { menuCollapse } = storeToRefs(globalStore)
@@ -68,20 +57,6 @@ const { data } = storeToRefs(loginStore)
 const handleCollapse = () => {
   globalStore.$patch({
     menuCollapse: !menuCollapse.value
-  })
-}
-const loginOut = () => {
-  ElMessageBox.confirm(
-    '確定要登出嗎?',
-    '提醒',
-    {
-      confirmButtonText: '登出',
-      cancelButtonText: '取消',
-      type: 'info'
-    }
-  ).then(() => {
-    loginStore.$patch({ token: '' })
-    router.replace('/login')
   })
 }
 </script>

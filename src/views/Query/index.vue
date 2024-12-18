@@ -28,20 +28,13 @@
         content="所有異常點"
         class="cursor-pointer"
       >
-        <el-badge
-          :value="9"
-          type="danger"
-          class="item !ml-auto"
+        <el-button
+          type="primary"
+          class="!ml-auto"
+          @click="isOpen = true"
         >
-          <el-button
-            type="info"
-            @click="isOpen = true"
-          >
-            <el-icon size="18">
-              <LocationFilled />
-            </el-icon>
-          </el-button>
-        </el-badge>
+          編輯
+        </el-button>
       </el-tooltip>
     </el-header>
     <el-main class="!p-0">
@@ -140,6 +133,6 @@ onMounted(() => queryStore.getQuery())
 }
 
 .sub {
-  @apply font-bold flex justify-between py-2;
+  @apply flex justify-between py-2;
 }
 </style>

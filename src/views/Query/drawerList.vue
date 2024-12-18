@@ -6,15 +6,50 @@
     @close="close"
   >
     <template #header>
-      <div class="font-bold text-xl text-[var(--el-text-color-primary)]">
+      <div class="font-bold text-xl text-center text-[var(--el-text-color-primary)]">
         編輯測站設備資訊
       </div>
+    </template>
+    <el-form>
+      <el-form-item
+        label-position="top"
+        label="Activity name"
+      >
+        <el-input />
+      </el-form-item>
+      <el-form-item
+        label-position="top"
+        label="Activity name"
+      >
+        <el-input />
+      </el-form-item>
+      <el-form-item
+        label-position="top"
+        label="Activity name"
+      >
+        <el-input />
+      </el-form-item>
+      <el-form-item
+        label-position="top"
+        label="Activity name"
+      >
+        <el-input />
+      </el-form-item>
+      <el-form-item
+        label-position="top"
+        label="Activity name"
+      >
+        <el-input />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <el-button type="primary">
+        送出
+      </el-button>
     </template>
   </el-drawer>
 </template>
 <script lang="ts" setup>
-// const queryStore = useQueryStore()
-// const { data } = storeToRefs(queryStore)
 defineProps({
   isOpen: {
     type: Boolean
