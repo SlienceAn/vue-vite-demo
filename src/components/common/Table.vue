@@ -1,11 +1,12 @@
 <template>
-  <div class="h-full box-border border-gray-300 border-solid border-0.5 rounded-md">
+  <div class="wrapper">
     <el-table
       v-loading="isLoading"
       element-loading-text="讀取中"
       element-loading-background="rgba(250, 250, 250, 0.8)"
       :data="tableData"
       :stripe="true"
+      :border="true"
       height="90%"
       highlight-current-row
     >
@@ -96,7 +97,10 @@ watch(
 </script>
 
 <style scoped lang="scss">
+.wrapper{
+  @apply h-full;
+}
 .page {
-  @apply flex justify-center h-10%;
+  @apply flex justify-center h-10% box-border border-solid border-1 border-[var(--el-menu-border-color)] border-t-none;
 }
 </style>

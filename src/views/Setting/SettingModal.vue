@@ -1,6 +1,7 @@
 <template>
   <el-dialog
     v-model="isDialog"
+    class="border-solid border-[var(--el-border-color)] border-1"
   >
     <template #header>
       <h2 class="m-0 text-center">

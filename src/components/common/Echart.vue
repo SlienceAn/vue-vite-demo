@@ -1,6 +1,7 @@
 <template>
   <div
     ref="echart"
+    class="echart"
     :style="{ height, width }"
   />
 </template>
@@ -80,3 +81,8 @@ watch(grids, () => {
 //   console.log(mutations)
 // })
 </script>
+<style lang="scss" scoped>
+.echart {
+  @apply bg-[var(--el-bg-color)];
+}
+</style>

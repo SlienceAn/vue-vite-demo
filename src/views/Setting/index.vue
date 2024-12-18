@@ -53,6 +53,6 @@ const handleOpen = () => {
 </script>
 <style scoped lang="scss">
 :deep(.el-header) {
-  @apply h-56px w-full px-4 border-b-solid border-b-1 box-border border-[#dcdfe6] flex items-center;
+  @apply h-56px w-full px-4 border-b-solid border-b-1 box-border border-[var(--el-border-color)] flex items-center;
 }
 </style>

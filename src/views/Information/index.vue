@@ -1,6 +1,6 @@
 <template>
   <el-container class="h-full">
-    <el-header class="!h-56px w-full px-4 border-b-solid border-b-1 box-border border-[#dcdfe6] flex">
+    <el-header class="!h-56px w-full px-4 border-b-solid border-b-1 box-border border-[var(--el-border-color)] flex">
       <div class="flex items-center">
         <span class="mr-2">搜尋日期</span>
         <el-date-picker
@@ -116,10 +116,10 @@ watch(city, () => getInfoData())
   @apply flex flex-wrap h-full;
 
   .chart {
-    @apply h-1/2 w-full md:w-full box-border border-1 border-solid border-[#dcdfe6] border-collapse px-4 p-2 bg-white;
+    @apply h-1/2 w-full md:w-full box-border border-1 border-solid border-[var(--el-border-color)] border-collapse;
 
     &-4 {
-      @apply h-1/2 w-full md:w-1/2 box-border border-1 border-solid border-[#dcdfe6] border-collapse px-4 p-2 bg-white;
+      @apply h-1/2 w-full md:w-1/2 box-border border-1 border-solid border-[var(--el-border-color)] border-collapse;
     }
   }
 }
