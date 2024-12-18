@@ -48,7 +48,7 @@
       <el-scrollbar>
         <div
           v-if="data"
-          class="flex flex-wrap gap-2 p-4"
+          class="flex flex-wrap gap-4 p-4"
         >
           <el-card
             v-for="i in data"
@@ -63,21 +63,23 @@
                 <span>{{ i.address }}</span>
               </div>
             </template>
-            <div
-              v-for="item in i.data"
-              :key="item.item"
-              class="flex"
-            >
-              <div class="min-w-1/3 py-1 font-bold">
-                {{ item.text }}
-              </div>
-              <div class="min-w-1/3 py-1 text-center">
-                {{ item.value.value[0] }}
-              </div>
-              <div class="min-w-1/3 py-1 text-right text-[12px] font-bold">
-                {{ item.unit }}
-              </div>
+            <div class="sub">
+              <span>緯度</span>
+              <span v-wgs.lat="i.latitude" />
             </div>
+            <div class="sub">
+              <span>經度</span>
+              <span v-wgs.lon="i.longitude" />
+            </div>
+            <div class="sub">
+              <span>累積天數</span>
+              <span v-accumulation="i.latestUpdate" />
+            </div>
+            <template #footer>
+              <div class="sub">
+                <span>最後更新</span> {{ i.latestUpdate }}
+              </div>
+            </template>
           </el-card>
         </div>
         <el-empty
@@ -95,7 +97,9 @@
 <script setup lang="ts">
 import { Search } from '@element-plus/icons-vue'
 import DrawerList from './drawerList.vue'
+import  directives from '@/untils/directives'
 import tableFormatter from '@/untils/tableFormatter'
+defineOptions({ directives })
 const { statusIcon } = tableFormatter()
 const queryStore = useQueryStore()
 const { data } = storeToRefs(queryStore)
@@ -115,7 +119,7 @@ const statusList = ref([
     label: '連線',
   },
 ])
-onMounted(()=>queryStore.getQuery())
+onMounted(() => queryStore.getQuery())
 </script>
 <style scoped lang="scss">
 .header {
@@ -127,11 +131,15 @@ onMounted(()=>queryStore.getQuery())
 }
 
 .card {
-  @apply rounded-2xl ring-0.5 ring-[var(--el-border-color)] cursor-pointer w-full md:max-w-[calc(25%-0.5rem)];
+  @apply rounded-2xl ring-0.5 ring-[var(--el-border-color)] cursor-pointer w-full md:max-w-[calc(25%-1rem)];
 }
 
 .error {
   // @apply ring-0.5 ring-red-300 bg-gradient-to-t from-red-500/30 via-white;
-  @apply bg-[var(--el-color-error)] border-[var(--el-color-error)];
+  // @apply bg-[var(--el-color-error)] border-[var(--el-color-error)];
+}
+
+.sub {
+  @apply font-bold flex justify-between py-2;
 }
 </style>
