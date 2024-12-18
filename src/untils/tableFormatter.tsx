@@ -40,7 +40,7 @@ export default () => {
         {
           row.menu.map(el => {
             return (
-              <el-tag type="info">
+              <el-tag>
                 {list[el - 1]}
               </el-tag>
             )

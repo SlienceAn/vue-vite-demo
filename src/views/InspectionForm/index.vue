@@ -14,7 +14,10 @@
           :value="i.id"
         />
       </el-select>
-      <el-button type="primary">
+      <el-button
+        type="primary"
+        :icon="Search"
+      >
         搜尋
       </el-button>
     </el-header>
@@ -32,6 +35,7 @@
 <script setup lang="tsx">
 import Table from '@/components/common/Table.vue'
 import tableFormatter from '@/untils/tableFormatter'
+import { Search } from '@element-plus/icons-vue'
 const { addUnit } = tableFormatter()
 const gloalStore = useGlobalStore()
 const { city, cityAddressList, id } = storeToRefs(gloalStore)
