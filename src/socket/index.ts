@@ -24,8 +24,8 @@ const createPuser = () => {
     // 等待連接成功後再訂閱
     pusher.connection.bind('connected', () => {
 
-      settingChannel = pusher.subscribe('Setting')
-      notificationChannel = pusher.subscribe('notification-channel') // 最新消息頻道
+      settingChannel = pusher.subscribe('setting')
+      notificationChannel = pusher.subscribe('notification') // 最新消息頻道
 
       // 帳戶管理頻道
       settingChannel
@@ -37,7 +37,7 @@ const createPuser = () => {
           console.log('pusher error', error)
           userStore.$patch({ isConnect: false })
         })
-        .bind('update-event', (chunk) => {
+        .bind('update', (chunk) => {
           userStore.$patch({ data: chunk })
         })
 
@@ -49,7 +49,7 @@ const createPuser = () => {
         .bind(PUSER_ERROR,()=>{
           console.log('通知訂閱失敗')
         })
-        .bind('notification-event', (chunk) => {
+        .bind('update', (chunk) => {
           notificationStore.addList(chunk)
           ElNotification({
             type: 'info',
