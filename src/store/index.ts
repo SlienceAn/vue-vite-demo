@@ -116,14 +116,14 @@ export const useQueryStore = defineStore('queryStore', {
         label: '連線',
       },
     ],
-    form:{
-      usersname:'',
-      address:'',
-      status:'',
-      startDate:'',
-      longitude:0,
-      latitude:0,
-      item:[]
+    form: {
+      usersname: '',
+      address: '',
+      status: '',
+      startDate: '',
+      longitude: 0,
+      latitude: 0,
+      item: []
     },
   }),
   actions: {
@@ -205,5 +205,17 @@ export const useUserForm = defineStore('userForm', {
       this.isDialog = false
     }
   },
+})
+export const useNotification = defineStore('useNotification', {
+  state: () => ({
+    data: [] as any[]
+  }),
+  actions: {
+    addList(chunk) {
+      console.log(chunk)
+      this.data.push(chunk)
+    }
+  },
+  persist: true
 })
 
