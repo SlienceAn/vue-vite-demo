@@ -1,28 +1,30 @@
 <template>
   <el-container class="h-full">
     <el-header class="header">
-      <el-select
-        v-model="statusValue"
-        placeholder="選擇連線狀態"
-        clearable
-        class="!w-180px mr-2"
-      >
-        <template
-          v-for="opt in statusList"
-          :key="opt.label"
+      <el-form>
+        <el-form-item
+          label="篩選狀態"
+          class="!mb-0"
         >
-          <el-option
-            :label="opt.label"
-            :value="opt.value"
-          />
-        </template>
-      </el-select>
-      <el-button
-        type="primary"
-        :icon="Search"
-      >
-        搜尋
-      </el-button>
+          <el-select
+            v-model="statusValue"
+            placeholder="選擇連線狀態"
+            clearable
+            class="!w-180px mr-2"
+          >
+            <template
+              v-for="opt in statusList"
+              :key="opt.label"
+            >
+              <el-option
+                :label="opt.label"
+                :value="opt.value"
+              />
+            </template>
+          </el-select>
+        </el-form-item>
+      </el-form>
+
       <el-tooltip
         effect="dark"
         content="所有異常點"
@@ -31,23 +33,23 @@
         <el-button
           type="primary"
           class="!ml-auto"
+          :icon="Plus"
           @click="isOpen = true"
         >
-          編輯
+          新增
         </el-button>
       </el-tooltip>
     </el-header>
     <el-main class="!p-0">
       <el-scrollbar>
         <div
-          v-if="data"
+          v-if="filterList"
           class="flex flex-wrap gap-4 p-4"
         >
           <el-card
-            v-for="i in data"
+            v-for="i in filterList"
             :key="i"
             class="card"
-            :class="{ error: i.status === 'disconnect' }"
             shadow="always"
           >
             <template #header>
@@ -88,31 +90,19 @@
   />
 </template>
 <script setup lang="ts">
-import { Search } from '@element-plus/icons-vue'
+import { Plus } from '@element-plus/icons-vue'
 import DrawerList from './drawerList.vue'
-import  directives from '@/untils/directives'
+import directives from '@/untils/directives'
 import tableFormatter from '@/untils/tableFormatter'
 defineOptions({ directives })
 const { statusIcon } = tableFormatter()
 const queryStore = useQueryStore()
-const { data } = storeToRefs(queryStore)
-const statusValue = ref([])
+const globalStore = useGlobalStore()
+const { city } = storeToRefs(globalStore)
+const { statusValue, statusList, filterList } = storeToRefs(queryStore)
 const isOpen = ref(false)
-const statusList = ref([
-  {
-    value: 'disconnect',
-    label: '斷線',
-  },
-  {
-    value: 'abnormal',
-    label: '連線異常',
-  },
-  {
-    value: 'online',
-    label: '連線',
-  },
-])
 onMounted(() => queryStore.getQuery())
+watch(city, () => queryStore.getQuery())
 </script>
 <style scoped lang="scss">
 .header {

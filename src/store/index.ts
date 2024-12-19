@@ -100,7 +100,31 @@ export const useInformation = defineStore('information', {
 export const useQueryStore = defineStore('queryStore', {
   state: (): Store<any>['query'] => ({
     isLoading: false,
-    data: []
+    data: [],
+    statusValue: '',
+    statusList: [
+      {
+        value: 'disconnect',
+        label: '斷線',
+      },
+      {
+        value: 'abnormal',
+        label: '連線異常',
+      },
+      {
+        value: 'online',
+        label: '連線',
+      },
+    ],
+    form:{
+      usersname:'',
+      address:'',
+      status:'',
+      startDate:'',
+      longitude:0,
+      latitude:0,
+      item:[]
+    },
   }),
   actions: {
     async getQuery() {
@@ -109,6 +133,15 @@ export const useQueryStore = defineStore('queryStore', {
       const data: any = await httpRequest.get(`/search?city=${city.value}`)
       if (data.success) {
         this.data = data.data
+      }
+    }
+  },
+  getters: {
+    filterList: (state) => {
+      if (!state.statusValue) {
+        return state.data
+      } else {
+        return state.data.filter(el => el.status === state.statusValue)
       }
     }
   },

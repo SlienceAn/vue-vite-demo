@@ -31,11 +31,22 @@ export type Store<T extends ApiResponse = ApiResponse> = {
         isLoading: boolean
         month: string | Date
         data: T | null
-        grids: 'two'| 'four'
+        grids: 'two' | 'four'
     };
     query: {
         isLoading: boolean
         data: T | null
+        statusValue: string
+        statusList: any[]
+        form: {
+            usersname: string,
+            address: string,
+            status: string,
+            startDate: string,
+            longitude: number,
+            latitude: number,
+            item: string[]
+        }
     };
     inspect: {
         form: any[]

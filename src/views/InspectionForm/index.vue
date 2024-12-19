@@ -1,25 +1,26 @@
 <template>
   <el-container class="h-full">
     <el-header>
-      <el-select
-        v-model="id"
-        clearable
-        class="!w-200px mr-2"
-        placeholder="請選擇設備"
-      >
-        <el-option
-          v-for="i in cityAddressList"
-          :key="i"
-          :label="i.address"
-          :value="i.id"
-        />
-      </el-select>
-      <el-button
-        type="primary"
-        :icon="Search"
-      >
-        搜尋
-      </el-button>
+      <el-form>
+        <el-form-item
+          label="選擇地址"
+          class="!mb-0"
+        >
+          <el-select
+            v-model="id"
+            clearable
+            class="!w-200px"
+            placeholder="請選擇設備"
+          >
+            <el-option
+              v-for="i in cityAddressList"
+              :key="i"
+              :label="i.address"
+              :value="i.id"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
     </el-header>
     <el-main class="!p-4">
       <Table
@@ -35,7 +36,6 @@
 <script setup lang="tsx">
 import Table from '@/components/common/Table.vue'
 import tableFormatter from '@/untils/tableFormatter'
-import { Search } from '@element-plus/icons-vue'
 const { addUnit } = tableFormatter()
 const gloalStore = useGlobalStore()
 const { city, cityAddressList, id } = storeToRefs(gloalStore)
