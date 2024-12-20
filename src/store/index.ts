@@ -63,6 +63,13 @@ export const useLoginStore = defineStore('loginStore', {
         router.replace('/')
       }
     },
+    async loginOut() {
+      this.isLoading = true
+      const data: any = await httpRequest.post('/dev/loginOut').finally(() => this.isLoading = false)
+      if (data.success) {
+        console.log('login out!!!')
+      }
+    }
   },
   persist: [
     {
@@ -205,17 +212,5 @@ export const useUserForm = defineStore('userForm', {
       this.isDialog = false
     }
   },
-})
-export const useNotification = defineStore('useNotification', {
-  state: () => ({
-    data: [] as any[]
-  }),
-  actions: {
-    addList(chunk) {
-      console.log(chunk)
-      this.data.push(chunk)
-    }
-  },
-  persist: true
 })
 

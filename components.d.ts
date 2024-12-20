@@ -7,7 +7,6 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    ElBadge: typeof import('element-plus/es')['ElBadge']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
@@ -41,11 +40,8 @@ declare module 'vue' {
     IMaterialSymbolsDarkMode: typeof import('~icons/material-symbols/dark-mode')['default']
     IMaterialSymbolsDemography: typeof import('~icons/material-symbols/demography')['default']
     IMaterialSymbolsGridView: typeof import('~icons/material-symbols/grid-view')['default']
-    IMaterialSymbolsLight: typeof import('~icons/material-symbols/light')['default']
     IMaterialSymbolsLogout: typeof import('~icons/material-symbols/logout')['default']
     IMaterialSymbolsMenuOpen: typeof import('~icons/material-symbols/menu-open')['default']
-    IMaterialSymbolsMoon: typeof import('~icons/material-symbols/moon')['default']
-    IMaterialSymbolsNotifications: typeof import('~icons/material-symbols/notifications')['default']
     IMaterialSymbolsViewAgenda: typeof import('~icons/material-symbols/view-agenda')['default']
     IMaterialSymbolsWarning: typeof import('~icons/material-symbols/warning')['default']
     IMaterialSymbolsWbSunny: typeof import('~icons/material-symbols/wb-sunny')['default']

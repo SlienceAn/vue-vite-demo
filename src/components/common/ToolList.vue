@@ -50,7 +50,8 @@ const loginOut = () => {
       type: 'info'
     }
   ).then(() => {
-    loginStore.$patch({ token: '' })
+    loginStore.loginOut()
+    // loginStore.$patch({ token: '' })
     router.replace('/login')
   })
 }
