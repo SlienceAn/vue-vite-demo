@@ -52,7 +52,8 @@ const createPuser = () => {
         .bind('update', (chunk) => {
           notificationStore.addList(chunk)
           ElNotification({
-            type: 'info',
+            type: chunk.type,
+            title:chunk.title,
             message: chunk.message
           })
         })
