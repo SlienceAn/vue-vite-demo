@@ -30,6 +30,7 @@
     "pinia": "^2.2.6",
     "pinia-plugin-persistedstate": "^3.2.3",
     "pusher-js": "8.4.0-rc2",
+    "swiper": "^11.1.15",
     "ts-node": "^10.9.2",
     "unplugin-auto-import": "^0.17.8",
     "vite-express": "^0.9.2",

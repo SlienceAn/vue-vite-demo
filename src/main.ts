@@ -22,10 +22,11 @@ import 'uno.css'
 // API and Utilities
 import httpRequest from './api/request'
 import dayjs from 'element-plus'
+import { register } from 'swiper/element/bundle'
 // Mock Service
 // import { createProdMockServer } from 'vite-plugin-mock/es/createProdMockServer'
 // import mock from '../mock'
-
+register()
 const app = createApp(App)
 //mock運行在生產環境
 // if (process.env.NODE_ENV === 'production') {
