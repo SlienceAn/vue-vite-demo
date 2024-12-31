@@ -15,6 +15,14 @@ const systemRouter: RouteRecordRaw[] = [
     },
     component: () => import('../components/Login.vue'),
   },
+  {
+    name: 'home',
+    path: '/home',
+    meta: {
+      title: '首頁'
+    },
+    component: () => import('../views/Home/index.vue'),
+  },
 ]
 // 特殊路由
 const routes_404: RouteRecordRaw = {
@@ -56,7 +64,6 @@ router.beforeEach((to, from, next) => {
   }
   // 未登入的判斷
   if (from.path !== '/login' && !token.value) {
-    console.log('並非經過login')
     next({ path: '/login' })
     return false
   }
@@ -88,19 +95,20 @@ router.onError((error) => {
 // 動態添加路由
 function updateRoutes(menuRoutes: RouteRecordRaw[]) {
   try {
+    console.log(router.getRoutes())
     router.getRoutes().forEach(route => {
-      if (route.name !== '404' && route.name !== 'login' && route.name !== 'layout')
+      if (route.name !== '404' && route.name !== 'login' && route.name !== 'home' && route.name !== 'layout')
         router.removeRoute(route.name as string)
     })
 
     // 獲取第一個可訪問的路由
-    const fristRoute = menuRoutes[0].path || '/information'
+    // const fristRoute = menuRoutes[0].path || '/infomation'
 
     router.addRoute({
       name: 'layout',
       path: '/',
       component: () => import('../components/Main.vue'),
-      redirect: fristRoute,  // 動態設置重定向
+      redirect: '/home',  // 動態設置重定向
       children: []
     })
 
@@ -136,10 +144,10 @@ function importRoutes(component: string) {
     return () => import('@/components/other/empty.vue')
   }
 }
-// 移除全部動態路由，只剩login
+// 移除全部動態路由，只剩login與home
 function removeAllRoutes() {
   router.getRoutes().forEach(route => {
-    if (route.name !== 'login') {
+    if (route.name !== 'login' && route.name !== 'home') {
       router.removeRoute(route.name as string)
     }
   })
