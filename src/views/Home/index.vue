@@ -1,8 +1,8 @@
 <template>
   <div class="wrap">
     <Header />
-    <InfoCard class="w-[20%] h-[70%] absolute top-10 left-8" />
-    <InfoCard class="w-[20%] h-[70%] absolute top-10 right-8" />
+    <InfoCard class="w-[20%] h-[70%] absolute top-15 left-5 " />
+    <InfoCard class="w-[20%] h-[70%] absolute top-15 right-5 " />
     <Map />
     <InfoSwiper />
   </div>
@@ -15,6 +15,6 @@ import Map from './map.vue'
 </script>
 <style scoped>
 .wrap {
-  @apply relative w-full h-full overflow-hidden bg-[#333];
+  @apply relative w-full h-full overflow-hidden bg-blue-900;
 }
 </style>

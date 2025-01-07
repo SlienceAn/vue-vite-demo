@@ -37,7 +37,7 @@
 <script lang="ts" setup>
 import paths from './mapPath'
 const place = ref('')
-const initViewBox = ref('450 75 180 320')
+const initViewBox = ref('450 80 180 340')
 const nextViewBox = ref('')
 
 // 更改 path class

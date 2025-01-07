@@ -1,7 +1,7 @@
 <template>
   <el-card>
     <template #header>
-      test header
+      header
     </template>
     <slot />
   </el-card>
