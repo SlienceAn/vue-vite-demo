@@ -41,14 +41,14 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
               const arr = id.toString().split('node_modules/.pnpm/')[1].split('/')[0].replace(/^@/, '').replace(/\+/g, '_')
               const modules = arr.split('@')[0]
               switch (modules) {
-              case 'axios':
-              case 'element-plus':
-              case 'dayjs':
-              case 'lodash-es':
-              case 'ctrl_tinycolor':
-                return modules
-              default:
-                return 'vendor'
+                case 'axios':
+                case 'element-plus':
+                case 'dayjs':
+                case 'lodash-es':
+                case 'ctrl_tinycolor':
+                  return modules
+                default:
+                  return 'vendor'
               }
             }
           }
