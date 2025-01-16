@@ -5,10 +5,9 @@
   "scripts": {
     "build": "vue-tsc && vite build",
     "serve": "vite --host",
-    "start": "node src/server",
     "preview": "vue-tsc && vite build && vite preview",
     "eslintInit": "eslint --init",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
