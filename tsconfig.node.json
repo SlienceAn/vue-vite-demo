@@ -6,13 +6,8 @@
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true
   },
-<<<<<<< HEAD
-  "include": ["vite.config.ts","plugins/**/*.ts", ]
-}
-=======
   "include": [
     "vite.config.ts",
     "plugins/**/*.ts",
   ]
 }
->>>>>>> e35acd2512c303e791ccbda3c7be547a6ad04545
