@@ -23,11 +23,15 @@
 
 FROM nginx:alpine
 
+# 複製配置和網站文件
 COPY conf.d/nginx.conf /etc/nginx/conf.d/default.conf
-
 COPY dist /usr/share/nginx/html
 
-EXPOSE 80
+# 複製憑證
+COPY certs/localhost.pem /etc/nginx/ssl/localhost.pem
+COPY certs/localhost-key.pem /etc/nginx/ssl/localhost-key.pem
+
+EXPOSE 80 443
 
 CMD [ "nginx","-g","daemon off;" ]
 

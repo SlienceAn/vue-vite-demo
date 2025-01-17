@@ -10,6 +10,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       open: false,
       port: 6969,
       host: '0.0.0.0',
+      // 加入憑證，使用mkcert產生自用憑證
+      https:{
+        key:'./certs/localhost-key.pem',
+        cert:'./certs/localhost.pem'
+      },
       proxy: {
         '/api': {
           target: 'https://vue-vite-demo-api-express.vercel.app',
@@ -41,14 +46,14 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
               const arr = id.toString().split('node_modules/.pnpm/')[1].split('/')[0].replace(/^@/, '').replace(/\+/g, '_')
               const modules = arr.split('@')[0]
               switch (modules) {
-                case 'axios':
-                case 'element-plus':
-                case 'dayjs':
-                case 'lodash-es':
-                case 'ctrl_tinycolor':
-                  return modules
-                default:
-                  return 'vendor'
+              case 'axios':
+              case 'element-plus':
+              case 'dayjs':
+              case 'lodash-es':
+              case 'ctrl_tinycolor':
+                return modules
+              default:
+                return 'vendor'
               }
             }
           }

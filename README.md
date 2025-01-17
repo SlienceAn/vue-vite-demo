@@ -118,3 +118,8 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
 └── windi.config.ts
 
 ```
+## 本地開發憑證處理
+mkcert -install
+mkdir certs
+cd certs
+mkcert localhost
