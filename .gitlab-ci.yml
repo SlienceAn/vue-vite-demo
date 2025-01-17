@@ -9,7 +9,7 @@ services:
 stages: 
   - build
   - push
-#   - deploy
+  - deploy
 
 variables:
   DOCKER_TLS_CERTDIR: ""
@@ -68,15 +68,15 @@ push:
     - echo "👤 部署者：$GITLAB_USER_NAME"
     - echo "🕒 部署時間：$(date)"
 
-# deploy:
-#   image: docker:latest
-#   stage: deploy
-#   script:
-#     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-#     - echo "Docker Hub 登入"
-#     - docker images
-#     - docker-compose build
-#     - docker images 
-#     - docker push beast964089/vue-vite-demo-api-express:latest
-#   only:
-#     - master 
+deploy:
+  image: docker:latest
+  stage: deploy
+  script:
+    # --password-stdin 從標準輸入讀取密碼
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - echo "Docker Hub 登入"
+    - docker build -t vue-vite-demo .
+    - docker images 
+    - docker push beast964089/vue-vite-demo:latest
+  only:
+    - master 
