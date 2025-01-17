@@ -51,7 +51,6 @@ push:
     # -i：指定私鑰文件的位置，-o：設定 SSH 選項
     # $PWD：當前工作目錄的完整路徑 
     # UserKnownHostsFile：指定 known_hosts 文件位置
-    - $PWD
     - export GIT_SSH_COMMAND="ssh -i $PWD/.ssh/id_rsa -o UserKnownHostsFile=$PWD/.ssh/known_hosts"
     # git推送
     - cd dist
