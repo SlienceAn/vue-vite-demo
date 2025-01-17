@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "vue-tsc && vite build",
+    "build": "rm -rf dist && vue-tsc && vite build",
     "serve": "vite --host",
     "preview": "vue-tsc && vite build && vite preview",
     "eslintInit": "eslint --init",
