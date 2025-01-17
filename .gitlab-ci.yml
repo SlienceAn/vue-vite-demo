@@ -37,36 +37,36 @@ build:
   only:
     - master
 
-# push:
-#   stage: push
-#   extends: setup_ssh
-#   needs:
-#     - setup_ssh
-#     - build
-#   dependencies:
-#     - setup_ssh
-#     - build
-#   script:  
-#     # 告訴git使用當前目錄下的 SSH 私鑰
-#     # -i：指定私鑰文件的位置，-o：設定 SSH 選項
-#     # $PWD：當前工作目錄的完整路徑 
-#     # UserKnownHostsFile：指定 known_hosts 文件位置
-#     - export GIT_SSH_COMMAND="ssh -i $PWD/.ssh/id_rsa -o UserKnownHostsFile=$PWD/.ssh/known_hosts"
-#     # git推送
-#     - cd dist
-#     - rm -rf .git
-#     - git init
-#     - git config --global user.email "$GITLAB_USER_EMAIL"
-#     - git config --global user.name "$GITLAB_USER_NAME" 
-#     - git remote add origin $DIST_REPO_URL
-#     - git add -f .
-#     - git commit -m "$CI_COMMIT_MESSAGE"
-#     - git push -f origin master:main
-#     # 成功後顯示訊息
-#     - echo "🎉 Git push 階段完成！成功推至Dist"
-#     - echo "📦 部署版本：$CI_COMMIT_SHA"
-#     - echo "👤 部署者：$GITLAB_USER_NAME"
-#     - echo "🕒 部署時間：$(date)"
+push:
+  stage: push
+  extends: setup_ssh
+  needs:
+    - setup_ssh
+    - build
+  dependencies:
+    - setup_ssh
+    - build
+  script:  
+    # 告訴git使用當前目錄下的 SSH 私鑰
+    # -i：指定私鑰文件的位置，-o：設定 SSH 選項
+    # $PWD：當前工作目錄的完整路徑 
+    # UserKnownHostsFile：指定 known_hosts 文件位置
+    - export GIT_SSH_COMMAND="ssh -i $PWD/.ssh/id_rsa -o UserKnownHostsFile=$PWD/.ssh/known_hosts"
+    # git推送
+    - cd dist
+    - rm -rf .git
+    - git init
+    - git config --global user.email "$GITLAB_USER_EMAIL"
+    - git config --global user.name "$GITLAB_USER_NAME" 
+    - git remote add origin $DIST_REPO_URL
+    - git add -f .
+    - git commit -m "$CI_COMMIT_MESSAGE"
+    - git push -f origin master:main
+    # 成功後顯示訊息
+    - echo "🎉 Git push 階段完成！成功推至Dist"
+    - echo "📦 部署版本：$CI_COMMIT_SHA"
+    - echo "👤 部署者：$GITLAB_USER_NAME"
+    - echo "🕒 部署時間：$(date)"
 
 # deploy:
 #   image: docker:latest
