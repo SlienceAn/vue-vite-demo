@@ -54,7 +54,7 @@ push:
     - ls -la
     - ls -la ./.ssh/
     - echo "印出SSH了"
-    - cat ~/.ssh/id_rsa.pub
+    - cat ./.ssh/id_rsa.pub
     - export GIT_SSH_COMMAND="ssh -i $PWD/.ssh/id_rsa -o UserKnownHostsFile=$PWD/.ssh/known_hosts"
     # git推送
     - cd dist
