@@ -15,6 +15,6 @@ import Map from './map.vue'
 </script>
 <style scoped>
 .wrap {
-  @apply relative w-full h-full overflow-hidden bg-blue-900;
+  @apply relative w-full h-full overflow-hidden bg-blue-300;
 }
 </style>

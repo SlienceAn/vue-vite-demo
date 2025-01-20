@@ -61,7 +61,7 @@ const selectCity = (event: MouseEvent) => {
 <style scoped>
 .path {
   stroke-width: 0.1;
-  @apply fill-white stroke-white stroke-opacity-1 transition-all duration-300 ease-in-out;
+  @apply fill-white stroke-black transition-all duration-300 ease-in-out;
 
   &:hover {
     @apply fill-[#4169E1] cursor-pointer;
@@ -75,5 +75,4 @@ const selectCity = (event: MouseEvent) => {
     @apply fill-none stroke-op-[0.3];
   }
 }
-
 </style>

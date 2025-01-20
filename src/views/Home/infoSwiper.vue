@@ -8,18 +8,30 @@
     <swiper-slide
       v-for="i in 10"
       :key="i"
-      class="px-1"
+      class="swiper-slide"
     >
-      <div
-        shadow="always"
-        class=" bg-white rounded-xl px-4 py-2 flex items-center justify-between"
-      >
-        <i-material-symbols-partly-cloudy-day class="text-[2rem]" />
-        <span class="text-lg">多雲時陰</span>
-        <span class="text-lg">22°C</span>
+      <div shadow="always">
+        <span>2024-12-02</span>
+        <div class="flex items-center gap-2">
+          <i-material-symbols-partly-cloudy-day class="text-[1.5rem]" />
+          <span class="text-lg font-bold">多雲時陰</span>
+        </div>
       </div>
     </swiper-slide>
   </swiper-container>
 </template>
 <script lang="ts" setup>
 </script>
+<style lang="scss" scoped>
+.swiper-slide {
+  @apply px-1;
+
+  &>div {
+    @apply bg-white rounded-xl px-4 py-3 flex-between cursor-pointer;
+
+    &:hover {
+      @apply bg-[#4169E1] text-white;
+    }
+  }
+}
+</style>

@@ -13,7 +13,14 @@ import { viteMockServe } from 'vite-plugin-mock'
 import UnoCSS from 'unocss/vite'
 
 export default [
-  vue(),
+  vue({
+    template: {
+      compilerOptions: {
+        // Vue 中自定義元素
+        isCustomElement: (tag) => tag.includes('swiper'),
+      }
+    }
+  }),
   vueJsx(),
   UnoCSS(),
   AutoImport({
