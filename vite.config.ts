@@ -11,10 +11,10 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       port: 6969,
       host: '0.0.0.0',
       // 加入憑證，使用mkcert產生自用憑證
-      https:{
-        key:'./certs/localhost-key.pem',
-        cert:'./certs/localhost.pem'
-      },
+      // https:{
+      //   key:'./certs/localhost-key.pem',
+      //   cert:'./certs/localhost.pem'
+      // },
       proxy: {
         '/api': {
           target: 'https://vue-vite-demo-api-express.vercel.app',

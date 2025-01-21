@@ -26,6 +26,8 @@
     "nprogress": "^0.2.0",
     "pinia": "^2.2.6",
     "pinia-plugin-persistedstate": "^3.2.3",
+    "pixi-viewport": "^6.0.3",
+    "pixi.js": "^8.6.6",
     "pusher-js": "8.4.0-rc2",
     "swiper": "^11.1.15",
     "ts-node": "^10.9.2",
