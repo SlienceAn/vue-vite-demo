@@ -5,7 +5,7 @@
   />
 </template>
 <script setup lang="tsx">
-import { Application, Graphics, Container, Sprite, Assets } from 'pixi.js'
+import { Application, Graphics, Sprite, Assets } from 'pixi.js'
 const pixiContainer = ref<HTMLElement>()
 
 // 定義網格單元格的大小（像素）
@@ -14,10 +14,45 @@ const cellSize = ref(30)
 // 創建PIXI應用和網格的全局引用
 let app: Application | null = null
 let grid: Graphics | null = null
-let mainContainer: Container | null = null
+
+// 繪製平面圖
+const drawPlace = async () => {
+  const place = await Assets.load('/placeImg2.webp')
+  const sprite = Sprite.from(place)
+  sprite.interactive = true
+  sprite.scale.set(0.3)
+  sprite.anchor.set(0.5)
+  sprite.x = app!.screen.width / 2
+  sprite.y = app!.screen.height / 2
+
+  const dot = new Graphics()
+  const dot2 = new Graphics()
+  dot.interactive = true
+  dot2.interactive = true
+  dot
+    .circle(0, 0, 50)
+    .fill(0xff0000)
+
+  dot
+    .on('pointerdown', (event) => {
+      console.log(' poinrt down ', event.data)
+    })
+    .on('pointermove', (event) => {
+      const newPosition = event.data.getLocalPosition(dot.parent)
+      const { x, y } = newPosition
+      dot.x = x
+      dot.y = y
+    })
+    .on('pointerup', () => {
+      console.log('pointer up')
+    })
+
+  sprite.addChild(dot)
+  return sprite
+}
 
 // 創建網格的函數
-const buildGrid = (graphics: Graphics, width: number, height: number): Graphics => {
+const drawGrid = (graphics: Graphics, width: number, height: number): Graphics => {
   graphics.clear()
   graphics.eventMode = 'static'
   graphics.cursor = 'pointer'
@@ -35,41 +70,17 @@ const buildGrid = (graphics: Graphics, width: number, height: number): Graphics 
   }
   return graphics
 }
-// 創建主container
-const buildMainContainer = (container: Container): Container => {
-  if (!app || !pixiContainer.value) return new Container()
 
-  // 清空現有容器
-  container.removeChildren()
-
-  const sprite = Sprite.from('/test.png')
-  sprite.width = 200
-  sprite.height = 200
-
-  // 舊版語法（可以正常顯示）
-  // const testGraphics = new Graphics()
-  //   .beginFill(0xf0f0f0)
-  //   .drawRect(0, 0, pixiContainer.value.clientWidth * 0.6, pixiContainer.value.clientHeight * 0.8)
-  //   .endFill()
-
-  // container.addChild(testGraphics)
-  container.addChild(sprite)
-  const centerX = app.screen.width / 2
-  const centerY = app.screen.height / 2
-  const { width, height } = container.getBounds()
-  container.x = centerX - width / 2
-  container.y = centerY - height / 2
-  return container
-}
 // 處理視窗大小改變的函數
 const handleResize = () => {
-  if (!app || !pixiContainer.value || !grid || !mainContainer) return
+  if (!app || !pixiContainer.value || !grid) return
   const width = pixiContainer.value?.clientWidth
   const height = pixiContainer.value?.clientHeight
   app.renderer.resize(width, height)
-  buildGrid(grid, width, height).stroke({ color: 0xE6E6E6, width: 1, alpha: 1 })
-  buildMainContainer(mainContainer)
+  drawGrid(grid, width, height).stroke({ color: 0xE6E6E6, width: 1, alpha: 1 })
+  drawPlace()
 }
+
 // 初始化 PIXI
 const initPixi = async () => {
   if (!pixiContainer.value) return
@@ -84,20 +95,16 @@ const initPixi = async () => {
     backgroundColor: 0xffffff,
     resolution: window.devicePixelRatio || 1, // 設置解析度
     autoDensity: true,  // 啟用自動密度調整
-    eventMode: 'static'
+    eventMode: 'static',
   })
 
   pixiContainer.value.appendChild(app.canvas)
 
   // 創建網格
-  grid = buildGrid(new Graphics(), width, height).stroke({ color: 0xE6E6E6, width: 1, alpha: 1 })
-  mainContainer = buildMainContainer(new Container())
+  grid = drawGrid(new Graphics(), width, height).stroke({ color: 0xE6E6E6, width: 1, alpha: 1 })
 
-  console.log('main container', mainContainer)
-
+  app.stage.addChild(await drawPlace())
   app.stage.addChild(grid)
-  app.stage.addChild(mainContainer)
-
   window.addEventListener('resize', handleResize)
 }
 
@@ -110,7 +117,6 @@ onBeforeUnmount(() => {
     app.destroy(true)
     app = null
     grid = null
-    mainContainer = null
   }
 })
 
