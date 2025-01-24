@@ -17,37 +17,50 @@ let grid: Graphics | null = null
 
 // 繪製平面圖
 const drawPlace = async () => {
+  let isDragging = false
   const place = await Assets.load('/placeImg2.webp')
   const sprite = Sprite.from(place)
+
   sprite.interactive = true
   sprite.scale.set(0.3)
   sprite.anchor.set(0.5)
   sprite.x = app!.screen.width / 2
   sprite.y = app!.screen.height / 2
+  console.log(sprite.width, sprite.height)
+  const border = new Graphics()
+
+  border.beginFill(0, 0)
+  border.setStrokeStyle({
+    width: 2,
+    color: 0x000000
+  })
+  border.rect(-place.width * 0.3 / 2, -place.height * 0.3 / 2, place.width, place.height)
+  border.endFill()
 
   const dot = new Graphics()
-  const dot2 = new Graphics()
   dot.interactive = true
-  dot2.interactive = true
-  dot
-    .circle(0, 0, 50)
-    .fill(0xff0000)
 
   dot
-    .on('pointerdown', (event) => {
-      console.log(' poinrt down ', event.data)
+    .circle(0, 0, 45)
+    .fill(0xff0000)
+  dot
+    .on('pointerdown', () => {
+      isDragging = true
     })
     .on('pointermove', (event) => {
-      const newPosition = event.data.getLocalPosition(dot.parent)
-      const { x, y } = newPosition
-      dot.x = x
-      dot.y = y
+      if (isDragging) {
+        const newPosition = event.data.getLocalPosition(dot.parent)
+        const { x, y } = newPosition
+        dot.x = x
+        dot.y = y
+      }
     })
     .on('pointerup', () => {
-      console.log('pointer up')
+      isDragging = false
     })
-
+  sprite.addChild(border)
   sprite.addChild(dot)
+
   return sprite
 }
 
@@ -102,7 +115,7 @@ const initPixi = async () => {
 
   // 創建網格
   grid = drawGrid(new Graphics(), width, height).stroke({ color: 0xE6E6E6, width: 1, alpha: 1 })
-
+  grid.zIndex = -1
   app.stage.addChild(await drawPlace())
   app.stage.addChild(grid)
   window.addEventListener('resize', handleResize)
