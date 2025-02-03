@@ -63,8 +63,12 @@
             :value="3"
           />
           <el-option
-            label="帳戶管理"
+            label="平面圖設點"
             :value="4"
+          />
+          <el-option
+            label="帳戶管理"
+            :value="5"
           />
         </el-select>
       </el-form-item>

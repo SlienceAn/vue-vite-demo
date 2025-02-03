@@ -7,23 +7,20 @@
 <script setup lang="tsx">
 import { Application, Graphics, Sprite, Assets, Text } from 'pixi.js'
 const pixiContainer = ref<HTMLElement>()
-
 // 定義網格單元格的大小（像素）
 const cellSize = ref(30)
-
 // 創建PIXI應用和網格的全局引用
 let app: Application | null = null
 let grid: Graphics | null = null
-
 // 創建拖曳點
-const createDot = (text: string) => {
+const createDot = (x: number, y: number, text: string) => {
   let isDragging = false
   const dot = new Graphics()
   dot.interactive = true
 
   const dotText = new Text(text, {
     fontFamily: ['Helvetica', 'Arial', 'sans-serif'],
-    fontSize: 48,
+    fontSize: 45,
     fontWeight: '700',
     fill: 'white'
   })
@@ -41,6 +38,8 @@ const createDot = (text: string) => {
   dot
     .circle(0, 0, 35)
     .fill(0xff0000)
+  dot.x = x
+  dot.y = y
   dot
     .on('pointerdown', () => {
       isDragging = true
@@ -66,20 +65,20 @@ const createDot = (text: string) => {
 
 // 繪製平面圖
 const drawPlace = async () => {
-
   const place = await Assets.load('/placeImg2.webp')
   const sprite = Sprite.from(place)
-
   sprite.interactive = true
   sprite.scale.set(0.3)
   sprite.anchor.set(0.5)
   sprite.x = app!.screen.width / 2
   sprite.y = app!.screen.height / 2
-  console.log(sprite.width, sprite.height)
-
+  // 計算 sprite 的邊界
+  const bounds = sprite.getBounds()
   for (let i = 0; i < 5; i++) {
+    const x = bounds.x + Math.random() * bounds.width
+    const y = bounds.y + Math.random() * bounds.height
     // 新增可拖曳圓點
-    sprite.addChild(createDot((i + 1).toString()))
+    sprite.addChild(createDot(x, y, (i + 1).toString()))
   }
   return sprite
 }
@@ -120,7 +119,6 @@ const initPixi = async () => {
   const width = pixiContainer.value?.clientWidth
   const height = pixiContainer.value?.clientHeight
   app = new Application()
-
   // 創建PIXI應用實例
   await app.init({
     width,
@@ -136,8 +134,9 @@ const initPixi = async () => {
   // 創建網格
   grid = drawGrid(new Graphics(), width, height).stroke({ color: 0xE6E6E6, width: 1, alpha: 1 })
   grid.zIndex = -1
-  app.stage.addChild(await drawPlace())
+
   app.stage.addChild(grid)
+  app.stage.addChild(await drawPlace())
   window.addEventListener('resize', handleResize)
 }
 

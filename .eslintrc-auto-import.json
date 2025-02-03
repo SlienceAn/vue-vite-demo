@@ -330,6 +330,7 @@
     "queryStore": true,
     "useQueryStore": true,
     "setupProdMockServer": true,
-    "useNotification": true
+    "useNotification": true,
+    "usePixi": true
   }
 }

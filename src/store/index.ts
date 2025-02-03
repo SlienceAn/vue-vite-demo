@@ -3,6 +3,7 @@ import { Store } from './type'
 import httpRequest from '../api/request'
 import router from '../router'
 import { ElMessageBox } from 'element-plus'
+// import { Application, Graphics, Sprite, Assets } from 'pixi.js'
 
 //調用 $patch 方法。它允許您使用部分 “state” 物件同時應用多個更改
 //調用 $reset 方法，將狀態重置到其初始值
@@ -213,4 +214,72 @@ export const useUserForm = defineStore('userForm', {
     }
   },
 })
+// Pixi API
+// export const usePixi = defineStore('pixiPlace', {
+//   state: () => ({
+
+//   }),
+//   actions: {
+//     async initPixi(element: HTMLElement) {
+//       let app: Application | null = null
+//       const width = element.clientWidth
+//       const height = element.clientHeight
+//       app = new Application()
+//       await app.init({
+//         width,
+//         height,
+//         backgroundColor: 0xffffff,
+//         resolution: window.devicePixelRatio || 1, // 設置解析度
+//         autoDensity: true,  // 啟用自動密度調整
+//         eventMode: 'static',
+//       })
+//       element.appendChild(app.canvas)
+
+//       const grid = this.drawGrid(new Graphics(), width, height).stroke({ color: 0xE6E6E6, width: 1, alpha: 1 })
+//       grid.zIndex = -1
+//       app.stage.addChild(grid)
+//     },
+//     // 創建網格的函數
+//     drawGrid(graphics: Graphics, width: number, height: number): Graphics {
+//       // 定義網格單元格的大小（像素）
+//       const cellSize = 30
+
+//       graphics.clear()
+//       graphics.eventMode = 'static'
+//       graphics.cursor = 'pointer'
+//       // 繪製垂直線
+//       for (let x = 0; x <= width; x += cellSize) {
+//         graphics
+//           .moveTo(x, 0)
+//           .lineTo(x, height)
+//       }
+//       // 繪製水平線
+//       for (let y = 0; y <= height; y += cellSize) {
+//         graphics
+//           .moveTo(0, y)
+//           .lineTo(width, y)
+//       }
+//       return graphics
+//     },
+//     // 繪製平面圖
+//     async drawPlace() {
+
+//       const place = await Assets.load('/placeImg2.webp')
+//       const sprite = Sprite.from(place)
+
+//       sprite.interactive = true
+//       sprite.scale.set(0.3)
+//       sprite.anchor.set(0.5)
+//       sprite.x = app!.screen.width / 2
+//       sprite.y = app!.screen.height / 2
+//       console.log(sprite.width, sprite.height)
+
+//       for (let i = 0; i < 5; i++) {
+//         // 新增可拖曳圓點
+//         sprite.addChild(createDot((i + 1).toString()))
+//       }
+//       return sprite
+//     }
+//   }
+// })
 
