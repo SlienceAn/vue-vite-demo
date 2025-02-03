@@ -5,7 +5,7 @@
   />
 </template>
 <script setup lang="tsx">
-import { Application, Graphics, Sprite, Assets, Text } from 'pixi.js'
+import { Application, Graphics, Sprite, Assets, Text, Container } from 'pixi.js'
 const pixiContainer = ref<HTMLElement>()
 // 定義網格單元格的大小（像素）
 const cellSize = ref(30)
@@ -18,69 +18,87 @@ const createDot = (x: number, y: number, text: string) => {
   const dot = new Graphics()
   dot.interactive = true
 
-  const dotText = new Text(text, {
-    fontFamily: ['Helvetica', 'Arial', 'sans-serif'],
-    fontSize: 45,
-    fontWeight: '700',
-    fill: 'white'
+  const container = new Container()
+  container.eventMode = 'static'
+  container.x = x
+  container.y = y
+
+  dot
+    .circle(0, 0, 10)
+    .fill(0xff0000)
+  const dotText = new Text({
+    text,
+    style: {
+      fontFamily: ['Helvetica', 'Arial', 'sans-serif'],
+      fontSize: 14,
+      fontWeight: '700',
+      fill: 'white'
+    }
   })
-  const positionText = new Text('', {
-    fontFamily: ['Helvetica', 'Arial', 'sans-serif'],
-    fontSize: 36,
-    fontWeight: '400',
+  const positionText = new Text({
+    text: '',
+    style: {
+      fontFamily: ['Helvetica', 'Arial', 'sans-serif'],
+      fontSize: 16,
+      fontWeight: '400',
+    }
   })
 
   dotText.anchor.set(0.5)
   positionText.anchor.set(0.5)
   positionText.x = 0
-  positionText.y = -75
+  positionText.y = -35
 
-  dot
-    .circle(0, 0, 35)
-    .fill(0xff0000)
-  dot.x = x
-  dot.y = y
-  dot
+  container
     .on('pointerdown', () => {
       isDragging = true
       positionText.visible = true
     })
     .on('pointermove', (event) => {
       if (isDragging) {
-        const newPosition = event.data.getLocalPosition(dot.parent)
+        const newPosition = event.data.getLocalPosition(container.parent)
         const { x, y } = newPosition
-        dot.x = x
-        dot.y = y
-        positionText.text = `x ${Math.floor(dot.x)},y ${Math.floor(dot.y)}`
+        container.x = x
+        container.y = y
+        positionText.text = `x ${Math.floor(container.x)} y ${Math.floor(container.y)}`
       }
     })
     .on('pointerup', () => {
       isDragging = false
       positionText.visible = false
     })
-  dot.addChild(dotText)
-  dot.addChild(positionText)
-  return dot
+
+  container.addChild(dot)
+  container.addChild(dotText)
+  container.addChild(positionText)
+  return container
 }
 
 // 繪製平面圖
 const drawPlace = async () => {
   const place = await Assets.load('/placeImg2.webp')
+
+  const container = new Container()
+  container.eventMode = 'static'
+
   const sprite = Sprite.from(place)
   sprite.interactive = true
   sprite.scale.set(0.3)
   sprite.anchor.set(0.5)
   sprite.x = app!.screen.width / 2
   sprite.y = app!.screen.height / 2
+
+  container.addChild(sprite)
+
   // 計算 sprite 的邊界
   const bounds = sprite.getBounds()
   for (let i = 0; i < 5; i++) {
     const x = bounds.x + Math.random() * bounds.width
     const y = bounds.y + Math.random() * bounds.height
     // 新增可拖曳圓點
-    sprite.addChild(createDot(x, y, (i + 1).toString()))
+    container.addChild(createDot(x, y, (i + 1).toString()))
   }
-  return sprite
+  return container
 }
 
 // 創建網格的函數
@@ -131,12 +149,14 @@ const initPixi = async () => {
 
   pixiContainer.value.appendChild(app.canvas)
 
+  const mainContainer = new Container()
+
   // 創建網格
   grid = drawGrid(new Graphics(), width, height).stroke({ color: 0xE6E6E6, width: 1, alpha: 1 })
   grid.zIndex = -1
-
-  app.stage.addChild(grid)
-  app.stage.addChild(await drawPlace())
+  mainContainer.addChild(grid)
+  mainContainer.addChild(await drawPlace())
+  app.stage.addChild(mainContainer)
   window.addEventListener('resize', handleResize)
 }
 
