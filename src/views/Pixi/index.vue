@@ -5,7 +5,7 @@
   />
 </template>
 <script setup lang="tsx">
-import { Application, Graphics, Sprite, Assets } from 'pixi.js'
+import { Application, Graphics, Sprite, Assets, Text } from 'pixi.js'
 const pixiContainer = ref<HTMLElement>()
 
 // 定義網格單元格的大小（像素）
@@ -15,9 +15,58 @@ const cellSize = ref(30)
 let app: Application | null = null
 let grid: Graphics | null = null
 
+// 創建拖曳點
+const createDot = (text: string) => {
+  let isDragging = false
+  const dot = new Graphics()
+  dot.interactive = true
+
+  const dotText = new Text(text, {
+    fontFamily: ['Helvetica', 'Arial', 'sans-serif'],
+    fontSize: 48,
+    fontWeight: '700',
+    fill: 'white'
+  })
+  const positionText = new Text('', {
+    fontFamily: ['Helvetica', 'Arial', 'sans-serif'],
+    fontSize: 36,
+    fontWeight: '400',
+  })
+
+  dotText.anchor.set(0.5)
+  positionText.anchor.set(0.5)
+  positionText.x = 0
+  positionText.y = -75
+
+  dot
+    .circle(0, 0, 35)
+    .fill(0xff0000)
+  dot
+    .on('pointerdown', () => {
+      isDragging = true
+      positionText.visible = true
+    })
+    .on('pointermove', (event) => {
+      if (isDragging) {
+        const newPosition = event.data.getLocalPosition(dot.parent)
+        const { x, y } = newPosition
+        dot.x = x
+        dot.y = y
+        positionText.text = `x ${Math.floor(dot.x)},y ${Math.floor(dot.y)}`
+      }
+    })
+    .on('pointerup', () => {
+      isDragging = false
+      positionText.visible = false
+    })
+  dot.addChild(dotText)
+  dot.addChild(positionText)
+  return dot
+}
+
 // 繪製平面圖
 const drawPlace = async () => {
-  let isDragging = false
+
   const place = await Assets.load('/placeImg2.webp')
   const sprite = Sprite.from(place)
 
@@ -27,40 +76,11 @@ const drawPlace = async () => {
   sprite.x = app!.screen.width / 2
   sprite.y = app!.screen.height / 2
   console.log(sprite.width, sprite.height)
-  const border = new Graphics()
 
-  border.beginFill(0, 0)
-  border.setStrokeStyle({
-    width: 2,
-    color: 0x000000
-  })
-  border.rect(-place.width * 0.3 / 2, -place.height * 0.3 / 2, place.width, place.height)
-  border.endFill()
-
-  const dot = new Graphics()
-  dot.interactive = true
-
-  dot
-    .circle(0, 0, 45)
-    .fill(0xff0000)
-  dot
-    .on('pointerdown', () => {
-      isDragging = true
-    })
-    .on('pointermove', (event) => {
-      if (isDragging) {
-        const newPosition = event.data.getLocalPosition(dot.parent)
-        const { x, y } = newPosition
-        dot.x = x
-        dot.y = y
-      }
-    })
-    .on('pointerup', () => {
-      isDragging = false
-    })
-  sprite.addChild(border)
-  sprite.addChild(dot)
-
+  for (let i = 0; i < 5; i++) {
+    // 新增可拖曳圓點
+    sprite.addChild(createDot((i + 1).toString()))
+  }
   return sprite
 }
 
