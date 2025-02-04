@@ -4,8 +4,8 @@
     xmlns="http://www.w3.org/2000/svg"
     version="1.2"
     baseProfile="tiny"
-    width="100vw"
-    height="100vh"
+    width="100%"
+    height="100%"
     :viewBox="initViewBox"
     preserveAspectRatio="xMidYMid meet"
     stroke-linecap="round"
@@ -37,7 +37,7 @@
 <script lang="ts" setup>
 import paths from './mapPath'
 const place = ref('')
-const initViewBox = ref('450 80 180 340')
+const initViewBox = ref('440 80 180 270')
 const nextViewBox = ref('')
 
 // 更改 path class

@@ -1,7 +1,7 @@
 <template>
   <swiper-container
-    class="w-full absolute bottom-0 left-0 right-0 py-4"
-    slides-per-view="4"
+    class="w-full py-4"
+    slides-per-view="2"
     speed="500"
     loop="true"
   >
