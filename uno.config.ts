@@ -23,8 +23,15 @@ export default defineConfig({
       xl: '1920px'
     },
   },
-  shortcuts: {
-    'flex-center': 'flex justify-center items-center',
-    'flex-between':'flex justify-between items-center',
-  }
+  shortcuts: [
+    {
+      'flex-center': 'flex justify-center items-center',
+      'flex-between': 'flex justify-between items-center',
+      'un-border':'border-solid border-1 border-[--el-border-color] box-border'
+    },
+    [
+      /^un-border-(t|b|l|r)$/, ([, position]) => `border-${position}-solid border-${position}-1 border-${position}-[--el-border-color] box-border`,
+    ],
+  ]
+
 })

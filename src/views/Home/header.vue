@@ -25,9 +25,11 @@ const { data } = storeToRefs(loginStore)
 </script>
 <style lang="scss" scoped>
 :deep(.el-breadcrumb__item) {
-  @apply clear-left ;
+  @apply clear-left;
 }
-.el-breadcrumb__inner a, .el-breadcrumb__inner.is-link {
-  @apply text-amber ;
+
+.el-breadcrumb__inner a,
+.el-breadcrumb__inner.is-link {
+  @apply text-amber;
 }
 </style>

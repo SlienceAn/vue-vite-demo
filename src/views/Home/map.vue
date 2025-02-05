@@ -5,7 +5,7 @@
     version="1.2"
     baseProfile="tiny"
     width="100%"
-    height="100%"
+    height="99%"
     :viewBox="initViewBox"
     preserveAspectRatio="xMidYMid meet"
     stroke-linecap="round"
@@ -37,7 +37,7 @@
 <script lang="ts" setup>
 import paths from './mapPath'
 const place = ref('')
-const initViewBox = ref('440 80 180 270')
+const initViewBox = ref('440 80 180 280')
 const nextViewBox = ref('')
 
 // 更改 path class
@@ -51,11 +51,11 @@ const getPathStyle = computed(() => (pathId: string) => ({
 const selectCity = (event: MouseEvent) => {
   nextViewBox.value && (initViewBox.value = nextViewBox.value)
   const path = event.currentTarget as SVGPathElement
-  const bbox = path.getBBox()
-  const padding = 20
-  const pathViewBox = `${bbox.x - padding} ${bbox.y - padding} ${bbox.width + padding * 2} ${bbox.height + padding * 2}`
   place.value = path.id
-  nextViewBox.value = pathViewBox
+  // const bbox = path.getBBox()
+  // const padding = 20
+  // const pathViewBox = `${bbox.x - padding} ${bbox.y - padding} ${bbox.width + padding * 2} ${bbox.height + padding * 2}`
+  // nextViewBox.value = pathViewBox
 }
 </script>
 <style scoped>
@@ -68,11 +68,11 @@ const selectCity = (event: MouseEvent) => {
   }
 
   &.active {
-    @apply fill-[#4169E1] stroke-opacity-1 stroke-white;
+    @apply fill-[#4169E1] stroke-opacity-1;
   }
 
   &.inactive {
-    @apply fill-none stroke-op-[0.3];
+    @apply fill-none;
   }
 }
 </style>
