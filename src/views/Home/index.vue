@@ -7,54 +7,7 @@
       <div class="flex-center h-full">
         <div class="info">
           <div class="info-body">
-            <el-select class="mb-4 md:!hidden" />
-            <el-row :gutter="10">
-              <el-col
-                :xs="12"
-                :md="12"
-                :lg="8"
-              >
-                <Card
-                  title="總機台數量"
-                  :message="22"
-                  color="blue"
-                >
-                  <template #icon>
-                    <InfoFilled />
-                  </template>
-                </Card>
-              </el-col>
-              <el-col
-                :xs="12"
-                :md="12"
-                :lg="8"
-              >
-                <Card
-                  title="總斷線數量"
-                  :message="130"
-                  color="red"
-                >
-                  <template #icon>
-                    <CircleCloseFilled />
-                  </template>
-                </Card>
-              </el-col>
-              <el-col
-                :xs="12"
-                :md="12"
-                :lg="8"
-              >
-                <Card
-                  title="連線異常數量"
-                  :message="390"
-                  color="green-7"
-                >
-                  <template #icon>
-                    <Warning />
-                  </template>
-                </Card>
-              </el-col>
-            </el-row>
+            <Content />
           </div>
           <div class="info-footer">
             <InfoSwiper />
@@ -71,12 +24,9 @@
 import Header from './header.vue'
 import InfoSwiper from './infoSwiper.vue'
 import Map from './map.vue'
-import Card from '@/components/Card.vue'
+import Content from './content.vue'
 </script>
 <style lang="scss" scoped>
-.el-col {
-  @apply mb-4;
-}
 
 .info {
   @apply flex flex-col w-full h-full un-border-r;
@@ -88,7 +38,7 @@ import Card from '@/components/Card.vue'
 }
 
 .map-container {
-  @apply h-full;
+  @apply h-full bg-[#afd2f1];
   @apply md:w-[45%];
 }
 </style>

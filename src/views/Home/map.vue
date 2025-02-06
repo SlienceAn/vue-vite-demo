@@ -67,12 +67,14 @@ const selectCity = (event: MouseEvent) => {
     @apply fill-[#4169E1] cursor-pointer;
   }
 
+  /* 選取區塊 */
   &.active {
-    @apply fill-[#4169E1] stroke-opacity-1;
+    @apply fill-[#4169E1];
   }
 
+  /* 未選取區塊 */
   &.inactive {
-    @apply fill-none;
+    @apply ;
   }
 }
 </style>

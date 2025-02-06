@@ -24,12 +24,8 @@ const loginStore = useLoginStore()
 const { data } = storeToRefs(loginStore)
 </script>
 <style lang="scss" scoped>
-:deep(.el-breadcrumb__item) {
-  @apply clear-left;
-}
-
-.el-breadcrumb__inner a,
-.el-breadcrumb__inner.is-link {
-  @apply text-amber;
+:deep(
+.el-breadcrumb__inner.is-link) {
+  @apply font-700 text-[var(--el-text-color-primary)];
 }
 </style>
