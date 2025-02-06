@@ -1,14 +1,14 @@
 <template>
+  <span class="icons hidden-xs-only">
+    <el-icon size="24">
+      <ElementPlus />
+    </el-icon>
+    {{ config.name }}
+  </span>
   <el-breadcrumb
     separator="/"
-    class="py-2 px-4 bg-white text-right flex justify-end"
+    class="bread hidden-sm-and-down"
   >
-    <span class="font-bold mr-auto flex items-center gap-1">
-      <el-icon size="18">
-        <ElementPlus />
-      </el-icon>
-      {{ config.name }}
-    </span>
     <el-breadcrumb-item
       v-for="R in data.menu"
       :key="R.path"
@@ -24,8 +24,14 @@ const loginStore = useLoginStore()
 const { data } = storeToRefs(loginStore)
 </script>
 <style lang="scss" scoped>
+.icons{
+  @apply font-700 inline-flex items-center gap-1;
+}
+.bread{
+  @apply inline-flex items-center ml-auto ;
+}
 :deep(
 .el-breadcrumb__inner.is-link) {
-  @apply font-700 text-[var(--el-text-color-primary)];
+  @apply font-700 text-[var(--el-text-color-primary)] ;
 }
 </style>

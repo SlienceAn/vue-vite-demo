@@ -11,7 +11,7 @@
       class="swiper-slide"
     >
       <div class="flex flex-col items-center">
-        <span class="whitespace-nowrap p-2">{{ dayjs().format('YYYY-MM-DD') }}</span>
+        <span class="whitespace-nowrap p-2">{{ dayjs().add(i,'day').format('YYYY-MM-DD') }}</span>
         <span class="py-4">
           <i-material-symbols-partly-cloudy-day class="text-[3rem]" />
         </span>

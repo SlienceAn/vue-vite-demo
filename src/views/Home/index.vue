@@ -1,6 +1,6 @@
 <template>
   <el-container class="h-full">
-    <el-header class="!h-auto un-border-b">
+    <el-header class="!h-auto un-border-b flex !py-1">
       <Header />
     </el-header>
     <el-main class="!p-0 h-full">
