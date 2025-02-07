@@ -5,8 +5,16 @@
       :default-active="$route.path"
       :collapse="menuCollapse"
     >
-      <el-menu-item disabled>
-        <i-material-symbols-demography class="text-2xl" />
+      <el-menu-item
+        index="/"
+        class="font-bold min-h-[64px] flex !gap-1"
+      >
+        <el-icon
+          :size="48"
+          class="!m-0"
+        >
+          <ElementPlus />
+        </el-icon>
         <template #title>
           {{ config.name }}
         </template>
@@ -86,5 +94,4 @@ const handleCollapse = () => {
     @apply min-h-[64px] opacity-100 cursor-default font-bold;
   }
 }
-
 </style>

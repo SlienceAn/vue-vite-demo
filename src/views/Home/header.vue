@@ -22,7 +22,7 @@
     class="inline-flex hidden-md-and-up ml-auto"
   >
     <span class="dropdown">
-      選 單
+      <el-icon><Menu /></el-icon>
       <el-icon class="el-icon--right">
         <arrow-down />
       </el-icon>
