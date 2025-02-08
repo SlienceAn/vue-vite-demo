@@ -34,6 +34,7 @@
         </template>
       </el-menu-item>
     </el-menu>
+
     <el-container>
       <el-header class="navbar">
         <div class="font-bold text-lg inline-flex gap-1 items-center flex-1">
@@ -76,6 +77,11 @@ const handleCollapse = () => {
 
 .main-content {
   @apply h-full md: w-5/6;
+}
+
+// 暫時
+:deep(.el-menu--collapse) {
+  min-width: calc(var(--el-menu-icon-width) + var(--el-menu-base-level-padding)* 2);
 }
 
 :deep(.el-menu-item) {
