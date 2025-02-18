@@ -53,6 +53,7 @@
 </template>
 <script lang="tsx" setup>
 import Card from '@/components/Card.vue'
+
 </script>
 <style>
 .el-col {

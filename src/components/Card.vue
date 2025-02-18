@@ -9,16 +9,11 @@
       </el-icon>
       <div>
         <span>{{ title }}</span>
-        <div class="font-bold text-4xl mt-4">
-          <el-statistic
-            :value="val"
-            value-style="text-4xl"
-          >
-            <template #suffix>
-              <sub class="text-xs"> / 台</sub>
-            </template>
-          </el-statistic>
-        </div>
+        <el-statistic :value="val">
+          <template #suffix>
+            <sub class="text-xs font-700 leading-5"> / 台</sub>
+          </template>
+        </el-statistic>
       </div>
     </div>
   </div>
@@ -32,7 +27,7 @@ const props = defineProps<{
 }>()
 const num = ref(0)
 const val = useTransition(num, {
-  duration: 1500
+  duration: 1000
 })
 num.value = props.message
 </script>
@@ -48,5 +43,9 @@ num.value = props.message
     border-top: 1px solid;
     @apply border-gray-100;
   }
+}
+
+:deep(.el-statistic__content) {
+  @apply flex items-end justify-end ;
 }
 </style>
