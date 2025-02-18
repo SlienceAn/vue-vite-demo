@@ -4,6 +4,7 @@
       :router="true"
       :default-active="$route.path"
       :collapse="menuCollapse"
+      class="hidden-sm-and-down"
     >
       <el-menu-item
         index="/"
@@ -59,8 +60,10 @@
 import SelectPlace from './common/SelectPlace.vue'
 import config from '@/config'
 import ToolList from './common/ToolList.vue'
+import { useWindowSize } from '@vueuse/core'
 const globalStore = useGlobalStore()
 const loginStore = useLoginStore()
+const { width } = useWindowSize()
 const { menuCollapse } = storeToRefs(globalStore)
 const { data } = storeToRefs(loginStore)
 const handleCollapse = () => {
@@ -68,6 +71,21 @@ const handleCollapse = () => {
     menuCollapse: !menuCollapse.value
   })
 }
+const autoCollapse = () => {
+  if (width.value < 768) {
+    globalStore.$patch({
+      menuCollapse: true
+    })
+  } else {
+    globalStore.$patch({
+      menuCollapse: false
+    })
+  }
+}
+onMounted(() => {
+  window.addEventListener('resize', autoCollapse)
+})
+
 </script>
 <style scoped lang="scss">
 .navbar {
