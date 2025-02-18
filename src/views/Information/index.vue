@@ -1,25 +1,25 @@
 <template>
   <el-container class="h-full">
-    <el-header class="!h-56px w-full px-4 border-b-solid border-b-1 box-border border-[var(--el-border-color)] flex">
+    <el-header class="!h-56px w-full px-4 flex">
       <div class="flex items-center">
         <span class="mr-2">搜尋日期</span>
         <el-date-picker
           v-model="month"
-          type="month"
+          type="date"
           placeholder="Pick a month"
-          format="YYYY-MM"
-          value-format="YYYY-MM"
+          format="YYYY-MM-DD"
+          value-format="YYYY-MM-DD"
           class="!w-160px"
           @change="getInfoData"
         />
       </div>
       <span class="icons">
-        <i-material-symbols-view-agenda
+        <i-material-symbols-grid-view
           class="text-2xl"
           :class="grids === 'two' && 'text-blue-5'"
           @click="changeGrids('two')"
         />
-        <i-material-symbols-grid-view
+        <i-material-symbols-grid-on
           class="text-2xl"
           :class="grids === 'four' && 'text-blue-5'"
           @click="changeGrids('four')"
@@ -36,9 +36,9 @@
           <div
             v-for="i in options"
             :key="i"
-            :class="grids === 'two' ? 'chart' : 'chart-4'"
+            :class="grids === 'two' ? 'chart' : 'chart-3'"
           >
-            <Chart :option="i" />
+            <EChart :option="pieOption" />
           </div>
         </div>
       </chartScrollbar>
@@ -46,7 +46,7 @@
   </el-container>
 </template>
 <script setup lang="tsx">
-import Chart from '@/components/common/Echart.vue'
+import EChart from '@/components/common/Echart.vue'
 import chartScrollbar from './chartScrollbar.vue'
 import { dayjs } from 'element-plus'
 const globalStore = useGlobalStore()
@@ -56,7 +56,36 @@ const { month, data, grids } = storeToRefs(infoStore)
 const getInfoData = () => {
   infoStore.getInfo()
 }
-const baseChartConfig={
+
+// 圓餅圖(測試)
+const pieOption = {
+  tooltip: {
+    trigger: 'item'
+  },
+  legend: {
+    show:false
+  },
+  series: [
+    {
+      name: 'Access From',
+      type: 'pie',
+      radius: ['30%','70%'],
+      avoidLabelOverlap: false,
+      label: {
+        show: false,
+        position: 'center'
+      },
+      labelLine: {
+        show: false
+      },
+      data: [
+        { value: 1048, name: 'Search Engine' },
+        { value: 735, name: 'Direct' },
+      ]
+    }
+  ]
+}
+const baseChartConfig = {
   tooltip: {
     show: true
   },
@@ -116,10 +145,10 @@ watch(city, () => getInfoData())
   @apply flex flex-wrap h-full;
 
   .chart {
-    @apply h-1/2 w-full md:w-full box-border border-1 border-solid border-[var(--el-border-color)] border-collapse;
+    @apply h-1/2 w-full md:w-1/2 box-border border-1 border-solid border-[var(--el-border-color)] border-collapse;
 
-    &-4 {
-      @apply h-1/2 w-full md:w-1/2 box-border border-1 border-solid border-[var(--el-border-color)] border-collapse;
+    &-3 {
+      @apply h-1/2 w-full md:w-1/3 box-border border-1 border-solid border-[var(--el-border-color)] border-collapse;
     }
   }
 }
