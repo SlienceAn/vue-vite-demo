@@ -3,39 +3,48 @@ import { ElNotification, dayjs } from 'element-plus'
 import config from '@/config'
 
 const { key, cluster, PUSER_ERROR, PUSHER_SUCCESS } = config
-const pusher = new Pusher(key, { cluster })
 
 let settingChannel: Channel | null = null
 let notificationChannel: Channel | null = null
 let operatingChannel: Channel | null = null
 
 // 缺驗證
-const createPuser = () => {
+const createPuser = (token?: string) => {
+  const pusher = new Pusher(key, {
+    cluster,
+    authEndpoint: 'http://localhost:3000/pusher/auth',
+    auth: {
+      headers: {
+        authorization: token
+      }
+    }
+  })
+
   const init = () => {
     const userStore = useUserForm()
 
     // 先清理可能存在的舊訂閱
     if (settingChannel) {
       settingChannel.unbind_all()
-      pusher.unsubscribe('Setting')
+      pusher.unsubscribe('private-setting')
     }
 
     if (notificationChannel) {
       notificationChannel.unbind_all()
-      pusher.unsubscribe('notification')
+      pusher.unsubscribe('private-notification')
     }
 
     if (operatingChannel) {
       operatingChannel.unbind_all()
-      pusher.unsubscribe('operating')
+      pusher.unsubscribe('private-operating')
     }
 
     // 等待連接成功後再訂閱
     pusher.connection.bind('connected', () => {
       userStore.$patch({ isConnect: true })
-      settingChannel = pusher.subscribe('setting')
-      notificationChannel = pusher.subscribe('notification') // 最新消息頻道
-      operatingChannel = pusher.subscribe('operating') // 獲取稼動率頻道
+      settingChannel = pusher.subscribe('private-setting')
+      notificationChannel = pusher.subscribe('private-notification') // 最新消息頻道
+      operatingChannel = pusher.subscribe('private-operating') // 獲取稼動率頻道
 
       // 帳戶管理頻道
       settingChannel
@@ -71,11 +80,11 @@ const createPuser = () => {
         .bind(PUSHER_SUCCESS, () => {
           console.log('通知訂閱成功')
         })
-        .bind(PUSER_ERROR, () => {
-          console.log('通知訂閱失敗')
+        .bind(PUSER_ERROR, (error) => {
+          console.log('通知訂閱失敗', error)
         })
         .bind('update', (chunk) => {
-          console.log('oo', chunk)
+          console.log('稼動率更新', chunk)
         })
 
     })
@@ -103,4 +112,4 @@ const createPuser = () => {
   }
 }
 
-export default createPuser()
+export default createPuser

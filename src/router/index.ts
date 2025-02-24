@@ -57,7 +57,7 @@ router.beforeEach((to, from, next) => {
 
   // 前往 login 時
   if (to.path === '/login') {
-    createPusher.disconnect()
+    createPusher().disconnect()
     removeAllRoutes()
     next()
     return
@@ -76,7 +76,7 @@ router.beforeEach((to, from, next) => {
     }
   }
   if (!isConnect.value) {
-    createPusher.init()
+    createPusher(token.value).init()
   }
   next()
 })
