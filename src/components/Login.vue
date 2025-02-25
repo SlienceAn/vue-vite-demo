@@ -1,9 +1,10 @@
 <template>
   <div class="wrapper">
+    <div class="bg" />
     <div class="views">
-      <div class="back-panel" />
+      <!-- <div class="back-panel" /> -->
       <div class="front-panel">
-        <div class="text-center py-6 font-bold text-3xl title">
+        <div class="text-center py-6 font-bold text-2xl title">
           {{ config.name }}
         </div>
         <el-form
@@ -68,21 +69,26 @@ const rules = {
 </script>
 <style scoped lang="scss">
 .wrapper {
-  @apply flex flex-col justify-center bg-white min-h-screen;
+  @apply flex bg-[#09486b] min-h-screen;
+}
+
+.bg {
+  background-image: url('/iot-wallpaper.webp');
+  @apply w-[65%] bg-cover bg-center bg-no-repeat;
 }
 
 .views {
-  @apply relative py-3 sm:max-w-xl sm:mx-auto;
+  @apply w-[35%] p-5 flex-center;
 }
 
-.back-panel {
-  @apply rounded-3xl absolute inset-0 bg-gradient-to-r from-blue-200 to-blue-700 shadow-lg transform;
-  @apply sm:rotate-6;
-}
+// .back-panel {
+//   @apply rounded-3xl absolute inset-0 bg-gradient-to-r from-blue-200 to-blue-700 shadow-lg transform;
+//   @apply sm:rotate-6;
+// }
 
 .front-panel {
-  @apply relative px-4 py-10 bg-[#fff] shadow-lg rounded-3xl border border-gray-200 border-2;
-  @apply sm:p-0 sm:w-[400px];
+  @apply bg-[#fff] rounded-xl w-80%;
+  // @apply sm:p-0 sm:w-[400px];
 
   .label {
     @apply font-bold text-2xl;
@@ -95,6 +101,6 @@ const rules = {
 }
 
 .title {
-  @apply text-[#333] ;
+  @apply text-[#333];
 }
 </style>
